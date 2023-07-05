@@ -2,12 +2,17 @@
 const express = require('express');
 const router = express.Router();
 
+//All the API routes will be served at URL's starting with /api/
+const apiRouter = require('./api');
+router.use('/api', apiRouter);
 
 //TEST ROUTE
 // router.get('/hello/world', function(req, res) {
 //   res.cookie('XSRF-TOKEN', req.csrfToken());
 //   res.send('Hello World!');
 // });
+
+
 
 
 router.get('/api/csrf/restore', (req, res) => {
