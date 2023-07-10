@@ -11,7 +11,8 @@ module.exports = {
      */
     await queryInterface.addColumn('Bookings', 'spotId', {
       type: Sequelize.INTEGER,
-      references: {model: 'Spots'}
+      references: {model: 'Spots'},
+      onDelete: 'CASCADE'
     })
   },
 

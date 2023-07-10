@@ -1,4 +1,7 @@
 'use strict';
+
+
+
 const {
   Model
 } = require('sequelize');
@@ -18,9 +21,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Spot.init({
-    userId: {
+    ownerId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      onDelete: 'CASCADE'
     },
     address: {
       type: DataTypes.STRING,
