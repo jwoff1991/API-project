@@ -44,7 +44,8 @@ const validateSpot = [
 //Create a spot
 router.post("/", validateSpot, async(req, res) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body
-    const spot = await Spot.create({address, city, state, country, lat, lng, name, description, price})
+    const  ownerId = req.user.id
+    const spot = await Spot.create({ ownerId, address, city, state, country, lat, lng, name, description, price })
 
     const validSpot = {
         id: spot.id,
