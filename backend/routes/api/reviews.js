@@ -15,6 +15,17 @@ const validateReviewImage = [
     check("url").exists({ checkFalsy: true }),
 ]
 
+const validateReview = [
+    check("spotId").exists({ checkFalsy: true }),
+    check("userId").exists({ checkFalsy: true }),
+    check("review")
+      .exists({ checkFalsy: true })
+      .withMessage("Review text is required"),
+    check("stars")
+      .exists({ checkFalsy: true })
+      .withMessage("Stars must be an integer from 1 to 5"),
+];
+
 //gets all reviews based on current user
 router.get("/current", async (req, res) => {
   const userId = req.user.id;
@@ -80,5 +91,63 @@ router.post('/:reviewId/images', validateReviewImage, async (req, res) => {
     }
 })
 
+
+router.put('/:reviewId', validateReview, async (req, res) => {
+    const reviewId = req.params.reviewId
+    const oldReview = await Review.findByPk(reviewId)
+
+    if(!oldReview) {
+        res.status(404)
+        return res.json(    {
+            "message": "Review couldn't be found"
+          })
+    } else {
+        const userId = req.user.id
+        const reviewUserId = oldReview.userId
+        if (userId === reviewUserId) {
+            const currentDate = new Date();
+            const { review, stars } = req.body
+            const editedReview = {
+                id: oldReview.id,
+                userId: oldReview.userId,
+                spotId: oldReview.spotId,
+                review: review || oldReview.review,
+                stars: stars || oldReview.stars,
+                createdAt: oldReview.createdAt,
+                updatedAt: currentDate,
+            }
+
+            res.json(editedReview)
+        } else {
+            res.status(404);
+            res.json({ message: "You do not have permission to edit this review" });
+          }
+    }
+})
+
+
+//deletes a review
+router.delete("/:reviewId", async (req, res) => {
+    const review = await Review.findByPk(req.params.reviewId);
+    const userId = req.user.id
+    const reviewUserId = review.userId
+    if(!review) {
+        res.status(404)
+        res.json({
+            "message": "Review couldn't be found"
+          })
+    }
+    if(userId === reviewUserId) {
+        await review.destroy();
+        res.json(    {
+            "message": "Successfully deleted"
+          })
+    } else {
+        res.status(403)
+        res.json(    {
+            "message": "You do not have permission to delete this review"
+          })
+    }
+  });
 
 module.exports = router;
