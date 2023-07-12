@@ -7,6 +7,7 @@ const { Spot } = require("../../db/models");
 const { SpotImage } = require("../../db/models");
 const { Review } = require("../../db/models");
 const { ReviewImage } = require("../../db/models")
+const { Booking } = require("../../db/models");
 
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
@@ -55,6 +56,15 @@ const validReview = [
     .exists({ checkFalsy: true })
     .withMessage("Stars must be an integer from 1 to 5"),
 ];
+
+const validBooking = [
+  check("startDate")
+    .exists({ checkFalsy: true })
+    .withMessage("Must include a start date"),
+  check("endDate")
+    .exists({ checkFalsy: true })
+    .withMessage("Must include a end date"),
+]
 
 //Create a spot
 router.post("/", validateSpot, async (req, res) => {
@@ -144,6 +154,36 @@ router.post("/:spotId/reviews", validReview, async (req, res) => {
   return res.json(validReview);
 });
 
+//creates a booking based on spotId
+router.post('/:spotId/bookings', validBooking, async (req, res) => {
+  const { startDate, endDate} = req.body
+  const userId = req.user.id;
+  const spotId = req.params.spotId;
+  const spot = await Spot.findAll({
+    where: {
+      id: spotId,
+    },
+  });
+  if (!spot) {
+    res.status(404);
+    return res.json({ message: "Spot couldn't be found" });
+  }
+
+  const newBooking = await Booking.create({ spotId, userId, startDate, endDate})
+
+  const validBooking = {
+    id: newBooking.id,
+    spotId: spotId,
+    userId: userId,
+    startDate: newBooking.startDate,
+    endDate: newBooking.endDate,
+    createdAt: newBooking.createdAt,
+    updatedAt: newBooking.updatedAt
+  }
+
+  return res.json(validBooking)
+})
+
 //gets all spots
 router.get("/", async (req, res) => {
   const spots = await Spot.findAll();
@@ -193,7 +233,51 @@ router.get('/:spotId/reviews', async (req, res) => {
     res.json({"Reviews": spotReviews});
   } else {
     res.status(404);
-    res.json({ message: "This pot has no reviews" });
+    res.json({ message: "This spot has no reviews" });
+
+  }
+})
+
+//returns all bookings for a spot based on spotId
+router.get('/:spotId/bookings', async (req, res) => {
+  const spotId = req.params.spotId
+  const spot = await Spot.findByPk(req.params.spotId)
+  if(!spot) {
+    res.status(404)
+    res.json( { "message": "Spot could not be found" })
+  }
+  const ownerSpotBookings = await Booking.findAll({
+    where: {
+      spotId: spotId
+    },
+    include: [
+      {
+        model: User,
+        attributes: ['id', 'firstName', 'lastName']
+      }
+
+    ]
+  })
+  const userSpotBookings = await Booking.findAll({
+    where: {
+      spotId: spotId
+    },
+  })
+
+  if (ownerSpotBookings.length > 1) {
+    const ownerId = spot.ownerId
+    const userId = req.user.id
+    if(ownerId === userId ) {
+        res.status(200)
+        res.json({"Bookings": ownerSpotBookings});
+    } else if (ownerId !== userId) {
+      res.status(200)
+      res.json({"Bookings": userSpotBookings});
+    }
+
+  } else {
+    res.status(404);
+    res.json({ message: "This spot has no bookings" });
 
   }
 })

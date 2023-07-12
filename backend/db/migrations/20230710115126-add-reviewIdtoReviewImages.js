@@ -12,6 +12,7 @@ module.exports = {
     await queryInterface.addColumn('ReviewImages', 'reviewId', {
       type: Sequelize.INTEGER,
       references: {model: 'Reviews'},
+      onDelete: 'CASCADE'
     })
   },
 

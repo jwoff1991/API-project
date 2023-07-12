@@ -71,6 +71,11 @@ router.post('/:reviewId/images', validateReviewImage, async (req, res) => {
     const review = await Review.findByPk(reviewId)
     const { url } = req.body
 
+
+    // if(review.url.length = 10) {
+    //   res.status(403)
+    //   res.json({"message": "You have reached the maximun number of images allowed"})
+    // }
     if(!review) {
         res.status(404)
         return res.json({ "message": "Review couldn't be found" })
@@ -83,6 +88,16 @@ router.post('/:reviewId/images', validateReviewImage, async (req, res) => {
                 id: reviewImage.id,
                 url: reviewImage.url
             }
+            const allReviewImages = await ReviewImage.findAll({
+              where: {
+                reviewId: reviewId
+              }
+            })
+            if(allReviewImages.length >= 10) {
+              res.status(403)
+              res.json({'message': 'This review has the max amount of images'})
+            }
+            console.log(allReviewImages)
             return res.json(validReviewImage);
         } else {
             res.status(400)
@@ -91,7 +106,7 @@ router.post('/:reviewId/images', validateReviewImage, async (req, res) => {
     }
 })
 
-
+//edits a spot based on reviewid
 router.put('/:reviewId', validateReview, async (req, res) => {
     const reviewId = req.params.reviewId
     const oldReview = await Review.findByPk(reviewId)
