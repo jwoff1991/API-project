@@ -43,7 +43,8 @@ module.exports = {
       name: 'something interesting',
       description: 'another cool place to be',
       price: 120
-    },    {
+    },
+    {
       ownerId: 4,
       address: '911 uh oh',
       city: 'somehere bad',
@@ -54,7 +55,8 @@ module.exports = {
       name: 'your in trouble',
       description: 'your gonna get caught',
       price: 1500
-    },    {
+    },
+    {
       ownerId: 5,
       address: '654 dumbo',
       city: 'new york',
@@ -65,7 +67,8 @@ module.exports = {
       name: 'its snowing somewhere',
       description: 'a cool place to be',
       price: 99
-    },    {
+    },
+    {
       ownerId: 1,
       address: '257 ashberry ln',
       city: 'springfield',
