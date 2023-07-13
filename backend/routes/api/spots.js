@@ -54,6 +54,7 @@ const validReview = [
     .withMessage("Review text is required"),
   check("stars")
     .exists({ checkFalsy: true })
+    .isInt({min:0, max:5})
     .withMessage("Stars must be an integer from 1 to 5"),
 ];
 
@@ -130,9 +131,11 @@ router.post("/:spotId/reviews", validReview, async (req, res) => {
   const userReviews = await Review.findAll({
     where: {
       userId: userId,
+      spotId: spotId
     },
   });
-  if (userReviews) {
+  console.log(userReviews)
+  if (userReviews.length > 0) {
     res.status(403);
     return res.json({
       message: "User already has a review for this spot",
@@ -197,9 +200,13 @@ router.get("/current", async (req, res) => {
     where: {
       ownerId: userId,
     },
+    include: {
+      model: SpotImage,
+      attributes: ['preview']
+    }
   });
   if (usersSpots) {
-    res.json(usersSpots);
+    return res.json(usersSpots);
   } else {
     res.json({ message: "You do not currently have any spots" });
   }
@@ -258,26 +265,29 @@ router.get('/:spotId/bookings', async (req, res) => {
 
     ]
   })
+
+
   const userSpotBookings = await Booking.findAll({
     where: {
       spotId: spotId
     },
+    attributes: ['spotId', 'startDate', 'endDate']
   })
 
-  if (ownerSpotBookings.length > 1) {
+  if (ownerSpotBookings) {
     const ownerId = spot.ownerId
     const userId = req.user.id
     if(ownerId === userId ) {
         res.status(200)
-        res.json({"Bookings": ownerSpotBookings});
+        return res.json({"Bookings": ownerSpotBookings});
     } else if (ownerId !== userId) {
       res.status(200)
-      res.json({"Bookings": userSpotBookings});
+      return res.json({"Bookings": userSpotBookings});
     }
 
   } else {
     res.status(404);
-    res.json({ message: "This spot has no bookings" });
+    return res.json({ message: "This spot has no bookings" });
 
   }
 })

@@ -23,6 +23,7 @@ const validateReview = [
       .withMessage("Review text is required"),
     check("stars")
       .exists({ checkFalsy: true })
+      .isInt({min:0, max:5})
       .withMessage("Stars must be an integer from 1 to 5"),
 ];
 
@@ -106,7 +107,7 @@ router.post('/:reviewId/images', validateReviewImage, async (req, res) => {
     }
 })
 
-//edits a spot based on reviewid
+//edits a review based on reviewid
 router.put('/:reviewId', validateReview, async (req, res) => {
     const reviewId = req.params.reviewId
     const oldReview = await Review.findByPk(reviewId)
@@ -122,7 +123,8 @@ router.put('/:reviewId', validateReview, async (req, res) => {
         if (userId === reviewUserId) {
             const currentDate = new Date();
             const { review, stars } = req.body
-            const editedReview = {
+
+            const validReview = {
                 id: oldReview.id,
                 userId: oldReview.userId,
                 spotId: oldReview.spotId,
@@ -132,7 +134,7 @@ router.put('/:reviewId', validateReview, async (req, res) => {
                 updatedAt: currentDate,
             }
 
-            res.json(editedReview)
+            return res.json(validReview)
         } else {
             res.status(404);
             res.json({ message: "You do not have permission to edit this review" });
