@@ -2,7 +2,7 @@ const express = require("express");
 
 
 const { setTokenCookie, requireAuth } = require("../../utils/auth");
-const { User } = require("../../db/models");
+const { User, sequelize } = require("../../db/models");
 const { Spot } = require("../../db/models");
 const { SpotImage } = require("../../db/models");
 const { Review } = require("../../db/models");
@@ -48,7 +48,6 @@ const validateSpotImage = [
 
 const validReview = [
   check("spotId").exists({ checkFalsy: true }),
-  check("userId").exists({ checkFalsy: true }),
   check("review")
     .exists({ checkFalsy: true })
     .withMessage("Review text is required"),
@@ -56,6 +55,7 @@ const validReview = [
     .exists({ checkFalsy: true })
     .isInt({min:0, max:5})
     .withMessage("Stars must be an integer from 1 to 5"),
+  handleValidationErrors,
 ];
 
 const validBooking = [
@@ -64,7 +64,9 @@ const validBooking = [
     .withMessage("Must include a start date"),
   check("endDate")
     .exists({ checkFalsy: true })
+    .isAfter("startDatr")
     .withMessage("Must include a end date"),
+  handleValidationErrors,
 ]
 
 //Create a spot
@@ -108,6 +110,7 @@ router.post("/", validateSpot, async (req, res) => {
 router.post("/:spotId/reviews", validReview, async (req, res) => {
   const { review, stars } = req.body;
   const userId = req.user.id;
+  console.log('WERE HITTING THIS')
   const spotId = req.params.spotId;
   const spot = await Spot.findAll({
     where: {
@@ -134,7 +137,6 @@ router.post("/:spotId/reviews", validReview, async (req, res) => {
       spotId: spotId
     },
   });
-  console.log(userReviews)
   if (userReviews.length > 0) {
     res.status(403);
     return res.json({
@@ -162,15 +164,35 @@ router.post('/:spotId/bookings', validBooking, async (req, res) => {
   const { startDate, endDate} = req.body
   const userId = req.user.id;
   const spotId = req.params.spotId;
-  const spot = await Spot.findAll({
-    where: {
-      id: spotId,
-    },
-  });
+
+  const spot = await Spot.findByPk(spotId, {
+    include: {
+      model: Booking
+    }
+  }
+  );
+
   if (!spot) {
     res.status(404);
     return res.json({ message: "Spot couldn't be found" });
   }
+
+  bookingsList = []
+  spot.Bookings.forEach(booking => {
+    bookingsList.push(booking.toJSON())
+  })
+  bookingsList.forEach(booking => {
+    bookingStartDate = booking.startDate
+    bookingEndDate = booking.endDate
+    console.log(`"start": ${bookingStartDate}, "end: ${bookingEndDate}`)
+    if(startDate >= bookingStartDate && startDate <= bookingEndDate
+      || endDate >= bookingStartDate && endDate <= bookingEndDate) {
+        res.status(403)
+        res.json({
+          "message": "Sorry, this spot is already booked for the specified dates"
+        })
+      }
+  })
 
   const newBooking = await Booking.create({ spotId, userId, startDate, endDate})
 
@@ -183,14 +205,72 @@ router.post('/:spotId/bookings', validBooking, async (req, res) => {
     createdAt: newBooking.createdAt,
     updatedAt: newBooking.updatedAt
   }
-
+  res.status(201)
   return res.json(validBooking)
 })
 
 //gets all spots
 router.get("/", async (req, res) => {
-  const spots = await Spot.findAll();
-  res.json(spots);
+  const spots = await Spot.findAll({
+    include: [
+      {
+        model: Review
+      },
+      {
+        model: SpotImage
+      }
+    ]
+  });
+
+  spotsList = []
+  spots.forEach(spot => {
+    spotsList.push(spot.toJSON())
+  })
+
+  spotsList.forEach(spot => {
+    let spotRatings = 0
+    let length = 0
+    if(!spot.Reviews.length) {
+      spot.avgRating = "This spot currently has no reviews"
+    } else {
+      spot.Reviews.forEach(review => {
+        spotRatings += review.stars
+        length ++
+      })
+
+      avgRating = spotRatings / length
+      spot.avgRating = avgRating
+    }
+    spot.SpotImages.forEach(image => {
+      if(image.preview === true) {
+        return spot.previewImage = image.url
+      }
+    })
+  })
+
+  const formattedSpotResponses = []
+  spotsList.forEach(spot => {
+    let formattedSpotResponse = {
+      id: spot.id,
+      ownerId: spot.ownerId,
+      address: spot.address,
+      city: spot.city,
+      state: spot.state,
+      country: spot.country,
+      lat: spot.lat,
+      lng: spot.lng,
+      name: spot.name,
+      description: spot.description,
+      price: spot.price,
+      createdAt: spot.createdAt,
+      updatedAt: spot.updatedAt,
+      avgRating: spot.avgRating,
+      previewImage: spot.previewImage
+    }
+    formattedSpotResponses.push(formattedSpotResponse)
+  })
+
+  return res.json(formattedSpotResponses);
 });
 
 //gets all spots based on current user
@@ -200,13 +280,66 @@ router.get("/current", async (req, res) => {
     where: {
       ownerId: userId,
     },
-    include: {
-      model: SpotImage,
-      attributes: ['preview']
-    }
+    include: [
+      {
+        model: SpotImage,
+      },
+      {
+        model: Review
+      }
+    ]
   });
   if (usersSpots) {
-    return res.json(usersSpots);
+    let userSpotsList = []
+    usersSpots.forEach(spot => {
+      userSpotsList.push(spot.toJSON())
+    })
+
+    let formattedSpotList = []
+    userSpotsList.forEach(spot => {
+      if(!spot.Reviews.length) {
+        spot.avgRating = "This spot currently has no reviews"
+      } else {
+        let spotRatings = 0
+        let length = 0
+        spot.Reviews.forEach(review => {
+          spotRatings += review.stars
+          length ++
+        })
+
+        avgRating = spotRatings / length
+        spot.avgRating = avgRating
+
+      }
+
+      if(!spot.SpotImages.length) {
+        spot.previewImage = "This spot currently has no images"
+      } else {
+        spot.SpotImages.forEach(image => {
+          spot.previewImage = image.url
+        })
+      }
+      const formattedSpot = {
+          id: spot.id,
+          ownerId: spot.ownerId,
+          address: spot.address,
+          city: spot.state,
+          country: spot.country,
+          lat: spot.late,
+          lng: spot.lng,
+          name: spot.name,
+          description: spot.description,
+          price: spot.price,
+          createdAt: spot.createdAt,
+          updatedAt: spot.updatedAt ,
+          numReviews: spot.numReviews,
+          avgRating: spot.avgRating,
+          previewImage: spot.previewImage,
+        }
+        formattedSpotList.push(formattedSpot)
+    })
+
+    res.json(formattedSpotList);
   } else {
     res.json({ message: "You do not currently have any spots" });
   }
@@ -304,11 +437,49 @@ router.get("/:spotId", async (req, res) => {
         model: SpotImage,
         attributes: ["id", "url", "preview"],
       },
+      {
+        model: Review,
+      }
     ],
   });
-
   if (spot) {
-    res.json(spot);
+      let jsonSpot = spot.toJSON()
+      if(!jsonSpot.Reviews.length) {
+        jsonSpot.avgRating = "This spot currently has no reviews"
+      } else {
+        let spotRatings = 0
+        let length = 0
+        jsonSpot.Reviews.forEach(review => {
+          spotRatings += review.stars
+          length ++
+        })
+
+        avgRating = spotRatings / length
+        jsonSpot.avgStarRating = avgRating
+        jsonSpot.numReviews = length
+      }
+      console.log(jsonSpot)
+
+      const formattedSpot = {
+          id: jsonSpot.id,
+          ownerId: jsonSpot.ownerId,
+          address: jsonSpot.address,
+          city: jsonSpot.state,
+          country: jsonSpot.country,
+          lat: jsonSpot.late,
+          lng: jsonSpot.lng,
+          name: jsonSpot.name,
+          description: jsonSpot.description,
+          price: jsonSpot.price,
+          createdAt: jsonSpot.createdAt,
+          updatedAt: jsonSpot.updatedAt ,
+          numReviews: jsonSpot.numReviews,
+          avgStarRating: jsonSpot.avgStarRating,
+          SpotImages: jsonSpot.SpotImages,
+          Owner: jsonSpot.user
+          }
+
+      res.json(formattedSpot);
   } else {
     res.status(404);
     res.json({ message: "Spot couldn't be found" });
@@ -329,7 +500,7 @@ router.post("/:spotId/images", validateSpotImage, async (req, res) => {
       const validSpotImage = {
         spotId: spotImage.spotId,
         url: spotImage.url,
-        preview: spotImage.preview,
+        preview: true,
       };
 
       return res.json(validSpotImage);

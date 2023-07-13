@@ -23,23 +23,28 @@ module.exports = {
     await SpotImage.bulkCreate([
       {
         spotId: 1,
-        url: 'somepic.com'
+        url: 'somepic.com',
+        preview: true
       },
       {
         spotId: 2,
-        url: 'somepic.com'
+        url: 'somepic.com',
+        preview: true
       },
       {
         spotId: 3,
-        url: 'somepic.com'
+        url: 'somepic.com',
+        preview: true
       },
       {
         spotId: 4,
-        url: 'somepic.com'
+        url: 'somepic.com',
+        preview: true
       },
       {
         spotId: 5,
-        url: 'somepic.com'
+        url: 'somepic.com',
+        preview: true
       },
     ], { validate: true })
   },

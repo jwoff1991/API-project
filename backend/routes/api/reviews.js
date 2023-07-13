@@ -16,15 +16,14 @@ const validateReviewImage = [
 ]
 
 const validateReview = [
-    check("spotId").exists({ checkFalsy: true }),
-    check("userId").exists({ checkFalsy: true }),
-    check("review")
-      .exists({ checkFalsy: true })
-      .withMessage("Review text is required"),
-    check("stars")
-      .exists({ checkFalsy: true })
-      .isInt({min:0, max:5})
-      .withMessage("Stars must be an integer from 1 to 5"),
+  check("review")
+    .exists({ checkFalsy: true })
+    .withMessage("Review text is required"),
+  check("stars")
+    .exists({ checkFalsy: true })
+    .isInt({ min: 1, max: 5 })
+    .withMessage("Stars must be an integer from 1 to 5"),
+  handleValidationErrors,
 ];
 
 //gets all reviews based on current user
@@ -67,6 +66,44 @@ router.get("/current", async (req, res) => {
 });
 
 
+//edits a review based on reviewid
+router.put('/:reviewId', validateReview, async (req, res) => {
+    const reviewId = req.params.reviewId
+    const oldReview = await Review.findByPk(reviewId)
+    // const { id, userId, spotId, review, stars, createdAt, updatedAt } = oldReview
+    console.log(oldReview)
+
+    if(oldReview.length === 0) {
+        res.status(404)
+        return res.json(    {
+            "message": "Review couldn't be found"
+          })
+    } else {
+        const userId = req.user.id
+        const reviewUserId = oldReview.userId
+        if (userId === reviewUserId) {
+            const currentDate = new Date();
+            const { review, stars } = req.body
+
+            const validReview = {
+              id: oldReview.id,
+              userId: oldReview.userId,
+              spotId: oldReview.spotId,
+              review: review || oldReview.review,
+                stars: stars || oldReview.stars,
+                createdAt: oldReview.createdAt,
+                updatedAt: currentDate,
+              }
+
+            return res.json(validReview)
+          } else {
+            res.status(404);
+            res.json({ message: "You do not have permission to edit this review" });
+          }
+        }
+})
+
+//creates an image for a review
 router.post('/:reviewId/images', validateReviewImage, async (req, res) => {
     const reviewId = req.params.reviewId
     const review = await Review.findByPk(reviewId)
@@ -106,42 +143,6 @@ router.post('/:reviewId/images', validateReviewImage, async (req, res) => {
         }
     }
 })
-
-//edits a review based on reviewid
-router.put('/:reviewId', validateReview, async (req, res) => {
-    const reviewId = req.params.reviewId
-    const oldReview = await Review.findByPk(reviewId)
-
-    if(!oldReview) {
-        res.status(404)
-        return res.json(    {
-            "message": "Review couldn't be found"
-          })
-    } else {
-        const userId = req.user.id
-        const reviewUserId = oldReview.userId
-        if (userId === reviewUserId) {
-            const currentDate = new Date();
-            const { review, stars } = req.body
-
-            const validReview = {
-                id: oldReview.id,
-                userId: oldReview.userId,
-                spotId: oldReview.spotId,
-                review: review || oldReview.review,
-                stars: stars || oldReview.stars,
-                createdAt: oldReview.createdAt,
-                updatedAt: currentDate,
-            }
-
-            return res.json(validReview)
-        } else {
-            res.status(404);
-            res.json({ message: "You do not have permission to edit this review" });
-          }
-    }
-})
-
 
 //deletes a review
 router.delete("/:reviewId", async (req, res) => {
