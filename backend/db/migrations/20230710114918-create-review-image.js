@@ -29,7 +29,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('RewiewImages');
-    return queryInterface.dropTable(options);
+    options.tableName = "ReviewImages";
+    await queryInterface.dropTable(options);
   }
 };

@@ -50,11 +50,8 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    options.tableName = 'SpotImages';
+    const Op = Sequelize.Op;
+    return queryInterface.bulkDelete(options);
   }
 };
