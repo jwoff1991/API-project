@@ -64,10 +64,38 @@ const validBooking = [
     .withMessage("Must include a start date"),
   check("endDate")
     .exists({ checkFalsy: true })
-    .isAfter("startDatr")
     .withMessage("Must include a end date"),
   handleValidationErrors,
-]
+];
+
+const getPagination = (queryParams) => {
+  let { page, size } = queryParams
+  console.log(page, size)
+  if (!size) size = 20
+  if (!page) page = 1
+
+  let pagination = {}
+  if (page >= 1 && size >= 1) {
+      pagination.limit = size
+      pagination.offset = size * (page - 1)
+  }
+  return pagination
+}
+
+const paginationMiddleware = (req, res, next) => {
+  let { page, size } = req.query
+
+  if (!size) size = 20
+  if (!page) page = 1
+
+  let pagination = {}
+  if (page >= 1 && size >= 1) {
+      pagination.limit = size
+      pagination.offset = size * (page - 1)
+  }
+  req.pagination = pagination
+  next()
+}
 
 //Create a spot
 router.post("/", validateSpot, async (req, res) => {
@@ -162,6 +190,19 @@ router.post("/:spotId/reviews", validReview, async (req, res) => {
 //creates a booking based on spotId
 router.post('/:spotId/bookings', validBooking, async (req, res) => {
   const { startDate, endDate} = req.body
+
+  if(startDate > endDate) {
+    res.status(400)
+    res.json(
+      {
+        "message": "Bad Request",
+        "errors": {
+          "endDate": "endDate cannot come before startDate"
+        }
+      }
+    )
+  }
+
   const userId = req.user.id;
   const spotId = req.params.spotId;
 
@@ -184,14 +225,28 @@ router.post('/:spotId/bookings', validBooking, async (req, res) => {
   bookingsList.forEach(booking => {
     bookingStartDate = booking.startDate
     bookingEndDate = booking.endDate
-    console.log(`"start": ${bookingStartDate}, "end: ${bookingEndDate}`)
-    if(startDate >= bookingStartDate && startDate <= bookingEndDate
-      || endDate >= bookingStartDate && endDate <= bookingEndDate) {
+
+    let startDateFormat = new Date(startDate)
+    let endDateFormat = new Date(endDate)
+
+
+    if(startDateFormat >= bookingStartDate && startDateFormat <= bookingEndDate){
+      res.status(403)
+      res.json({
+        "message": "Sorry, this spot is already booked for the specified dates",
+        "errors": {
+          "startDate": "Start date conflicts with an existing booking"
+        }
+      })}
+
+      if(endDateFormat >= bookingStartDate && endDateFormat <= bookingEndDate) {
         res.status(403)
         res.json({
-          "message": "Sorry, this spot is already booked for the specified dates"
-        })
-      }
+          "message": "Sorry, this spot is already booked for the specified dates",
+          "errors": {
+            "startDate": "End date conflicts with an existing booking"
+          }
+        })}
   })
 
   const newBooking = await Booking.create({ spotId, userId, startDate, endDate})
@@ -209,8 +264,11 @@ router.post('/:spotId/bookings', validBooking, async (req, res) => {
   return res.json(validBooking)
 })
 
+
+
 //gets all spots
-router.get("/", async (req, res) => {
+router.get("/", paginationMiddleware, async (req, res) => {
+
   const spots = await Spot.findAll({
     include: [
       {
@@ -219,14 +277,18 @@ router.get("/", async (req, res) => {
       {
         model: SpotImage
       }
-    ]
+    ],
+    ...getPagination(req.query)
   });
 
+  //takes each spot and makes it json
   spotsList = []
   spots.forEach(spot => {
     spotsList.push(spot.toJSON())
   })
 
+  //takes json spotlist, checks for reviews, averages all reviw stars for spot
+  //and adds preview image
   spotsList.forEach(spot => {
     let spotRatings = 0
     let length = 0
@@ -271,6 +333,8 @@ router.get("/", async (req, res) => {
   })
 
   return res.json(formattedSpotResponses);
+
+
 });
 
 //gets all spots based on current user
