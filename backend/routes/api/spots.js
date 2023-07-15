@@ -138,7 +138,7 @@ router.post("/", validateSpot, async (req, res) => {
 router.post("/:spotId/reviews", validReview, async (req, res) => {
   const { review, stars } = req.body;
   const userId = req.user.id;
-  console.log('WERE HITTING THIS')
+
   const spotId = req.params.spotId;
   const spot = await Spot.findAll({
     where: {
@@ -146,7 +146,7 @@ router.post("/:spotId/reviews", validReview, async (req, res) => {
     },
   });
 
-  if (!spot) {
+  if (!spot.length) {
     res.status(404);
     return res.json({ message: "Spot couldn't be found" });
   }
