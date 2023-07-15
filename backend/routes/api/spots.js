@@ -333,7 +333,7 @@ router.get("/", paginationMiddleware, async (req, res) => {
   })
 
 
-  return res.json({"Spots": formattedSpotResponses});
+  return res.json({"Spots": formattedSpotResponses, "page": page, "size": size});
 
 
 });
