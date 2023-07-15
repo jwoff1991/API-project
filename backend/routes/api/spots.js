@@ -387,7 +387,8 @@ router.get("/current", async (req, res) => {
           id: spot.id,
           ownerId: spot.ownerId,
           address: spot.address,
-          city: spot.state,
+          city: spot.city,
+          state: spot.state,
           country: spot.country,
           lat: spot.late,
           lng: spot.lng,
@@ -413,6 +414,7 @@ router.get("/current", async (req, res) => {
 router.get('/:spotId/reviews', async (req, res) => {
   const spotId = req.params.spotId
   const spot = await Spot.findByPk(req.params.spotId)
+
   if(!spot) {
     res.status(404)
     res.json( { "message": "Spot could not be found" })
@@ -432,7 +434,8 @@ router.get('/:spotId/reviews', async (req, res) => {
       }
     ]
   })
-  if (spotReviews.length > 1) {
+  console.log(spotReviews)
+  if (spotReviews.length >= 1) {
     res.status(200)
     res.json({"Reviews": spotReviews});
   } else {
@@ -562,7 +565,7 @@ router.post("/:spotId/images", validateSpotImage, async (req, res) => {
     if (userId === ownerId) {
       const spotImage = await SpotImage.create({ spotId, url, preview });
       const validSpotImage = {
-        spotId: spotImage.spotId,
+        id: spotImage.id,
         url: spotImage.url,
         preview: true,
       };
@@ -632,13 +635,13 @@ router.put("/:spotId", validateSpot, async (req, res) => {
 router.delete("/:spotId", async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId);
   const userId = req.user.id
-  const spotUserId = spot.ownerId
   if(!spot) {
-      res.status(404)
-      res.json({
-          "message": "Spot couldn't be found"
-        })
+    res.status(404)
+    res.json({
+      "message": "Spot couldn't be found"
+    })
   }
+  const spotUserId = spot.ownerId
   if(userId === spotUserId) {
       await spot.destroy();
       res.json(    {

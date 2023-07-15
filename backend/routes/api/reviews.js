@@ -3,6 +3,7 @@ const { Review } = require("../../db/models");
 const { User } = require("../../db/models");
 const { Spot } = require("../../db/models");
 const { ReviewImage } = require("../../db/models");
+const { SpotImage } = require("../../db/models")
 
 const { setTokenCookie, requireAuth } = require("../../utils/auth");
 
@@ -49,7 +50,7 @@ router.get("/current", async (req, res) => {
           "lng",
           "name",
           "price",
-          "previewImage",
+          "previewImage"
         ],
       },
       {
@@ -58,6 +59,7 @@ router.get("/current", async (req, res) => {
       }
     ],
   });
+  // console.log(usersReview.toJSON())
   if (usersReview.length > 0) {
     res.json(usersReview);
   } else {
@@ -73,7 +75,7 @@ router.put('/:reviewId', validateReview, async (req, res) => {
     // const { id, userId, spotId, review, stars, createdAt, updatedAt } = oldReview
     console.log(oldReview)
 
-    if(oldReview.length === 0) {
+    if(!oldReview) {
         res.status(404)
         return res.json(    {
             "message": "Review couldn't be found"
@@ -148,13 +150,13 @@ router.post('/:reviewId/images', validateReviewImage, async (req, res) => {
 router.delete("/:reviewId", async (req, res) => {
     const review = await Review.findByPk(req.params.reviewId);
     const userId = req.user.id
-    const reviewUserId = review.userId
     if(!review) {
-        res.status(404)
-        res.json({
-            "message": "Review couldn't be found"
-          })
+      res.status(404)
+      res.json({
+        "message": "Review couldn't be found"
+      })
     }
+    const reviewUserId = review.userId
     if(userId === reviewUserId) {
         await review.destroy();
         res.json(    {

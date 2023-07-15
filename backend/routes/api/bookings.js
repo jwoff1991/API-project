@@ -76,13 +76,15 @@ router.put('/:bookingId', validBooking, async (req, res) => {
             }
             const editedBooking = {
                 id: booking.id,
+                spotId: booking.spotId,
                 userId: booking.userId,
                 ownerId: booking.ownerId,
-                startDate: newStartDate || booking.startdate,
+                startDate: newStartDate || booking.startDate,
                 endDate: newEndDate || bookingEndDate,
                 createdAt: booking.createdAt,
                 updatedAt: currentDate
             }
+
             return res.json(editedBooking)
         } else {
             res.status(404);
@@ -99,16 +101,16 @@ router.put('/:bookingId', validBooking, async (req, res) => {
 router.delete("/:bookingId", async (req, res) => {
     const booking = await Booking.findByPk(req.params.bookingId);
     const userId = req.user.id
-    const bookingOwnerId = booking.ownerId
-    const bookingUserId = booking.userId
     if(!booking) {
         res.status(404)
         res.json({
             "message": "Booking couldn't be found"
-          })
+        })
     }
+    const bookingOwnerId = booking.ownerId
+    const bookingUserId = booking.userId
     const startDate = booking.startdate
-    // const startDataMilli = startDate
+
     const currentDate = new Date;
     if (currentDate >= startDate) {
         res.status(403)

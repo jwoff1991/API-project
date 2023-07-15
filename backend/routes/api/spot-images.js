@@ -21,14 +21,14 @@ router.delete("/:imageId", async (req, res) => {
             model: Spot,
         }
     })
-    const spotOwnerId = spotImage.Spot.ownerId
 
     if(!spotImage) {
         res.status(404)
         res.json({
             "message": "Image couldn't be found"
-          })
+        })
     }
+    const spotOwnerId = spotImage.Spot.ownerId
     if(userId === spotOwnerId) {
         await spotImage.destroy();
         res.json(    {
