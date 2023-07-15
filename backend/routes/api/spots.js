@@ -265,10 +265,9 @@ router.post('/:spotId/bookings', validBooking, async (req, res) => {
 })
 
 
-
 //gets all spots
 router.get("/", paginationMiddleware, async (req, res) => {
-
+  console.log(req.query)
   const spots = await Spot.findAll({
     include: [
       {
@@ -280,6 +279,7 @@ router.get("/", paginationMiddleware, async (req, res) => {
     ],
     ...getPagination(req.query)
   });
+  const { page, size } = req.query
 
   //takes each spot and makes it json
   spotsList = []
@@ -332,7 +332,8 @@ router.get("/", paginationMiddleware, async (req, res) => {
     formattedSpotResponses.push(formattedSpotResponse)
   })
 
-  return res.json(formattedSpotResponses);
+
+  return res.json({"Spots": formattedSpotResponses});
 
 
 });
@@ -417,7 +418,7 @@ router.get('/:spotId/reviews', async (req, res) => {
 
   if(!spot) {
     res.status(404)
-    res.json( { "message": "Spot could not be found" })
+    return res.json( { "message": "Spot could not be found" })
   }
   const spotReviews = await Review.findAll({
     where: {
@@ -434,13 +435,13 @@ router.get('/:spotId/reviews', async (req, res) => {
       }
     ]
   })
-  console.log(spotReviews)
+
   if (spotReviews.length >= 1) {
     res.status(200)
-    res.json({"Reviews": spotReviews});
+    return res.json({"Reviews": spotReviews});
   } else {
     res.status(404);
-    res.json({ message: "This spot has no reviews" });
+    return res.json({ message: "This spot has no reviews" });
 
   }
 })

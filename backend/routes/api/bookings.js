@@ -5,6 +5,7 @@ const { setTokenCookie, requireAuth } = require("../../utils/auth");
 const { User } = require("../../db/models");
 const { Spot } = require("../../db/models");
 const { Booking } = require("../../db/models");
+const { SpotImage } = require("../../db/models")
 
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
@@ -41,20 +42,62 @@ router.get('/current', async (req, res) => {
                     "lng",
                     "name",
                     "price",
-                    "previewImage",
                   ],
+                  include: { model: SpotImage, attributes: ["url"] },
             },
-
-        ]
+        ],
     })
 
     if(userBookings.length === 0) {
         res.status(404)
         res.json({"message": "Could not find any booking for this user"})
+    } else {
+        let userBookingsList = [];
+        userBookings.forEach((booking) => {
+          userBookingsList.push(booking.toJSON());
+
+        });
+        let formattedUsersBookingList = []
+
+        userBookingsList.forEach(booking => {
+          if(!booking.Spot.SpotImages) {
+            booking.Spot.previewImage = "This spot currently has no images"
+          } else {
+            booking.Spot.SpotImages.forEach(image => {
+              booking.Spot.previewImage = image.url
+            })
+
+            const formattedBooking = {
+                  id: booking.id,
+                  spotId: booking.spotId,
+                  Spot: {
+                    id: booking.Spot.id,
+                    ownerId: booking.Spot.ownerId,
+                    address: booking.Spot.address,
+                    city: booking.Spot.city,
+                    state: booking.Spot.state,
+                    country: booking.Spot.country,
+                    lat: booking.Spot.lat,
+                    lng: booking.Spot.lng,
+                    name: booking.Spot.name,
+                    price: booking.Spot.price,
+                    previewImage: booking.Spot.previewImage
+                  },
+                  userId: booking.userId,
+                  startDate: booking.startDate,
+                  endDate: booking.endDate,
+                  createdAt: booking.createdAt,
+                  updatedAt: booking.updatedAt
+
+               }
+               formattedUsersBookingList.push(formattedBooking)
+            }
+          })
+
+
+    return res.json({"Bookings": formattedUsersBookingList})
+
     }
-
-    return res.json({"Bookings": userBookings})
-
 })
 
 

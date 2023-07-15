@@ -50,20 +50,63 @@ router.get("/current", async (req, res) => {
           "lng",
           "name",
           "price",
-          "previewImage"
         ],
+        include: { model: SpotImage, attributes: ["url"] },
       },
       {
         model: ReviewImage,
-        attributes: ['id', 'url']
-      }
+        attributes: ["id", "url"],
+      },
     ],
   });
-  // console.log(usersReview.toJSON())
+
+
+  //if there is a user review, make it json to manipulate
   if (usersReview.length > 0) {
-    res.json(usersReview);
+    let usersReviewList = [];
+    usersReview.forEach((review) => {
+      usersReviewList.push(review.toJSON());
+    });
+    let formattedUsersReviewList = []
+
+    usersReviewList.forEach(review => {
+      if(!review.Spot.SpotImages.length) {
+        review.Spot.previewImage = "This spot currently has no images"
+      } else {
+        review.Spot.SpotImages.forEach(image => {
+          review.Spot.previewImage = image.url
+        })
+
+        const formattedReview = {
+              id: review.id,
+              userId: review.userId,
+              spotId: review.spotId,
+              review: review.review,
+              stars: review.stars,
+              createdAt: review.createdAt,
+              updatedAt: review.updatedAt,
+              User: review.User,
+              Spot: {
+                id: review.Spot.id,
+                ownerId: review.Spot.ownerId,
+                address: review.Spot.address,
+                city: review.Spot.city,
+                state: review.Spot.state,
+                country: review.Spot.country,
+                lat: review.Spot.lat,
+                lng: review.Spot.lng,
+                name: review.Spot.name,
+                price: review.Spot.price,
+                previewImage: review.Spot.previewImage
+              },
+              ReviewImages: review.ReviewImages
+           }
+           formattedUsersReviewList.push(formattedReview)
+        }
+      })
+    return res.json({"Reviews": formattedUsersReviewList})
   } else {
-    res.json({ message: "You do not currently have any reviews" });
+    return res.json({ message: "You do not currently have any reviews" });
   }
 });
 
