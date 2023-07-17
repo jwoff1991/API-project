@@ -405,7 +405,7 @@ router.get("/current", async (req, res) => {
         formattedSpotList.push(formattedSpot)
     })
 
-    res.json(formattedSpotList);
+    res.json({"Spots": formattedSpotList});
   } else {
     res.json({ message: "You do not currently have any spots" });
   }
