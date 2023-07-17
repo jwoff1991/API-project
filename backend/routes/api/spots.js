@@ -544,7 +544,7 @@ router.get("/:spotId", async (req, res) => {
           numReviews: jsonSpot.numReviews,
           avgStarRating: jsonSpot.avgStarRating,
           SpotImages: jsonSpot.SpotImages,
-          Owner: jsonSpot.user
+          Owner: jsonSpot.User
           }
 
       res.json(formattedSpot);
