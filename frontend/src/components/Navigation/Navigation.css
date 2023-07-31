@@ -1,0 +1,19 @@
+
+.navbar {
+    border: red solid 2px;
+}
+
+.nav-list {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.home {
+    border: red solid 2px;
+}
+
+.profile {
+    border: red solid 2px;
+}
