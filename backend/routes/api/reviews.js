@@ -116,7 +116,7 @@ router.put('/:reviewId', validateReview, async (req, res) => {
     const reviewId = req.params.reviewId
     const oldReview = await Review.findByPk(reviewId)
     // const { id, userId, spotId, review, stars, createdAt, updatedAt } = oldReview
-    console.log(oldReview)
+
 
     if(!oldReview) {
         res.status(404)
@@ -180,7 +180,7 @@ router.post('/:reviewId/images', validateReviewImage, async (req, res) => {
               res.status(403)
               res.json({'message': 'This review has the max amount of images'})
             }
-            console.log(allReviewImages)
+
             return res.json(validReviewImage);
         } else {
             res.status(400)

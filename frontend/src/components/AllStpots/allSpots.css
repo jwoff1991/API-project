@@ -1,0 +1,43 @@
+.all-Spots {
+    border: red solid 2px;
+}
+
+.all-spots-container {
+    border: red solid 2px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+}
+
+
+.all-spots-container ul {
+    list-style-type: none;
+}
+
+.single-spot {
+    border: red solid 2px;
+    width: 250px;
+    height: 250px
+
+}
+
+
+@media only screen
+and(max-width: 1128px){
+.all-spots-container {
+    .all-spots-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto;
+        grid-column-gap: 1em;
+        grid-row-gap: 1em;
+    }
+}}
+
+@media (min-width: 950px){
+.all-spots-container {
+  --breakpoint-grid_columns: 3;
+}
+}
