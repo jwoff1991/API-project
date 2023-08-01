@@ -1,7 +1,10 @@
 import { csrfFetch } from "./csrf";
 
-const GET_SPOTS = "spots/getsSpots";
+const GET_SPOTS = "spots/getSpots";
 const ADD_SPOT = "spots/addSpot";
+const GET_SPOT = "spots/getSpot";
+const GET_USER_SPOTS = "spots/currentUserSpots";
+const EDIT_SPOT = "spots/editSpot"
 
 //get spots action creator
 const getAllSpots = (spots) => {
@@ -10,13 +13,36 @@ const getAllSpots = (spots) => {
     spots: spots.Spots,
   };
 };
-
+//add spot action creator
 export const addSpot = (spot) => {
   return {
     type: ADD_SPOT,
     spot,
   };
 };
+//get spot action creator
+export const getSingleSpot = (spot) => {
+  return {
+    type: GET_SPOT,
+    spot,
+  };
+};
+
+//get current user spots action creator
+export const getAllUserSpots = (spots) => {
+  return {
+    type: GET_USER_SPOTS,
+    spots: spots.Spots,
+  };
+};
+
+//edit spot action creator
+export const editUserSpot = (spot) => {
+  return {
+    type: EDIT_SPOT,
+    spot
+  };
+}
 
 //get all spots thunk action creator
 export const getSpots = () => async (dispatch) => {
@@ -29,7 +55,7 @@ export const getSpots = () => async (dispatch) => {
   return response;
 };
 
-//create spot thunnk creator
+//create spot thunk creator
 export const writeSpot = (payload) => async (dispatch) => {
   const response = await csrfFetch("/api/spots", {
     method: "POST",
@@ -42,6 +68,47 @@ export const writeSpot = (payload) => async (dispatch) => {
     return spot;
   }
 };
+
+
+
+//get single spot thunk creator
+export const getSpot = (payload) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${payload}`, {
+    method: "GET",
+  });
+  const data = await response.json();
+  dispatch(getSingleSpot(data));
+  return response;
+};
+
+//get user spots thunk creator
+export const getUserSpots = () => async (dispatch) => {
+  const response = await csrfFetch("/api/spots/current", {
+    method: "GET",
+  });
+  const data = await response.json();
+  dispatch(getAllUserSpots(data));
+
+  return response;
+};
+
+//edit spot thunk creator
+export const editSpot = (payload) => async (dispatch) => {
+  const spotId = payload.id.spotId;
+  const newEditedSpot = payload.spot
+
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newEditedSpot),
+  });
+  if (response.ok) {
+    const spot = await response.json();
+    dispatch(editUserSpot(spot));
+    return spot;
+  }
+};
+
 
 const initialState = {
   allSpots: {
@@ -62,6 +129,14 @@ const spotReducer = (state = initialState, action) => {
     case ADD_SPOT:
       newState = Object.assign({}, state);
       newState.allSpots = action.spots;
+      return newState;
+    case GET_USER_SPOTS:
+      newState = Object.assign({}, state);
+      newState.allSpots = action.spots;
+      return newState;
+    case GET_SPOT:
+      newState = Object.assign({}, state);
+      newState.singleSpot = action.spot;
       return newState;
     default:
       return state;

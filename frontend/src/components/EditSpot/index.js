@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import {writeSpot} from "../../store/spots";
-import "./createSpot.css";
+import {editSpot } from "../../store/spots";
+import "./editSpot.css";
 import { useHistory } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 
-export default function CreateSpot() {
+export default function EditSpot() {
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -15,13 +16,16 @@ export default function CreateSpot() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const spotId = useParams().spotId
+
 
   const dispatch = useDispatch();
   const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newSpot = {
+    const newEditedSpot ={
+    spot: {
       address,
       city,
       state,
@@ -31,12 +35,14 @@ export default function CreateSpot() {
       name,
       description,
       price
-    };
+    },
+    id: {spotId}
+};
 
-    const createdSpot = await dispatch(writeSpot(newSpot));
-    console.log(createdSpot.id)
+    const editedSpot = await dispatch(editSpot(newEditedSpot));
+
     reset();
-    history.push(`/spots/${createdSpot.id}`);
+    history.push(`/spots/${editedSpot.id}`);
   };
 
   const reset = () => {
@@ -53,8 +59,8 @@ export default function CreateSpot() {
 
   return (
     <div className="inputBox">
-      <h1>Create Spot</h1>
-      <form className='create-spot-form' onSubmit={handleSubmit}>
+      <h1>Edit Spot</h1>
+      <form className='edit-spot-form' onSubmit={handleSubmit}>
         <input
           type="text"
           onChange={(e) => setAddress(e.target.value)}
@@ -99,12 +105,12 @@ export default function CreateSpot() {
           name="name"
           placeholder="name"
         ></input>
-        <textarea
+        <input
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           name="description"
           placeholder="description"
-        ></textarea>
+        ></input>
         <input
           value={price}
           onChange={(e) => setPrice(e.target.value)}

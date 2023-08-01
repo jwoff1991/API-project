@@ -1,14 +1,10 @@
-.create-spot-form {
+.edit-spot-form {
     border: red 2px solid;
     display: flex;
     flex-direction: column;
     width: 250px
 }
 
-.create-spot-form input {
-    margin: 10px;
-}
-
-.create-spot-form textarea {
+.edit-spot-form input {
     margin: 10px;
 }

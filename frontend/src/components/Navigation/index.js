@@ -17,7 +17,7 @@ function Navigation({ isLoaded }) {
           </NavLink>
         </li>
         <div className='right-container'>
-        <Link to='/spots'>Create a new Spot</Link>
+        <Link to='/spots/new'>Create a new Spot</Link>
         {isLoaded && (
           <li className='profile'>
             <ProfileButton user={sessionUser} />

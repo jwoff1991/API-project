@@ -532,7 +532,8 @@ router.get("/:spotId", async (req, res) => {
           id: jsonSpot.id,
           ownerId: jsonSpot.ownerId,
           address: jsonSpot.address,
-          city: jsonSpot.state,
+          city: jsonSpot.city,
+          state: jsonSpot.state,
           country: jsonSpot.country,
           lat: jsonSpot.late,
           lng: jsonSpot.lng,
@@ -620,6 +621,9 @@ router.put("/:spotId", validateSpot, async (req, res) => {
         createdAt: spot.createdAt,
         updatedAt: currentDate,
       };
+
+      await spot.update(editedSpot)
+
 
       res.json(editedSpot);
     } else {
