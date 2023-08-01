@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {writeSpot} from "../../store/spots";
 import "./createSpot.css";
+import { useHistory } from 'react-router-dom';
+
 
 export default function CreateSpot() {
   const [address, setAddress] = useState("");
@@ -15,6 +17,7 @@ export default function CreateSpot() {
   const [price, setPrice] = useState("");
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,8 +33,10 @@ export default function CreateSpot() {
       price
     };
 
-    dispatch(writeSpot(newSpot));
+    const createdSpot = await dispatch(writeSpot(newSpot));
+    console.log(createdSpot.id)
     reset();
+    history.push(`/spots/${createdSpot.id}`);
   };
 
   const reset = () => {
