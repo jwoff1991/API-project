@@ -1,13 +1,25 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState,useEffect } from "react";
 import {editSpot } from "../../store/spots";
 import "./editSpot.css";
-import { useHistory } from 'react-router-dom';
-import { useParams } from "react-router-dom";
-
+import { useHistory, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from "react-redux";
+import { getSpot } from "../../store/spots";
 
 export default function EditSpot() {
-  const [address, setAddress] = useState("");
+  const spotId = useParams().spotId
+  const spot = useSelector((state) => state.spots.singleSpot);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+
+  console.log(spot)
+
+  useEffect(() => {
+    dispatch(getSpot(spotId));
+  }, [dispatch]);
+
+
+  const [address, setAddress] = useState('');
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
@@ -16,17 +28,14 @@ export default function EditSpot() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const spotId = useParams().spotId
 
 
-  const dispatch = useDispatch();
-  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newEditedSpot ={
-    spot: {
-      address,
+      spot: {
+        address,
       city,
       state,
       country,
@@ -37,28 +46,31 @@ export default function EditSpot() {
       price
     },
     id: {spotId}
-};
-
-    const editedSpot = await dispatch(editSpot(newEditedSpot));
-
-    reset();
-    history.push(`/spots/${editedSpot.id}`);
   };
 
-  const reset = () => {
-    setAddress('')
-    setCity('')
-    setState('')
-    setCountry('')
-    setLat('')
-    setLng('')
-    setName('')
-    setDescription('')
-    setPrice('')
-  }
+  const editedSpot = await dispatch(editSpot(newEditedSpot));
 
-  return (
-    <div className="update-form-inputBox">
+  reset();
+  history.push(`/spots/${editedSpot.id}`);
+};
+
+const reset = () => {
+  setAddress('')
+  setCity('')
+  setState('')
+  setCountry('')
+  setLat('')
+  setLng('')
+  setName('')
+  setDescription('')
+  setPrice('')
+}
+
+if(!spot.id) return null
+
+
+return (
+  <div className="update-form-inputBox">
       <form className="update-spot-form" onSubmit={handleSubmit}>
         <h1>Update your Spot</h1>
         <div className="update-form-place-located-question">

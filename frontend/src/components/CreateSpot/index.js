@@ -121,7 +121,7 @@ export default function CreateSpot() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             name="description"
-            placeholder="description"
+            placeholder="Please write at least 30 characters"
           ></textarea>
         </div>
         <div className="create-form-spot-name">
@@ -135,7 +135,7 @@ export default function CreateSpot() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             name="name"
-            placeholder="name"
+            placeholder="Name of your spot"
           ></input>
         </div>
         <div className="create-form-spot-price">
@@ -150,7 +150,7 @@ export default function CreateSpot() {
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             name="price"
-            placeholder="price"
+            placeholder="Price per night (USD)"
           ></input>
         </div>
         <div className="create-form-spot-images">

@@ -3,7 +3,7 @@ import { csrfFetch } from "./csrf";
 const GET_SPOTS = "spots/getSpots";
 const ADD_SPOT = "spots/addSpot";
 const GET_SPOT = "spots/getSpot";
-const GET_USER_SPOTS = "spots/currentUserSpots";
+const DISPLAY_USER_SPOTS = "spots/currentUserSpots";
 const EDIT_SPOT = "spots/editSpot"
 const DELETE_SPOT = "spots/delete"
 
@@ -32,7 +32,7 @@ export const getSingleSpot = (spot) => {
 //get current user spots action creator
 export const getAllUserSpots = (spots) => {
   return {
-    type: GET_USER_SPOTS,
+    type: DISPLAY_USER_SPOTS,
     spots: spots.Spots,
   };
 };
@@ -143,11 +143,16 @@ const spotReducer = (state = initialState, action) => {
       return newState;
     case ADD_SPOT:
       newState = Object.assign({}, state);
-      newState.allSpots = action.spots;
+      newState.allSpots = action.spot;
       return newState;
-    case GET_USER_SPOTS:
+    case DISPLAY_USER_SPOTS:
       newState = Object.assign({}, state);
-      newState.allSpots = action.spots;
+      console.log(newState)
+      let newObject = {}
+      action.spots.forEach(spot => {
+        newObject[spot.id] = spot
+      })
+      newState.allSpots = newObject;
       return newState;
     case GET_SPOT:
       newState = Object.assign({}, state);

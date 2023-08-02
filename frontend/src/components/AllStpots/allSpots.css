@@ -1,10 +1,8 @@
 .all-Spots {
-    border: red solid 2px;
     width: 100%
 }
 
 .all-spots-container {
-    border: red solid 2px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: auto;
@@ -19,9 +17,25 @@
 
 .single-spot {
     border: red solid 2px;
-    width: 250px;
-    height: 250px
+    width: 300px;
+    height: 300px
 
+}
+
+
+.single-spot-image-div {
+    width: 100%;
+    height: 70%;
+}
+.single-spot-image-div img {
+    width: 100%;
+    height: 100%
+}
+
+.single-spot-city-state-price {
+    border: red solid 2px;
+    width: 100%;
+    height: 30%;
 }
 
 

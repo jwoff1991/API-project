@@ -11,31 +11,40 @@ export default function ManageSpots() {
   const dispatch = useDispatch();
   const spots = useSelector((state) => state.spots.allSpots);
 
-  let spotsList = Object.values(spots);
+  let spotsList = Object.values(spots)
+
 
   useEffect(() => {
     dispatch(getUserSpots());
   }, [dispatch]);
 
-  if (!spotsList) return null;
+
+  if (!spotsList.length) {
+    return (
+      <div>
+        <h1>Manage Spots</h1>
+        <Link to={"/spots/new"}>
+          <button>Create a New Spot</button>
+        </Link>
+      </div>
+    );
+  }
   return (
     <div className="all-Spots">
       <h1>Manage Spots</h1>
-      <Link to={"/spots/new"}>
-        <button>Create a New Spot</button>
-      </Link>
+
       <div className="all-spots-container">
         {spotsList.map(({ id, previewImage, city, state, price }) => (
           <div key={id}>
-            <div className="single-spot">
+            <div className="manage-spot">
               <Link to={`/spots/${id}`}>
-                <ul>
-                  <li>{previewImage}</li>
-                  <li>
+                <div className="manage-spot-image-div"><img src={previewImage} alt="picture of house" /></div>
+                <div className="manage-spot-city-state-price">
+                  <div className="manage-spot-city-state">
                     {city}, {state}
-                  </li>
-                  <li>{price}</li>
-                </ul>
+                  </div>
+                  <div className="manage-spot-price">{price} night</div>
+                </div>
               </Link>
             </div>
             <div className="update-delete-buttons">
@@ -45,7 +54,7 @@ export default function ManageSpots() {
               <button>
                 <OpenModalMenuItem
                   itemText="Delete"
-                  modalComponent={<DeleteSpotModal props={id}/>}
+                  modalComponent={<DeleteSpotModal props={id} />}
                 />
               </button>
             </div>
