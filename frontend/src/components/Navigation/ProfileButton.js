@@ -6,6 +6,7 @@ import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
+
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
@@ -43,18 +44,30 @@ function ProfileButton({ user }) {
   return (
     <>
       <button className="profile-button" onClick={openMenu}>
+        <i className="fa-solid fa-bars"></i>
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
-            <li>{user.email}</li>
-            <li><Link to={'/spots/current'}>Manage Spots</Link></li>
-            <li>
-              <button className="logout" onClick={logout}>Log Out</button>
-            </li>
+            <div className="user-info-in-profile-button">
+              <div className="username-in-profile-button">
+                <li>Hello, {user.username}</li>
+              </div>
+              <li>{user.email}</li>
+            </div>
+            <div className="manage-spots-in-profile-button">
+              <li>
+                <Link to={"/spots/current"}>Manage Spots</Link>
+              </li>
+            </div>
+            <div className="logout-button">
+              <li>
+                <button className="logout-in-profile-button" onClick={logout}>
+                  Log Out
+                </button>
+              </li>
+            </div>
           </>
         ) : (
           <>

@@ -5,6 +5,7 @@ const ADD_SPOT = "spots/addSpot";
 const GET_SPOT = "spots/getSpot";
 const GET_USER_SPOTS = "spots/currentUserSpots";
 const EDIT_SPOT = "spots/editSpot"
+const DELETE_SPOT = "spots/delete"
 
 //get spots action creator
 const getAllSpots = (spots) => {
@@ -43,6 +44,8 @@ export const editUserSpot = (spot) => {
     spot
   };
 }
+
+
 
 //get all spots thunk action creator
 export const getSpots = () => async (dispatch) => {
@@ -108,6 +111,18 @@ export const editSpot = (payload) => async (dispatch) => {
     return spot;
   }
 };
+
+//delete spot thunk action creator
+export const deleteSpot = (payload) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${payload}`, {
+    method: 'DELETE'
+  });
+  if (response.ok) {
+    const spot = await response.json();
+    dispatch(getUserSpots());
+    return spot;
+  }
+}
 
 
 const initialState = {

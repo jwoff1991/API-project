@@ -1,8 +1,10 @@
 
 .navbar {
-    border: grey solid 2px;
+    border-bottom: grey solid 2px;
     width: 100%;
-    height: 70px;
+    height: 90px;
+    margin-bottom: 5px;
+    padding-top: 25px;
 }
 
 .nav-list {
@@ -13,26 +15,67 @@
 }
 
 .home {
-    border: red solid 2px;
+    font-size: 30px;
+}
+
+.home a {
+    color: rgb(197, 86, 86);
+    font-weight: bold;
+}
+
+.right-container a {
+    color: darkblue;
+    font-size: 20px;
 }
 
 .profile {
-    border: red solid 2px;
+
     margin-right: 25px;
-    margin-left: 25px
+    margin-left: 25px;
 }
 
 
 .profile-button {
-
+    font-size: 20px;
+    width: 75px;
+    height: 40px;
+    border-radius: 25px;
 }
 
 .profile-dropdown {
     list-style-type: none;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
 
-.logout {
+.user-info-in-profile-button {
+    border-bottom: black 1px solid;
+    margin: 5px 0px;
+    font-size: 20px;
+    padding-bottom: 9px;
+}
 
+.username-in-profile-button {
+    padding-bottom: 9px;
+}
+
+.manage-spots-in-profile-button {
+    border-bottom: black 1px solid;
+    padding: 9px 0px;
+}
+.manage-spots-in-profile-button a {
+    color: black;
+}
+
+.logout-in-profile-button {
+    width: 75px;
+    height: 40px;
+    border-radius: 25px;
+    margin: 9px 0px;
+    font-size: 15px;
+    background-color: black;
+    color: white;
 }
 
 .right-container {
