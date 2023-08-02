@@ -13,21 +13,17 @@ export default function SpotReviews () {
     const spotId = useParams().spotId
     const dispatch = useDispatch();
     const reviews = useSelector((state) => state.reviews.spot);
-
+    const props = {spotId}
     const currentUserId = useSelector((state) => state.session.user.id)
 
-
-    let buttonDisabled = false
-
-    console.log(reviews)
     useEffect(() => {
         dispatch(getReviews(spotId));
-      }, [dispatch]);
+    }, [dispatch]);
 
     if(!reviews.length) return null
 
-    const props = {spotId}
 
+    let buttonDisabled = false
     const alreadyReviewed = reviews.map(({userId}) => userId === currentUserId)
     if(!alreadyReviewed.filter((review) => review === true)) {
         buttonDisabled = true
@@ -35,7 +31,7 @@ export default function SpotReviews () {
 
     return (
         <div>
-            <button disabled={buttonDisabled}>
+            <button className='post-your-review-button' disabled={buttonDisabled}>
             <OpenModalMenuItem
             itemText="Post Your Review"
             modalComponent={<PostReviewModal props={props} />} />
@@ -46,6 +42,8 @@ export default function SpotReviews () {
                     <div key={id} className="spot-single-review-firstname">{User.firstName}</div>
                     <div className="spot-single-review-created-date">{createdAt}</div>
                     <div className="spot-single-review">{review}</div>
+                    <button className="review-update-button">Update</button>
+                    <button className="review-delete-button">Delete</button>
 
                 </div>
             ))}

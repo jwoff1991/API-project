@@ -22,7 +22,13 @@ export default function SpotDetails() {
   singleSpot.SpotImages.forEach((image) => {
     spotImages.push(image);
   });
-  console.log(spotImages)
+
+  let averageStartRating;
+  if(typeof singleSpot.avgStarRating === 'string') {
+    averageStartRating = 'New'
+  } else {
+    averageStartRating = singleSpot.avgStarRating.toFixed(2)
+  }
 
   return (
     <div className="single-spot-container">
@@ -72,7 +78,7 @@ export default function SpotDetails() {
         <div className="reserve-box">
           <div className="price-per-night">{singleSpot.price} night</div>
           <div className="star-rating-num-reviews">
-            {singleSpot.avgStarRating} O {singleSpot.numReviews} reviews
+            {averageStartRating} <span>&#183;</span> {singleSpot.numReviews} reviews
           </div>
           <div className="reserve-button-div">
             <button className="reserve-button">Reserve</button>
@@ -81,7 +87,7 @@ export default function SpotDetails() {
       </div>
       <div className="reviews">
         <div className="star-rating-num-reviews-over-reviews">
-          {singleSpot.avgStarRating} O {singleSpot.numReviews} reviews
+          {averageStartRating} <span>&#183;</span> {singleSpot.numReviews} reviews
         </div>
         <div className="reviews-container"><SpotReviews /></div>
       </div>

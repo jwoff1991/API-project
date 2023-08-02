@@ -1,0 +1,33 @@
+.post-your-review-button {
+    margin-bottom: 10px;
+}
+
+
+.spot-single-review-div{
+
+    width: 450px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+
+.spot-single-review-firstname {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+
+.spot-single-review-created-date {
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+
+.spot-single-review-div button {
+    margin-top: 7px
+}
+
+.review-update-button {
+    margin-right: 7px
+}

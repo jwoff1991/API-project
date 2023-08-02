@@ -12,6 +12,24 @@ export default function AllSpots() {
   const spotsList = Object.values(spots);
 
 
+  const allSpots = spotsList.map(({ id, previewImage, city, state, price, avgRating }) => (
+    <div key={id}>
+      <div className="single-spot">
+        <Link to={`/spots/${id}`}>
+          <div className="single-spot-image-div"><img src={previewImage} alt="picture of house" /></div>
+          <div className="single-spot-city-state-price">
+            <div className="single-spot-city-state">
+              {city}, {state}
+            </div>
+            <div className="single-spot-price">{price} night</div>
+            <div classname='single-spot-star-rating'>{avgRating}</div>
+          </div>
+        </Link>
+      </div>
+    </div>
+  ))
+
+
   useEffect(() => {
     dispatch(getSpots());
   }, [dispatch]);
@@ -21,21 +39,7 @@ export default function AllSpots() {
     <div className="all-Spots">
       <h1>All Spots</h1>
       <div className="all-spots-container">
-        {spotsList.map(({ id, previewImage, city, state, price }) => (
-          <div key={id}>
-            <div className="single-spot">
-              <Link to={`/spots/${id}`}>
-                <div className="single-spot-image-div"><img src={previewImage} alt="picture of house" /></div>
-                <div className="single-spot-city-state-price">
-                  <div className="single-spot-city-state">
-                    {city}, {state}
-                  </div>
-                  <div className="single-spot-price">{price} night</div>
-                </div>
-              </Link>
-            </div>
-          </div>
-        ))}
+        {allSpots}
       </div>
     </div>
   );
