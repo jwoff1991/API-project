@@ -38,7 +38,7 @@ export default function ManageSpots() {
           <div key={id}>
             <div className="manage-spot">
               <Link to={`/spots/${id}`}>
-                <div className="manage-spot-image-div"><img src={previewImage} alt="picture of house" /></div>
+                <div className="manage-spot-image-div"><img src={previewImage || "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"}  alt="picture of house" /></div>
                 <div className="manage-spot-city-state-price">
                   <div className="manage-spot-city-state">
                     {city}, {state}

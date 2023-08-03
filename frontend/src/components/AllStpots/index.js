@@ -30,7 +30,7 @@ export default function AllSpots() {
               {city}, {state}
             </div>
             <div className="single-spot-price">{price} night</div>
-            <div classname='single-spot-star-rating'>{avgRating}</div>
+            <div classname='single-spot-star-rating'><i className="fas fa-star" /> {avgRating}</div>
           </div>
         </Link>
       </div>

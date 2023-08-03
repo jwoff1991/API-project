@@ -224,12 +224,7 @@ return (
         <div className="update-form-spot-images">
           <h2>Liven up your spot with photos</h2>
           <p>Submit a link to at least one photo to publish your spot.</p>
-          <input
-            name="previewImage"
-            placeholder="Preview Image URL"
-            onChange={(e) => setPreviewImage(e.target.value)}
-          ></input>
-          <label className="create-form-errors">{errors.previewImage}</label>
+
           <input name="image1" placeholder="Image URL"></input>
           <input name="image2" placeholder="Image URL"></input>
           <input name="image3" placeholder="Image URL"></input>

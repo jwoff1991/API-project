@@ -12,6 +12,7 @@ export default function SpotReviews() {
   const spotId = useParams().spotId;
   const dispatch = useDispatch();
   const reviews = useSelector((state) => state.reviews.spot);
+  const ownerId = useSelector((state) => state.spots.singleSpot.ownerId)
   const currentUserId = useSelector((state) => state.session.user.id);
   const props = { spotId, currentUserId };
 
@@ -48,30 +49,31 @@ export default function SpotReviews() {
     postButtonDisabled = true;
   }
 
-  // {
-  //   reviewsList.map(({ review, User }) => (
-  //     <>
-  //       {User.Id === review.id && (
-  //         <button className="post-your-review-button">
-  //           <OpenModalMenuItem
-  //             itemText="Post Your Review"
-  //             modalComponent={<PostReviewModal props={props} />}
-  //           />
-  //         </button>
-  //       )}
-  //       {User.Id === review.id && null}
-  //     </>
-  //   ));
-  // }
+  {
+    reviewsList.map(({ review, User }) => (
+      <>
+        {User.Id === review.id && (
+          <button className="post-your-review-button">
+            <OpenModalMenuItem
+              itemText="Post Your Review"
+              modalComponent={<PostReviewModal props={props} />}
+            />
+          </button>
+        )}
+        {User.Id === review.id && null}
+      </>
+    ));
+  }
 
   return (
-    <div>
+    <div>{ownerId === currentUserId && (<></>)}{!(ownerId === currentUserId) && (<>
       <button className="post-your-review-button">
         <OpenModalMenuItem
           itemText="Post Your Review"
           modalComponent={<PostReviewModal props={props} />}
         />
       </button>
+    </>)}
       {reviewsList.map(({ id, review, User, createdAt, spotId }) => (
         <div key={id} className="spot-single-review-div">
           <div className="spot-single-review-firstname">{User.firstName}</div>

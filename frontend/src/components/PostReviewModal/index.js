@@ -15,6 +15,11 @@ function PostReviewModal(props) {
   const [review, setReview] = useState("");
   const [stars, setStars] = useState("");
 
+  let isDisabled = false
+  if(review.length < 10 || stars === ''){
+    isDisabled=true
+  }
+
   const submitReview = async (e) => {
     e.preventDefault();
 
@@ -44,23 +49,23 @@ function PostReviewModal(props) {
       ></textarea>
       <div className="review-stars-post-review-modal">
         <button onClick={(e) => setStars("1")}>
-          <i class="far fa-star one-star"></i>
+          <i className="far fa-star one-star"></i>
         </button>
         <button onClick={(e) => setStars("2")}>
-          <i class="far fa-star two-star"></i>
+          <i className="far fa-star two-star"></i>
         </button>
         <button onClick={(e) => setStars("3")}>
-          <i class="far fa-star three-star"></i>
+          <i className="far fa-star three-star"></i>
         </button>
         <button onClick={(e) => setStars("4")}>
-          <i class="far fa-star four-star"></i>
+          <i className="far fa-star four-star"></i>
         </button>
         <button onClick={(e) => setStars("5")}>
-          <i class="far fa-star five-star"></i>
+          <i className="far fa-star five-star"></i>
         </button>
         Stars
       </div>
-      <button onClick={submitReview}>Submit Your Review</button>
+      <button onClick={submitReview} disabled={isDisabled}>Submit Your Review</button>
     </>
   );
 }

@@ -25,9 +25,6 @@ export const getReviews = (spotId) => async (dispatch) => {
   if(response.ok) {
     dispatch(getSpotReviews(data));
     return response;
-  } else {
-    console.log(data)
-    return data.error
   }
 };
 
@@ -51,9 +48,9 @@ export const deleteReview = ({id, spotId}) => async (dispatch) => {
     method: 'DELETE'
   });
   if (response.ok) {
-    const Review = await response.json();
+    const review = await response.json();
     dispatch(getReviews(spotId))
-    return;
+    return review;
   }
 }
 

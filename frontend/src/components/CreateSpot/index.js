@@ -21,7 +21,7 @@ export default function CreateSpot() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  let isDisabled = false
+  let isDisabled = false;
   if(errors) {
     isDisabled = true
   }
@@ -30,34 +30,34 @@ export default function CreateSpot() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(address === '') {
+    if(!address) {
       errors.address = "Address is required"
     }
-    if(city === '') {
+    if(!city) {
       errors.city = "City is required"
     }
-    if(state === '') {
+    if(!state) {
       errors.state = "State is required"
     }
-    if(country === '') {
+    if(!country) {
       errors.country = "Country is required"
     }
-    if(lat === '') {
+    if(!lat) {
       errors.lat = "Lat is required"
     }
-    if(lng === '') {
+    if(!lng) {
       errors.lng = "Lng is required"
     }
-    if(name === '') {
+    if(!name) {
       errors.name = "Name is required"
     }
-    if(description === '') {
+    if(!description) {
       errors.description = "Description is required"
     }
-    if(price === '') {
+    if(!price) {
       errors.price = "Price is required"
     }
-    if(previewImage === '') {
+    if(!previewImage) {
       errors.previewImage = "At least one image is required"
     }
 
@@ -80,13 +80,11 @@ export default function CreateSpot() {
         const data = await res.json();
         if (data && data.errors) {
           setErrors(data.errors);
+        } else {
+          history.push(`/spots/${currentSpot.id}`);
+          reset();
         }
       });
-    }
-
-    if (currentSpot.id) {
-      history.push(`/spots/${currentSpot.id}`);
-      reset();
     }
   };
 
@@ -230,7 +228,7 @@ export default function CreateSpot() {
           <input name="image4" placeholder="Image URL"></input>
         </div>
         <div className="button-div">
-          <button className="create-form-submit-button" type="submit" disabled={isDisabled}>
+          <button className="create-form-submit-button" type="submit">
             Create Spot
           </button>
         </div>
