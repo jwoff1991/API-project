@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSpot } from "../../store/spots";
 import { useParams } from "react-router-dom";
 import SpotReviews from "../SpotReviews";
+import StarRatingAndReviewRender from "./StarRatingAndReviewsRender";
 import "./SpotDetails.css";
 
 export default function SpotDetails() {
@@ -10,25 +11,52 @@ export default function SpotDetails() {
   const dispatch = useDispatch();
   const singleSpot = useSelector((state) => state.spots.singleSpot);
 
-
   useEffect(() => {
     dispatch(getSpot(spotId));
   }, [dispatch, spotId]);
 
   if (!singleSpot.id) return null;
 
-
+  //dealing with spot images
   let spotImages = [];
   singleSpot.SpotImages.forEach((image) => {
     spotImages.push(image);
   });
 
-  let averageStartRating;
-  if(typeof singleSpot.avgStarRating === 'string') {
-    averageStartRating = 'New'
-  } else {
-    averageStartRating = singleSpot.avgStarRating.toFixed(2)
+  for (let i = 0; i <= 4; i++) {
+    spotImages.push({
+      url: "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
+    });
   }
+
+  let averageStartRating;
+  if (typeof singleSpot.avgStarRating === "undefined") {
+    averageStartRating = null;
+  } else if (typeof singleSpot.avgStarRating === "string") {
+    averageStartRating = "New";
+  } else {
+    averageStartRating = singleSpot.avgStarRating.toFixed(2);
+  }
+
+  let spotNumReviews = singleSpot.numReviews
+
+  //dealing with reviews rendering
+  let starRatingRender;
+  let numberReviewsRender
+  if (singleSpot.numReviews === 0) {
+    starRatingRender = `New`;
+    numberReviewsRender = null
+  } else if(singleSpot.numReviews === 1){
+    starRatingRender = averageStartRating;
+    numberReviewsRender = '1 Review'
+  } else {
+    starRatingRender = averageStartRating;
+    numberReviewsRender = `${singleSpot.numReviews} Reviews`
+  }
+
+
+
+  //need to add <span>&#183;</span> ${singleSpot.numReviews} reviews`
 
   return (
     <div className="single-spot-container">
@@ -41,32 +69,32 @@ export default function SpotDetails() {
       <div className="spot-images">
         <img
           className="spot-details-preview-image"
-          src={spotImages[0].url || "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3ANo_Image_Available.jpg&psig=AOvVaw3tv2v-rO2QZL4m5-gb3EY5&ust=1691075991019000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCPiMuI6jvoADFQAAAAAdAAAAABAE"}
-          alt="picture of house"
+          src={spotImages[0].url}
+          alt="the house for rent"
         />
 
         <img
           className="spot-details-image-one"
-          src={spotImages[1].url || "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3ANo_Image_Available.jpg&psig=AOvVaw3tv2v-rO2QZL4m5-gb3EY5&ust=1691075991019000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCPiMuI6jvoADFQAAAAAdAAAAABAE"}
-          alt="picture of house"
+          src={spotImages[1].url}
+          alt="the house for rent"
         />
 
         <img
           className="spot-details-image-two"
-          src={spotImages[2].url || "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3ANo_Image_Available.jpg&psig=AOvVaw3tv2v-rO2QZL4m5-gb3EY5&ust=1691075991019000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCPiMuI6jvoADFQAAAAAdAAAAABAE"}
-          alt="picture of house"
+          src={spotImages[2].url}
+          alt="the house for rent"
         />
 
         <img
           className="spot-details-image-three"
-          src={spotImages[3].url || "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3ANo_Image_Available.jpg&psig=AOvVaw3tv2v-rO2QZL4m5-gb3EY5&ust=1691075991019000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCPiMuI6jvoADFQAAAAAdAAAAABAE"}
-          alt="picture of house"
+          src={spotImages[3].url}
+          alt="the house for rent"
         />
 
         <img
           className="spot-details-image-four"
-          src={spotImages[4].url || "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3ANo_Image_Available.jpg&psig=AOvVaw3tv2v-rO2QZL4m5-gb3EY5&ust=1691075991019000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCPiMuI6jvoADFQAAAAAdAAAAABAE"}
-          alt="picture of house"
+          src={spotImages[4].url}
+          alt="the house for rent"
         />
       </div>
 
@@ -77,9 +105,7 @@ export default function SpotDetails() {
         <div className="description">{singleSpot.description}</div>
         <div className="reserve-box">
           <div className="price-per-night">{singleSpot.price} night</div>
-          <div className="star-rating-num-reviews">
-            {averageStartRating} <span>&#183;</span> {singleSpot.numReviews} reviews
-          </div>
+          <div className="star-rating-num-reviews"><i class="fas fa-star"></i> {starRatingRender} {numberReviewsRender}</div>
           <div className="reserve-button-div">
             <button className="reserve-button">Reserve</button>
           </div>
@@ -87,9 +113,11 @@ export default function SpotDetails() {
       </div>
       <div className="reviews">
         <div className="star-rating-num-reviews-over-reviews">
-          {averageStartRating} <span>&#183;</span> {singleSpot.numReviews} reviews
+        <i class="fas fa-star"></i> {starRatingRender} {numberReviewsRender}
         </div>
-        <div className="reviews-container"><SpotReviews /></div>
+        <div className="reviews-container">
+          <SpotReviews />
+        </div>
       </div>
     </div>
   );

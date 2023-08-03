@@ -5,7 +5,7 @@ const ADD_SPOT = "spots/addSpot";
 const GET_SPOT = "spots/getSpot";
 const DISPLAY_USER_SPOTS = "spots/currentUserSpots";
 const EDIT_SPOT = "spots/editSpot"
-const DELETE_SPOT = "spots/delete"
+
 
 //get spots action creator
 const getAllSpots = (spots) => {
@@ -21,6 +21,7 @@ export const addSpot = (spot) => {
     spot,
   };
 };
+
 //get spot action creator
 export const getSingleSpot = (spot) => {
   return {
@@ -60,15 +61,47 @@ export const getSpots = () => async (dispatch) => {
 
 //create spot thunk creator
 export const writeSpot = (payload) => async (dispatch) => {
+  let {
+    address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price,
+    previewImage,
+  } = payload;
+
+  const spot = {
+    address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price,
+  };
+  const spotPreviewImage = {'url': previewImage, 'preview': true}
   const response = await csrfFetch("/api/spots", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(spot),
   });
   if (response.ok) {
     const spot = await response.json();
-    dispatch(addSpot(spot));
-    return spot;
+    await csrfFetch(`/api/spots/${spot.id}/images`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(spotPreviewImage),
+    })
+    if (response.ok) {
+      dispatch(addSpot(spot));
+      return spot;
+    }
   }
 };
 
@@ -147,7 +180,6 @@ const spotReducer = (state = initialState, action) => {
       return newState;
     case DISPLAY_USER_SPOTS:
       newState = Object.assign({}, state);
-      console.log(newState)
       let newObject = {}
       action.spots.forEach(spot => {
         newObject[spot.id] = spot

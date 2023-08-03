@@ -1,0 +1,20 @@
+.review-stars-post-review-modal .one-star:hover {
+    /* <i class="fas fa-star"></i> */
+}
+
+.review-stars-post-review-modal .two-star:hover {
+    /* <i class="fas fa-star"></i> */
+}
+.review-stars-post-review-modal .three-star:hover {
+    /* <i class="fas fa-star"></i> */
+}
+.review-stars-post-review-modal .four-star:hover {
+    /* <i class="fas fa-star"></i> */
+}
+.review-stars-post-review-modal .five-star:hover {
+    /* class="fas fa-star" */
+}
+
+.review-stars-post-review-modal i {
+    padding-right: 2px
+}

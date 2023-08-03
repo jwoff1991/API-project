@@ -15,6 +15,8 @@ export default function CreateSpot() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
+  const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -30,25 +32,37 @@ export default function CreateSpot() {
       lng,
       name,
       description,
-      price
+      price,
+      previewImage,
     };
 
-    const createdSpot = await dispatch(writeSpot(newSpot));
-    reset();
-    history.push(`/spots/${createdSpot.id}`);
+    const currentSpot = await dispatch(writeSpot(newSpot)).catch(
+      async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      }
+    );
+
+    if (currentSpot.id) {
+      history.push(`/spots/${currentSpot.id}`);
+      reset();
+    }
   };
 
   const reset = () => {
-    setAddress('')
-    setCity('')
-    setState('')
-    setCountry('')
-    setLat('')
-    setLng('')
-    setName('')
-    setDescription('')
-    setPrice('')
-  }
+    setAddress("");
+    setCity("");
+    setState("");
+    setCountry("");
+    setLat("");
+    setLng("");
+    setName("");
+    setDescription("");
+    setPrice("");
+    setPreviewImage("");
+  };
 
   return (
     <div className="create-form-inputBox">
@@ -63,6 +77,7 @@ export default function CreateSpot() {
         </div>
         <div className="create-form-spot-address">
           <label>Country</label>
+          <label className="create-form-errors">{errors.country}</label>
           <input
             value={country}
             onChange={(e) => setCountry(e.target.value)}
@@ -70,6 +85,7 @@ export default function CreateSpot() {
             placeholder="country"
           ></input>
           <label>Street Address</label>
+          <label className="create-form-errors">{errors.address}</label>
           <input
             type="text"
             onChange={(e) => setAddress(e.target.value)}
@@ -79,14 +95,16 @@ export default function CreateSpot() {
           />
           <div className="city-state-create-form">
             <label>City</label>
+            <label className="create-form-errors">{errors.city}</label>
             <input
               type="text"
               onChange={(e) => setCity(e.target.value)}
               value={city}
               placeholder="City"
               name="city"
-            />,
-            <label> State</label>
+            />
+            ,<label> State</label>
+            <label className="create-form-errors">{errors.state}</label>
             <input
               value={state}
               onChange={(e) => setState(e.target.value)}
@@ -96,6 +114,7 @@ export default function CreateSpot() {
           </div>
           <div className="lat-long-create-form">
             <label>Latitude</label>
+            <label className="create-form-errors">{errors.lat}</label>
             <input
               value={lat}
               onChange={(e) => setLat(e.target.value)}
@@ -103,6 +122,7 @@ export default function CreateSpot() {
               placeholder="lat"
             ></input>
             ,<label> Longitude</label>
+            <label className="create-form-errors">{errors.lng}</label>
             <input
               value={lng}
               onChange={(e) => setLng(e.target.value)}
@@ -123,6 +143,7 @@ export default function CreateSpot() {
             name="description"
             placeholder="Please write at least 30 characters"
           ></textarea>
+          <label className="create-form-errors">{errors.description}</label>
         </div>
         <div className="create-form-spot-name">
           <h2>Create a title for your spot</h2>
@@ -131,12 +152,13 @@ export default function CreateSpot() {
             your place special.
           </p>
           <input
-          className="create-spot-name-field"
+            className="create-spot-name-field"
             value={name}
             onChange={(e) => setName(e.target.value)}
             name="name"
             placeholder="Name of your spot"
           ></input>
+          <label className="create-form-errors">{errors.name}</label>
         </div>
         <div className="create-form-spot-price">
           <h2>Set a base price for your spot</h2>
@@ -146,25 +168,31 @@ export default function CreateSpot() {
           </p>
           <label>$</label>
           <input
-          className="create-spot-price-field"
+            className="create-spot-price-field"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             name="price"
             placeholder="Price per night (USD)"
           ></input>
+          <label className="create-form-errors">{errors.price}</label>
         </div>
         <div className="create-form-spot-images">
           <h2>Liven up your spot with photos</h2>
           <p>Submit a link to at least one photo to publish your spot.</p>
-          <input name="previewImage" placeholder="Preview Image URL"></input>
+          <input
+            name="previewImage"
+            placeholder="Preview Image URL"
+            onChange={(e) => setPreviewImage(e.target.value)}
+          ></input>
           <input name="image1" placeholder="Image URL"></input>
           <input name="image2" placeholder="Image URL"></input>
           <input name="image3" placeholder="Image URL"></input>
           <input name="image4" placeholder="Image URL"></input>
         </div>
         <div className="button-div">
-
-        <button className='create-form-submit-button' type="submit">Create Spot</button>
+          <button className="create-form-submit-button" type="submit">
+            Create Spot
+          </button>
         </div>
       </form>
     </div>

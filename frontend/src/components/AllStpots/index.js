@@ -11,12 +11,18 @@ export default function AllSpots() {
 
   const spotsList = Object.values(spots);
 
+  spotsList.map(spot => {
+    if(typeof spot.avgRating === 'string') {
+      spot.avgRating = 'New'
+    }
+  })
 
   const allSpots = spotsList.map(({ id, previewImage, city, state, price, avgRating }) => (
+
     <div key={id}>
       <div className="single-spot">
         <Link to={`/spots/${id}`}>
-          <div className="single-spot-image-div"><img src={previewImage} alt="picture of house" /></div>
+          <div className="single-spot-image-div"><img src={previewImage || "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"} alt="house you may want to rent" /></div>
           <div className="single-spot-city-state-price">
             <div className="single-spot-city-state">
               {city}, {state}

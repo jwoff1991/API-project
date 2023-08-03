@@ -1,52 +1,75 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSpots } from "../../store/spots";
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getReviews } from "../../store/reviews";
-import './SpotReviews.css'
+import "./SpotReviews.css";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import PostReviewModal from "../PostReviewModal";
 
+export default function SpotReviews() {
+  const spotId = useParams().spotId;
+  const dispatch = useDispatch();
+  const reviews = useSelector((state) => state.reviews.spot);
+  const currentUserId = useSelector((state) => state.session.user.id);
+  const props = { spotId, currentUserId };
 
-export default function SpotReviews () {
-    const spotId = useParams().spotId
-    const dispatch = useDispatch();
-    const reviews = useSelector((state) => state.reviews.spot);
-    const props = {spotId}
-    const currentUserId = useSelector((state) => state.session.user.id)
+  let reviewsList = Object.values(reviews);
 
-    useEffect(() => {
-        dispatch(getReviews(spotId));
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(getReviews(spotId));
+  }, [dispatch, spotId]);
 
-    if(!reviews.length) return null
-
-
-    let buttonDisabled = false
-    const alreadyReviewed = reviews.map(({userId}) => userId === currentUserId)
-    if(!alreadyReviewed.filter((review) => review === true)) {
-        buttonDisabled = true
-    }
-
+  if (!reviewsList.length) {
     return (
-        <div>
-            <button className='post-your-review-button' disabled={buttonDisabled}>
-            <OpenModalMenuItem
+      <>
+        <button className="post-your-review-button">
+          <OpenModalMenuItem
             itemText="Post Your Review"
-            modalComponent={<PostReviewModal props={props} />} />
-            </button>
-            {reviews.map(({id, review,  User, createdAt}) => (
+            modalComponent={<PostReviewModal props={props} />}
+          />
+        </button>
+        <div>Be the first to post a review!</div>
+      </>
+    );
+  }
 
-                <div className="spot-single-review-div">
-                    <div key={id} className="spot-single-review-firstname">{User.firstName}</div>
-                    <div className="spot-single-review-created-date">{createdAt}</div>
-                    <div className="spot-single-review">{review}</div>
-                    <button className="review-update-button">Update</button>
-                    <button className="review-delete-button">Delete</button>
+  let postButtonDisabled = false;
+  let updateDeleteButtons;
+  const currentUserReviewed = reviewsList.map(
+    ({ userId }) => userId === currentUserId
+  );
+  if (!currentUserReviewed.filter((review) => review === true)) {
+    postButtonDisabled = true;
+    updateDeleteButtons = (
+      <>
+        <button className="review-update-button">Update</button>
+        <button className="review-delete-button">Delete</button>
+      </>
+    );
+  } else {
+    updateDeleteButtons = null;
+  }
 
-                </div>
-            ))}
+
+  return (
+    <div>
+      <button className="post-your-review-button" disabled={postButtonDisabled}>
+        <OpenModalMenuItem
+          itemText="Post Your Review"
+          modalComponent={<PostReviewModal props={props} />}
+        />
+      </button>
+      {reviewsList.map(({ id, review, User, createdAt }) => (
+        <div className="spot-single-review-div">
+          <div key={id} className="spot-single-review-firstname">
+            {User.firstName}
+          </div>
+          <div className="spot-single-review-created-date">{createdAt}</div>
+          <div className="spot-single-review">{review}</div>
+          {updateDeleteButtons}
         </div>
-    )
+      ))}
+    </div>
+  );
 }
