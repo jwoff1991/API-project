@@ -21,8 +21,46 @@ export default function CreateSpot() {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  let isDisabled = false
+  if(errors) {
+    isDisabled = true
+  }
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(address === '') {
+      errors.address = "Address is required"
+    }
+    if(city === '') {
+      errors.city = "City is required"
+    }
+    if(state === '') {
+      errors.state = "State is required"
+    }
+    if(country === '') {
+      errors.country = "Country is required"
+    }
+    if(lat === '') {
+      errors.lat = "Lat is required"
+    }
+    if(lng === '') {
+      errors.lng = "Lng is required"
+    }
+    if(name === '') {
+      errors.name = "Name is required"
+    }
+    if(description === '') {
+      errors.description = "Description is required"
+    }
+    if(price === '') {
+      errors.price = "Price is required"
+    }
+    if(previewImage === '') {
+      errors.previewImage = "At least one image is required"
+    }
+
     const newSpot = {
       address,
       city,
@@ -36,14 +74,15 @@ export default function CreateSpot() {
       previewImage,
     };
 
-    const currentSpot = await dispatch(writeSpot(newSpot)).catch(
-      async (res) => {
+    let currentSpot;
+    if (!errors) {
+      currentSpot = await dispatch(writeSpot(newSpot)).catch(async (res) => {
         const data = await res.json();
         if (data && data.errors) {
           setErrors(data.errors);
         }
-      }
-    );
+      });
+    }
 
     if (currentSpot.id) {
       history.push(`/spots/${currentSpot.id}`);
@@ -184,13 +223,14 @@ export default function CreateSpot() {
             placeholder="Preview Image URL"
             onChange={(e) => setPreviewImage(e.target.value)}
           ></input>
+          <label className="create-form-errors">{errors.previewImage}</label>
           <input name="image1" placeholder="Image URL"></input>
           <input name="image2" placeholder="Image URL"></input>
           <input name="image3" placeholder="Image URL"></input>
           <input name="image4" placeholder="Image URL"></input>
         </div>
         <div className="button-div">
-          <button className="create-form-submit-button" type="submit">
+          <button className="create-form-submit-button" type="submit" disabled={isDisabled}>
             Create Spot
           </button>
         </div>

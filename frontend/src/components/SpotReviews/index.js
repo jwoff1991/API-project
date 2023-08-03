@@ -6,6 +6,7 @@ import { getReviews } from "../../store/reviews";
 import "./SpotReviews.css";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import PostReviewModal from "../PostReviewModal";
+import DeleteReviewModal from "../DeleteReviewModal";
 
 export default function SpotReviews() {
   const spotId = useParams().spotId;
@@ -14,11 +15,15 @@ export default function SpotReviews() {
   const currentUserId = useSelector((state) => state.session.user.id);
   const props = { spotId, currentUserId };
 
-  let reviewsList = Object.values(reviews);
+
 
   useEffect(() => {
     dispatch(getReviews(spotId));
   }, [dispatch, spotId]);
+
+
+  const reviewsList = Object.values(reviews);
+
 
   if (!reviewsList.length) {
     return (
@@ -35,39 +40,55 @@ export default function SpotReviews() {
   }
 
   let postButtonDisabled = false;
-  let updateDeleteButtons;
+
   const currentUserReviewed = reviewsList.map(
     ({ userId }) => userId === currentUserId
   );
-  if (!currentUserReviewed.filter((review) => review === true)) {
+  if (currentUserReviewed.filter((review) => review === true)) {
     postButtonDisabled = true;
-    updateDeleteButtons = (
-      <>
-        <button className="review-update-button">Update</button>
-        <button className="review-delete-button">Delete</button>
-      </>
-    );
-  } else {
-    updateDeleteButtons = null;
   }
 
+  // {
+  //   reviewsList.map(({ review, User }) => (
+  //     <>
+  //       {User.Id === review.id && (
+  //         <button className="post-your-review-button">
+  //           <OpenModalMenuItem
+  //             itemText="Post Your Review"
+  //             modalComponent={<PostReviewModal props={props} />}
+  //           />
+  //         </button>
+  //       )}
+  //       {User.Id === review.id && null}
+  //     </>
+  //   ));
+  // }
 
   return (
     <div>
-      <button className="post-your-review-button" disabled={postButtonDisabled}>
+      <button className="post-your-review-button">
         <OpenModalMenuItem
           itemText="Post Your Review"
           modalComponent={<PostReviewModal props={props} />}
         />
       </button>
-      {reviewsList.map(({ id, review, User, createdAt }) => (
-        <div className="spot-single-review-div">
-          <div key={id} className="spot-single-review-firstname">
-            {User.firstName}
-          </div>
+      {reviewsList.map(({ id, review, User, createdAt, spotId }) => (
+        <div key={id} className="spot-single-review-div">
+          <div className="spot-single-review-firstname">{User.firstName}</div>
           <div className="spot-single-review-created-date">{createdAt}</div>
           <div className="spot-single-review">{review}</div>
-          {updateDeleteButtons}
+          {User.id === currentUserId && (
+            <>
+              <button className="review-update-button">Update</button>
+              <button className="review-delete-button">
+                {" "}
+                <OpenModalMenuItem
+                  itemText="Delete"
+                  modalComponent={<DeleteReviewModal props={{id, spotId}} />}
+                />
+              </button>
+            </>
+          )}
         </div>
       ))}
     </div>

@@ -440,7 +440,7 @@ router.get('/:spotId/reviews', async (req, res) => {
     res.status(200)
     return res.json({"Reviews": spotReviews});
   } else {
-    res.status(404);
+    res.status(399);
     return res.json({ message: "This spot has no reviews" });
 
   }

@@ -25,23 +25,37 @@ export const getReviews = (spotId) => async (dispatch) => {
   if(response.ok) {
     dispatch(getSpotReviews(data));
     return response;
+  } else {
+    console.log(data)
+    return data.error
   }
 };
 
 export const postReview = (spotId, payload) => async (dispatch) => {
-  console.log(payload)
-  const response = await csrfFetch(`api/spots/${spotId}/reviews`, {
+  const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
   if (response.ok) {
     const review = await response.json();
-    console.log('we hitting this')
-    dispatch(addReview(review));
+    dispatch(getReviews(spotId));
     return review;
   }
 };
+
+//delete Review thunk action creator
+export const deleteReview = ({id, spotId}) => async (dispatch) => {
+  console.log(id)
+  const response = await csrfFetch(`/api/reviews/${id}`, {
+    method: 'DELETE'
+  });
+  if (response.ok) {
+    const Review = await response.json();
+    dispatch(getReviews(spotId))
+    return;
+  }
+}
 
 const initalState = {
   spot: {},
@@ -61,7 +75,7 @@ const reviewsReducer = (state = initalState, action) => {
       return newState;
     case POST_REVIEW:
       newState = Object.assign({}, state);
-      newState.spot = action.reviews;
+      newState.spot = action.review;
       return newState;
     default:
       return state;

@@ -14,6 +14,8 @@ export default function AllSpots() {
   spotsList.map(spot => {
     if(typeof spot.avgRating === 'string') {
       spot.avgRating = 'New'
+    } else {
+
     }
   })
 

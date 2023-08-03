@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSpot } from "../../store/spots";
 import { useParams } from "react-router-dom";
 import SpotReviews from "../SpotReviews";
-import StarRatingAndReviewRender from "./StarRatingAndReviewsRender";
 import "./SpotDetails.css";
 
 export default function SpotDetails() {
@@ -38,25 +37,6 @@ export default function SpotDetails() {
     averageStartRating = singleSpot.avgStarRating.toFixed(2);
   }
 
-  let spotNumReviews = singleSpot.numReviews
-
-  //dealing with reviews rendering
-  let starRatingRender;
-  let numberReviewsRender
-  if (singleSpot.numReviews === 0) {
-    starRatingRender = `New`;
-    numberReviewsRender = null
-  } else if(singleSpot.numReviews === 1){
-    starRatingRender = averageStartRating;
-    numberReviewsRender = '1 Review'
-  } else {
-    starRatingRender = averageStartRating;
-    numberReviewsRender = `${singleSpot.numReviews} Reviews`
-  }
-
-
-
-  //need to add <span>&#183;</span> ${singleSpot.numReviews} reviews`
 
   return (
     <div className="single-spot-container">
@@ -105,7 +85,25 @@ export default function SpotDetails() {
         <div className="description">{singleSpot.description}</div>
         <div className="reserve-box">
           <div className="price-per-night">{singleSpot.price} night</div>
-          <div className="star-rating-num-reviews"><i class="fas fa-star"></i> {starRatingRender} {numberReviewsRender}</div>
+          <div className="star-rating-num-reviews">
+          {singleSpot.numReviews === 0 || !singleSpot.numReviews && (
+            <div>
+              <i className="fas fa-star"></i> New
+            </div>
+          )}{" "}
+          {singleSpot.numReviews === 1 && (
+            <div>
+              <i className="fas fa-star"></i> {averageStartRating}{" "}
+              <span>&#183;</span> 1 Review
+            </div>
+          )}{" "}
+          {singleSpot.numReviews > 1 && (
+            <div>
+              <i className="fas fa-star"></i> {averageStartRating}{" "}
+              <span>&#183;</span> {singleSpot.numReviews} Reviews{" "}
+            </div>
+          )}
+          </div>
           <div className="reserve-button-div">
             <button className="reserve-button">Reserve</button>
           </div>
@@ -113,7 +111,23 @@ export default function SpotDetails() {
       </div>
       <div className="reviews">
         <div className="star-rating-num-reviews-over-reviews">
-        <i class="fas fa-star"></i> {starRatingRender} {numberReviewsRender}
+          {singleSpot.numReviews === 0 || !singleSpot.numReviews && (
+            <div>
+              <i className="fas fa-star"></i> New
+            </div>
+          )}{" "}
+          {singleSpot.numReviews === 1 && (
+            <div>
+              <i className="fas fa-star"></i> {averageStartRating}{" "}
+              <span>&#183;</span> 1 Review
+            </div>
+          )}{" "}
+          {singleSpot.numReviews > 1 && (
+            <div>
+              <i className="fas fa-star"></i> {averageStartRating}{" "}
+              <span>&#183;</span> {singleSpot.numReviews} Reviews{" "}
+            </div>
+          )}
         </div>
         <div className="reviews-container">
           <SpotReviews />
@@ -122,3 +136,6 @@ export default function SpotDetails() {
     </div>
   );
 }
+
+
+//{review && (<div></div>)}  {!review && (<div></div>)} }
