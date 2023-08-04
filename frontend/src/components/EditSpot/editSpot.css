@@ -29,6 +29,11 @@
 .update-form-spot-address {
     border-bottom: solid black 2px;
     padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.edit-form-cit-state-lat-lng {
+    width: 44%
 }
 
 .update-form-description-textarea {

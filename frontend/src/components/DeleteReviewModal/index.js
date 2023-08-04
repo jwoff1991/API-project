@@ -5,12 +5,12 @@ import './DeleteReviewModal.css'
 
 
 function DeleteReviewModal(props) {
-    const id = props.props
+    const { id, spotId } = props.props
     const { closeModal } = useModal();
     const dispatch = useDispatch()
 
     const handleDelete = async (e) => {
-        dispatch(deleteReview(id));
+        dispatch(deleteReview(id, spotId));
         closeModal()
     }
 

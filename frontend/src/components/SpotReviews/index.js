@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -12,77 +12,63 @@ export default function SpotReviews() {
   const spotId = useParams().spotId;
   const dispatch = useDispatch();
   const reviews = useSelector((state) => state.reviews.spot);
-  const ownerId = useSelector((state) => state.spots.singleSpot.ownerId)
+  const ownerId = useSelector((state) => state.spots.singleSpot.ownerId);
   const currentUser = useSelector((state) => state.session.user);
 
 
 
   let currentUserId;
-  if(currentUser &&  currentUser.id){
-    currentUserId= currentUser.id;
+  if (currentUser && currentUser.id) {
+    currentUserId = currentUser.id;
   }
   const props = { spotId, currentUserId };
-
-
 
   useEffect(() => {
     dispatch(getReviews(spotId));
   }, [dispatch, spotId]);
 
   const reviewsList = Object.values(reviews);
+  const hasAReview = reviewsList.find((review) => {
+    return review.userId === currentUserId;
+  });
+  const isOwner = (ownerId === currentUserId);
+
 
   if (!reviewsList.length) {
     return (
       <>
-        <button className="post-your-review-button">
-          <OpenModalMenuItem
-            itemText="Post Your Review"
-            modalComponent={<PostReviewModal props={props} />}
-          />
-        </button>
-        <div>Be the first to post a review!</div>
+        {currentUser && isOwner &&<></>}
+        {currentUser && currentUserId  && !isOwner && (
+          <>
+            <button className="post-your-review-button">
+              <OpenModalMenuItem
+                itemText="Post Your Review"
+                modalComponent={<PostReviewModal props={props} />}
+              />
+            </button>
+            <div>Be the first to post a review!</div>
+          </>
+        )}
       </>
     );
   }
 
-  let postButtonDisabled = false;
-  let userReviewIds = [];
-  let canNotReviewAgain = false;
-
-  if (currentUser && !typeof currentUserId === 'null') {
-    const currentUserReviewed = reviewsList.map(
-      ({ userId }) => userId === currentUserId
-    );
-    if (currentUserReviewed.filter((review) => review === true)) {
-      postButtonDisabled = true;
-    }
-
-    reviewsList.map(({ User }) => userReviewIds.push(User.id));
-
-    if (userReviewIds.includes(currentUserId)) {
-      canNotReviewAgain = true;
-    }
-  }
-
-
   return (
     <div>
       <div className="div-post-your-review-button">
-        {currentUser && !typeof currentUserId === 'null' && ownerId === currentUserId && <></>}
-        {currentUser && !typeof currentUserId === 'null' && canNotReviewAgain && <></>}
         {currentUser &&
-          !currentUserId === 'null' &&
-          !(ownerId === currentUserId) &&
-          !canNotReviewAgain && (
-            <>
-              <button className="post-your-review-button">
-                <OpenModalMenuItem
-                  itemText="Post Your Review"
-                  modalComponent={<PostReviewModal props={props} />}
-                />
-              </button>
-            </>
-          )}
+          typeof currentUserId === "null" &&
+          isOwner && <></>}
+        {currentUser && hasAReview === undefined && (
+          <>
+            <button className="post-your-review-button">
+              <OpenModalMenuItem
+                itemText="Post Your Review"
+                modalComponent={<PostReviewModal props={props} />}
+              />
+            </button>
+          </>
+        )}
       </div>
       <div className="reviews-div-holder">
         {reviewsList.map(({ id, review, User, createdAt, spotId }) => (
@@ -90,7 +76,7 @@ export default function SpotReviews() {
             <div className="spot-single-review-firstname">{User.firstName}</div>
             <div className="spot-single-review-created-date">{createdAt}</div>
             <div className="spot-single-review">{review}</div>
-            {currentUser && !typeof currentUserId === 'null' && User.id === currentUserId && (
+            {User.id === currentUserId && (
               <>
                 <button className="review-update-button">Update</button>
                 <button className="review-delete-button">

@@ -98,10 +98,10 @@ export const writeSpot = (payload) => async (dispatch) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(spotPreviewImage),
     })
-    if (response.ok) {
-      dispatch(addSpot(spot));
-      return spot;
-    }
+  if (response.ok) {
+    dispatch(addSpot(spot));
+    return spot;
+  }
   }
 };
 

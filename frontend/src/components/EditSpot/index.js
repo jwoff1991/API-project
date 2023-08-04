@@ -31,10 +31,7 @@ export default function EditSpot() {
   const [previewImage, setPreviewImage] = useState("");
   const [errors, setErrors] = useState({});
 
-  let isDisabled = false
-  if(errors) {
-    isDisabled = true
-  }
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,9 +64,7 @@ export default function EditSpot() {
     if(price === '') {
       errors.price = "Price is required"
     }
-    if(previewImage === '') {
-      errors.previewImage = "At least one image is required"
-    }
+
 
 
 
@@ -121,15 +116,15 @@ return (
           </p>
         </div>
         <div className="update-form-spot-address">
-          <label>Country</label>
+          <label></label>
           <label className="create-form-errors">{errors.country}</label>
           <input
             value={country}
             onChange={(e) => setCountry(e.target.value)}
             name="country"
-            placeholder="country"
+            placeholder="Country"
           ></input>
-          <label>Street Address</label>
+          <label></label>
           <label className="create-form-errors">{errors.address}</label>
           <input
             type="text"
@@ -139,40 +134,44 @@ return (
             name="address"
           />
           <div className="city-state-update-form">
-            <label>City</label>
+            <label></label>
             <label className="create-form-errors">{errors.city}</label>
             <input
               type="text"
               onChange={(e) => setCity(e.target.value)}
               value={city}
               placeholder="City"
+              className="edit-form-cit-state-lat-lng"
               name="city"
             />,
-            <label> State</label>
+            <label></label>
             <label className="create-form-errors">{errors.state}</label>
             <input
               value={state}
               onChange={(e) => setState(e.target.value)}
               name="state"
               placeholder="State"
+              className="edit-form-cit-state-lat-lng"
             ></input>
           </div>
           <div className="lat-long-update-form">
-            <label>Latitude</label>
+            <label></label>
             <label className="create-form-errors">{errors.lat}</label>
             <input
               value={lat}
               onChange={(e) => setLat(e.target.value)}
               name="lat"
               placeholder="lat"
+              className="edit-form-cit-state-lat-lng"
             ></input>
-            ,<label> Longitude</label>
+            ,<label></label>
             <label className="create-form-errors">{errors.lng}</label>
             <input
               value={lng}
               onChange={(e) => setLng(e.target.value)}
               name="lng"
               placeholder="lng"
+              className="edit-form-cit-state-lat-lng"
             ></input>
           </div>
         </div>
@@ -231,7 +230,7 @@ return (
           <input name="image4" placeholder="Image URL"></input>
         </div>
         <div className="button-div">
-        <button className='update-form-submit-button' type="submit" disabled={isDisabled}>Create Spot</button>
+        <button className='update-form-submit-button' type="submit" >Create Spot</button>
 
         </div>
       </form>

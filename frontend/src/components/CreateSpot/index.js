@@ -21,44 +21,38 @@ export default function CreateSpot() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  let isDisabled = false;
-  if(errors) {
-    isDisabled = true
-  }
+
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(!address) {
-      errors.address = "Address is required"
+    if (!address) {
+      errors.address = "Address is required";
     }
-    if(!city) {
-      errors.city = "City is required"
+    if (!city) {
+      errors.city = "City is required";
     }
-    if(!state) {
-      errors.state = "State is required"
+    if (!state) {
+      errors.state = "State is required";
     }
-    if(!country) {
-      errors.country = "Country is required"
+    if (!country) {
+      errors.country = "Country is required";
     }
-    if(!lat) {
-      errors.lat = "Lat is required"
+    if (!lat) {
+      errors.lat = "Lat is required";
     }
-    if(!lng) {
-      errors.lng = "Lng is required"
+    if (!lng) {
+      errors.lng = "Lng is required";
     }
-    if(!name) {
-      errors.name = "Name is required"
+    if (!name) {
+      errors.name = "Name is required";
     }
-    if(!description) {
-      errors.description = "Description is required"
+    if (!description) {
+      errors.description = "Description is required";
     }
-    if(!price) {
-      errors.price = "Price is required"
-    }
-    if(!previewImage) {
-      errors.previewImage = "At least one image is required"
+    if (!price) {
+      errors.price = "Price is required";
     }
 
     const newSpot = {
@@ -71,21 +65,23 @@ export default function CreateSpot() {
       name,
       description,
       price,
-      previewImage,
+      previewImage: {
+        url: previewImage,
+        preview: true,
+      },
     };
 
     let currentSpot;
-    if (!errors) {
-      currentSpot = await dispatch(writeSpot(newSpot)).catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
-        } else {
-          history.push(`/spots/${currentSpot.id}`);
-          reset();
-        }
-      });
-    }
+
+    currentSpot = await dispatch(writeSpot(newSpot)).catch(async (res) => {
+      const data = await res.json();
+      if (data && data.errors) {
+        setErrors(data.errors);
+      }
+    });
+
+    history.push(`/spots/${currentSpot.id}`);
+    reset();
   };
 
   const reset = () => {
@@ -113,15 +109,16 @@ export default function CreateSpot() {
           </p>
         </div>
         <div className="create-form-spot-address">
-          <label>Country</label>
+          <label></label>
           <label className="create-form-errors">{errors.country}</label>
           <input
             value={country}
             onChange={(e) => setCountry(e.target.value)}
             name="country"
-            placeholder="country"
+            placeholder="Country"
+            className="create-form-country-address"
           ></input>
-          <label>Street Address</label>
+          <label></label>
           <label className="create-form-errors">{errors.address}</label>
           <input
             type="text"
@@ -129,9 +126,10 @@ export default function CreateSpot() {
             value={address}
             placeholder="Address"
             name="address"
+            className="create-form-country-address"
           />
           <div className="city-state-create-form">
-            <label>City</label>
+            <label></label>
             <label className="create-form-errors">{errors.city}</label>
             <input
               type="text"
@@ -139,32 +137,36 @@ export default function CreateSpot() {
               value={city}
               placeholder="City"
               name="city"
+              className="create-form-cit-state-lat-lng"
             />
-            ,<label> State</label>
+            ,<label> </label>
             <label className="create-form-errors">{errors.state}</label>
             <input
               value={state}
               onChange={(e) => setState(e.target.value)}
               name="state"
               placeholder="State"
+              className="create-form-cit-state-lat-lng"
             ></input>
           </div>
           <div className="lat-long-create-form">
-            <label>Latitude</label>
+            <label></label>
             <label className="create-form-errors">{errors.lat}</label>
             <input
               value={lat}
               onChange={(e) => setLat(e.target.value)}
               name="lat"
-              placeholder="lat"
+              placeholder="Latitude"
+              className="create-form-cit-state-lat-lng"
             ></input>
-            ,<label> Longitude</label>
+            ,<label></label>
             <label className="create-form-errors">{errors.lng}</label>
             <input
               value={lng}
               onChange={(e) => setLng(e.target.value)}
               name="lng"
-              placeholder="lng"
+              placeholder="Longitude"
+              className="create-form-cit-state-lat-lng"
             ></input>
           </div>
         </div>

@@ -28,6 +28,12 @@
 .create-form-spot-address {
     border-bottom: solid black 2px;
     padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.create-form-cit-state-lat-lng {
+    width: 44%;
 }
 
 .create-form-description-textarea {
@@ -81,3 +87,5 @@
 .create-form-errors {
     color: red
 }
+
+

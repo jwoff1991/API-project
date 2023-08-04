@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf";
+import { getSpot } from "./spots";
 
 const GET_REVIEWS = "reviews/getReviews";
 const POST_REVIEW = "reviews/new";
@@ -25,6 +26,8 @@ export const getReviews = (spotId) => async (dispatch) => {
   if(response.ok) {
     dispatch(getSpotReviews(data));
     return response;
+  } else if(!response.ok && data.message) {
+    dispatch(getSpotReviews({Reviews: []}))
   }
 };
 
@@ -37,19 +40,20 @@ export const postReview = (spotId, payload) => async (dispatch) => {
   if (response.ok) {
     const review = await response.json();
     dispatch(getReviews(spotId));
+    dispatch(getSpot(spotId))
     return review;
   }
 };
 
 //delete Review thunk action creator
-export const deleteReview = ({id, spotId}) => async (dispatch) => {
-  console.log(id)
+export const deleteReview = (id, spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/reviews/${id}`, {
     method: 'DELETE'
   });
   if (response.ok) {
     const review = await response.json();
-    dispatch(getReviews(spotId))
+    const waiting = await dispatch(getReviews(spotId))
+    const stillWaiting = await dispatch(getSpot(spotId))
     return review;
   }
 }

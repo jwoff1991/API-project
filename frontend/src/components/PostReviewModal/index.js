@@ -14,10 +14,11 @@ function PostReviewModal(props) {
 
   const [review, setReview] = useState("");
   const [stars, setStars] = useState("");
+  const [errors, setErrors] = useState({});
 
-  let isDisabled = false
-  if(review.length < 10 || stars === ''){
-    isDisabled=true
+  let isDisabled = false;
+  if (review.length < 10 || stars === "") {
+    isDisabled = true;
   }
 
   const submitReview = async (e) => {
@@ -30,7 +31,12 @@ function PostReviewModal(props) {
       stars,
     };
 
-    dispatch(postReview(spotId, newReview));
+    await dispatch(postReview(spotId, newReview)).catch(async (res) => {
+      const data = await res.json();
+      if (data && data.errors) {
+        setErrors(data.errors);
+      }
+    });
     reset();
     closeModal();
   };
@@ -40,33 +46,28 @@ function PostReviewModal(props) {
     setStars("");
   };
 
+  console.log(stars);
+
   return (
-    <>
+    <div className="review-form-modal">
       <h1>How was your stay?</h1>
       <textarea
+        className="post-review-form-modal"
         placeholder="Leave your review here.."
         onChange={(e) => setReview(e.target.value)}
       ></textarea>
       <div className="review-stars-post-review-modal">
-        <button onClick={(e) => setStars("1")}>
-          <i className="far fa-star one-star"></i>
-        </button>
-        <button onClick={(e) => setStars("2")}>
-          <i className="far fa-star two-star"></i>
-        </button>
-        <button onClick={(e) => setStars("3")}>
-          <i className="far fa-star three-star"></i>
-        </button>
-        <button onClick={(e) => setStars("4")}>
-          <i className="far fa-star four-star"></i>
-        </button>
-        <button onClick={(e) => setStars("5")}>
-          <i className="far fa-star five-star"></i>
-        </button>
+        <i className="far fa-star one-star" onClick={(e) => setStars("1")} />
+        <i className="far fa-star two-star" onClick={(e) => setStars("2")} />
+        <i className="far fa-star three-star" onClick={(e) => setStars("3")} />
+        <i className="far fa-star four-star" onClick={(e) => setStars("4")} />
+        <i className="far fa-star five-star" onClick={(e) => setStars("5")} />
         Stars
       </div>
-      <button onClick={submitReview} disabled={isDisabled}>Submit Your Review</button>
-    </>
+      <button onClick={submitReview} disabled={isDisabled}>
+        Submit Your Review
+      </button>
+    </div>
   );
 }
 

@@ -6,7 +6,7 @@
     width: 350px;
 }
 
-.submit-button {
+.submit-button .demo-user {
     background-color: whitesmoke;
     width: 100%;
     font-size: 13px;
@@ -35,5 +35,16 @@
 }
 
 .password {
-    padding-bottom: 20px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+}
+
+.demo-user {
+    width: 86%;
+    background-color: red;
+    color: whitesmoke;
+    font-size: 13px;
+    height: 35px;
+    box-shadow: 2px 2px 2px black;
+    margin-top: 20px;
 }

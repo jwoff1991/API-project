@@ -66,7 +66,7 @@
     display: grid;
     column-gap: 20px;
     grid-template-columns: 610px 10px 325px;
-    grid-template-rows: 100px 300px;
+    grid-template-rows: 100px 1fr;
     margin-left: 35px;
 }
 
@@ -82,7 +82,7 @@
 .description {
     grid-column: 1;
     grid-row: 2;
-    border: red solid 2px;
+    height: 100px;
     padding: 20px;
     margin-left: 10px
 }

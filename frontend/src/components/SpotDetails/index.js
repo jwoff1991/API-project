@@ -40,6 +40,8 @@ export default function SpotDetails() {
   const featureComingSoon = () => {
     alert('Feature coming soon!')
   }
+
+
   return (
     <div className="single-spot-container">
       <div className="spot-name-and-location">
@@ -138,6 +140,3 @@ export default function SpotDetails() {
     </div>
   );
 }
-
-
-
