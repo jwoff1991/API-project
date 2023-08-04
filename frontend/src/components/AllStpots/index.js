@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import './allSpots.css'
 
+
 export default function AllSpots() {
   const dispatch = useDispatch();
   const spots = useSelector((state) => state.spots.allSpots);
@@ -39,7 +40,7 @@ export default function AllSpots() {
               </div>
               <div className="single-spot-price">{price} night</div>
               <div classname="single-spot-star-rating">
-                <i className="fas fa-star" /> {avgRating}
+                <i className="fas fa-star" /> {typeof avgRating === 'number' && avgRating.toFixed(2)}{typeof avgRating === 'string' && avgRating}
               </div>
             </div>
           </Link>

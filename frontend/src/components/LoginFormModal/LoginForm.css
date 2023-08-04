@@ -1,16 +1,39 @@
+.login-form-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px 20px 20px 20px;
+    width: 350px;
+}
+
+.submit-button {
+    background-color: whitesmoke;
+    width: 100%;
+    font-size: 13px;
+    height: 35px;
+    box-shadow: 2px 2px 2px black;
+}
+
 .form {
-    border: red solid 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+
+.password, .username {
+    width: 300px;
+    padding-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+.password input, .username input {
+    width: 90%
+}
 
-.passowrd, .username {
-    border: red solid 2px;
-    padding: 10px;
-    margin: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.password {
+    padding-bottom: 20px;
 }
