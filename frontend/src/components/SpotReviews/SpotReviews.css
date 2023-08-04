@@ -2,6 +2,12 @@
     margin-bottom: 10px;
 }
 
+.reviews-div-holder{
+
+  display: flex;
+  flex-direction: column-reverse;
+
+}
 
 .spot-single-review-div{
 
@@ -22,6 +28,7 @@
     margin-bottom: 10px;
 
 }
+
 
 
 .spot-single-review-div button {

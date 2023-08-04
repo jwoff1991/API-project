@@ -49,50 +49,55 @@ export default function SpotReviews() {
     postButtonDisabled = true;
   }
 
-  {
-    reviewsList.map(({ review, User }) => (
-      <>
-        {User.Id === review.id && (
-          <button className="post-your-review-button">
-            <OpenModalMenuItem
-              itemText="Post Your Review"
-              modalComponent={<PostReviewModal props={props} />}
-            />
-          </button>
-        )}
-        {User.Id === review.id && null}
-      </>
-    ));
+  let userReviewIds = [];
+  reviewsList.map(({ User }) => userReviewIds.push(User.id));
+
+  let canNotReviewAgain = false;
+  if (userReviewIds.includes(currentUserId)) {
+    canNotReviewAgain = true;
   }
 
+
   return (
-    <div>{ownerId === currentUserId && (<></>)}{!(ownerId === currentUserId) && (<>
-      <button className="post-your-review-button">
-        <OpenModalMenuItem
-          itemText="Post Your Review"
-          modalComponent={<PostReviewModal props={props} />}
-        />
-      </button>
-    </>)}
-      {reviewsList.map(({ id, review, User, createdAt, spotId }) => (
-        <div key={id} className="spot-single-review-div">
-          <div className="spot-single-review-firstname">{User.firstName}</div>
-          <div className="spot-single-review-created-date">{createdAt}</div>
-          <div className="spot-single-review">{review}</div>
-          {User.id === currentUserId && (
-            <>
-              <button className="review-update-button">Update</button>
-              <button className="review-delete-button">
-                {" "}
-                <OpenModalMenuItem
-                  itemText="Delete"
-                  modalComponent={<DeleteReviewModal props={{id, spotId}} />}
-                />
-              </button>
-            </>
-          )}
-        </div>
-      ))}
+    <div>
+      <div className="div-post-your-review-button">
+        {ownerId === currentUserId && <></>}
+        {canNotReviewAgain && <></>}
+        {!(ownerId === currentUserId) && !(canNotReviewAgain) && (
+          <>
+            <button className="post-your-review-button">
+              <OpenModalMenuItem
+                itemText="Post Your Review"
+                modalComponent={<PostReviewModal props={props} />}
+              />
+            </button>
+          </>
+        )}
+
+      </div>
+      <div className="reviews-div-holder">
+        {reviewsList.map(({ id, review, User, createdAt, spotId }) => (
+          <div key={id} className="spot-single-review-div">
+            <div className="spot-single-review-firstname">{User.firstName}</div>
+            <div className="spot-single-review-created-date">{createdAt}</div>
+            <div className="spot-single-review">{review}</div>
+            {User.id === currentUserId && (
+              <>
+                <button className="review-update-button">Update</button>
+                <button className="review-delete-button">
+                  {" "}
+                  <OpenModalMenuItem
+                    itemText="Delete"
+                    modalComponent={
+                      <DeleteReviewModal props={{ id, spotId }} />
+                    }
+                  />
+                </button>
+              </>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

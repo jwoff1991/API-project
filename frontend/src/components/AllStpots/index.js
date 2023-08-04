@@ -14,28 +14,39 @@ export default function AllSpots() {
   spotsList.map(spot => {
     if(typeof spot.avgRating === 'string') {
       spot.avgRating = 'New'
-    } else {
-
+      return (spot.avgRating = "New");
     }
   })
 
-  const allSpots = spotsList.map(({ id, previewImage, city, state, price, avgRating }) => (
-
-    <div key={id}>
-      <div className="single-spot">
-        <Link to={`/spots/${id}`}>
-          <div className="single-spot-image-div"><img src={previewImage || "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"} alt="house you may want to rent" /></div>
-          <div className="single-spot-city-state-price">
-            <div className="single-spot-city-state">
-              {city}, {state}
+  const allSpots = spotsList.map(
+    ({ id, previewImage, city, state, price, avgRating, name }) => (
+      <div key={id}>
+        <div className="single-spot">
+          <Link to={`/spots/${id}`}>
+            <div className="single-spot-image-div">
+              <img
+                src={
+                  previewImage ||
+                  "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+                }
+                alt="house you may want to rent"
+                title={name}
+              />
             </div>
-            <div className="single-spot-price">{price} night</div>
-            <div classname='single-spot-star-rating'><i className="fas fa-star" /> {avgRating}</div>
-          </div>
-        </Link>
+            <div className="single-spot-city-state-price">
+              <div className="single-spot-city-state">
+                {city}, {state}
+              </div>
+              <div className="single-spot-price">{price} night</div>
+              <div classname="single-spot-star-rating">
+                <i className="fas fa-star" /> {avgRating}
+              </div>
+            </div>
+          </Link>
+        </div>
       </div>
-    </div>
-  ))
+    )
+  );
 
 
   useEffect(() => {

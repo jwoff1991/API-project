@@ -37,7 +37,9 @@ export default function SpotDetails() {
     averageStartRating = singleSpot.avgStarRating.toFixed(2);
   }
 
-
+  const featureComingSoon = () => {
+    alert('Feature coming soon!')
+  }
   return (
     <div className="single-spot-container">
       <div className="spot-name-and-location">
@@ -86,7 +88,7 @@ export default function SpotDetails() {
         <div className="reserve-box">
           <div className="price-per-night">{singleSpot.price} night</div>
           <div className="star-rating-num-reviews">
-          {singleSpot.numReviews === 0 || !singleSpot.numReviews && (
+          {(singleSpot.numReviews === 0 || !singleSpot.numReviews) && (
             <div>
               <i className="fas fa-star"></i> New
             </div>
@@ -105,13 +107,13 @@ export default function SpotDetails() {
           )}
           </div>
           <div className="reserve-button-div">
-            <button className="reserve-button">Reserve</button>
+            <button className="reserve-button" onClick={featureComingSoon}>Reserve</button>
           </div>
         </div>
       </div>
       <div className="reviews">
         <div className="star-rating-num-reviews-over-reviews">
-          {singleSpot.numReviews === 0 || !singleSpot.numReviews && (
+          {(singleSpot.numReviews === 0 || !singleSpot.numReviews) && (
             <div>
               <i className="fas fa-star"></i> New
             </div>

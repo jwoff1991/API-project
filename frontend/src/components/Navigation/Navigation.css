@@ -1,7 +1,7 @@
 
 .navbar {
     border-bottom: grey solid 2px;
-    width: 100%;
+    width: 100vw;
     height: 90px;
     margin-bottom: 5px;
     padding-top: 25px;
