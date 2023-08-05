@@ -54,6 +54,7 @@ export const getSpots = () => async (dispatch) => {
     method: "GET",
   });
   const data = await response.json();
+
   dispatch(getAllSpots(data));
 
   return response;
@@ -93,6 +94,7 @@ export const writeSpot = (payload) => async (dispatch) => {
   });
   if (response.ok) {
     const spot = await response.json();
+    console.log(spot)
     await csrfFetch(`/api/spots/${spot.id}/images`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -124,7 +126,6 @@ export const getUserSpots = () => async (dispatch) => {
   });
   const data = await response.json();
   dispatch(getAllUserSpots(data));
-
   return response;
 };
 

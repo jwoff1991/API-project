@@ -11,43 +11,24 @@ export default function EditSpot() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-
-  console.log(spot)
-
   useEffect(() => {
     dispatch(getSpot(spotId));
   }, [dispatch]);
 
 
   const [address, setAddress] = useState('');
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [country, setCountry] = useState("");
-  const [lat, setLat] = useState("");
-  const [lng, setLng] = useState("");
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [previewImage, setPreviewImage] = useState("");
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [country, setCountry] = useState('');
+  const [lat, setLat] = useState('');
+  const [lng, setLng] = useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
+  const [previewImage, setPreviewImage] = useState('');
   const [errors, setErrors] = useState({});
 
-  let isDisabled = true;
-  if (
-    (address,
-    city,
-    state,
-    country,
-    lat,
-    lng,
-    name,
-    description,
-    price,
-    previewImage)
-  ) {
-    isDisabled = false;
-  }
-
-
+  console.log(spot)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -71,9 +52,9 @@ export default function EditSpot() {
     id: {spotId}
   };
 
-  let currentSpot;
 
-  currentSpot = await dispatch(editSpot(newEditedSpot))
+
+  const response = await dispatch(editSpot(newEditedSpot))
     .then(async (res) => {
       console.log(res)
       if (res && res.id) {
