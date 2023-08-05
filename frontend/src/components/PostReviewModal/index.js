@@ -13,7 +13,7 @@ function PostReviewModal(props) {
   const dispatch = useDispatch();
 
   const [review, setReview] = useState("");
-  const [stars, setStars] = useState("");
+  const [stars, setStars] = useState('');
   const [errors, setErrors] = useState({});
 
   let isDisabled = false;
@@ -51,6 +51,7 @@ function PostReviewModal(props) {
   return (
     <div className="review-form-modal">
       <h1>How was your stay?</h1>
+      <>{errors.message}</>
       <textarea
         className="post-review-form-modal"
         placeholder="Leave your review here.."

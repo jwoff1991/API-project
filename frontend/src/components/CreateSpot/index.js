@@ -26,7 +26,8 @@ export default function CreateSpot() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setErrors({});
+    
     if (!address) {
       errors.address = "Address is required";
     }
@@ -75,13 +76,15 @@ export default function CreateSpot() {
 
     currentSpot = await dispatch(writeSpot(newSpot)).catch(async (res) => {
       const data = await res.json();
-      if (data && data.errors) {
+      if (data && !data.errors) {
         setErrors(data.errors);
       }
     });
 
+    if(currentSpot && currentSpot.id) {
     history.push(`/spots/${currentSpot.id}`);
     reset();
+    }
   };
 
   const reset = () => {
@@ -139,7 +142,7 @@ export default function CreateSpot() {
               name="city"
               className="create-form-cit-state-lat-lng"
             />
-            ,<label> </label>
+            ,<label></label>
             <label className="create-form-errors">{errors.state}</label>
             <input
               value={state}
