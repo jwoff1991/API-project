@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { postReview } from "../../store/reviews";
 import React, { useState } from "react";
 import "./PostReviewModal.css";
+import StarRating from "./StarRating";
 
 
 function PostReviewModal(props) {
@@ -19,6 +20,10 @@ function PostReviewModal(props) {
   let isDisabled = false;
   if (review.length < 10 || stars === "") {
     isDisabled = true;
+  }
+
+  const reviewRating = (stars) => {
+    setStars(parseInt(stars))
   }
 
   const submitReview = async (e) => {
@@ -58,14 +63,10 @@ function PostReviewModal(props) {
         onChange={(e) => setReview(e.target.value)}
       ></textarea>
       <div className="review-stars-post-review-modal">
-        <i className="far fa-star one-star" onClick={(e) => setStars("1")} />
-        <i className="far fa-star two-star" onClick={(e) => setStars("2")} />
-        <i className="far fa-star three-star" onClick={(e) => setStars("3")} />
-        <i className="far fa-star four-star" onClick={(e) => setStars("4")} />
-        <i className="far fa-star five-star" onClick={(e) => setStars("5")} />
+        <StarRating onChange={reviewRating} stars={stars}>Stars</StarRating>
         Stars
       </div>
-      <button onClick={submitReview} disabled={isDisabled}>
+      <button className='submit-review-buttom' onClick={submitReview} disabled={isDisabled}>
         Submit Your Review
       </button>
     </div>

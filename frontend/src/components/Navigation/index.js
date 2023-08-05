@@ -13,7 +13,7 @@ function Navigation({ isLoaded }) {
       <ul className="nav-list">
         <li className="home">
           <NavLink exact to="/">
-            errbnb
+          <i class="fa-solid fa-chess-rook"></i> queeenbnb
           </NavLink>
         </li>
         <div className="right-container">

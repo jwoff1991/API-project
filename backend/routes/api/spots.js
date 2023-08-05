@@ -130,8 +130,11 @@ router.post("/", validateSpot, async (req, res) => {
     createdAt: spot.createdAt,
     updatedAt: spot.updatedAt,
   };
-
-  return res.json(validSpot);
+  if(validSpot){
+    return res.json(validSpot);
+} else {
+  return
+}
 });
 
 //create a review based on spotId

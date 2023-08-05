@@ -1,27 +1,11 @@
-.review-stars-post-review-modal .one-star:hover {
-    /* <i class="fas fa-star"></i> */
-}
-
-.review-stars-post-review-modal .two-star:hover {
-    /* <i class="fas fa-star"></i> */
-}
-.review-stars-post-review-modal .three-star:hover {
-    /* <i class="fas fa-star"></i> */
-}
-.review-stars-post-review-modal .four-star:hover {
-    /* <i class="fas fa-star"></i> */
-}
-.review-stars-post-review-modal .five-star:hover {
-    /* class="fas fa-star" */
-}
-
+/*
 .review-stars-post-review-modal i {
     color: #e6e6e6;
     font-weight: bold;
     cursor: pointer;
     padding: 4px;
     margin-bottom: 15px;
-}
+} */
 
 .review-form-modal {
     display: flex;
@@ -39,7 +23,14 @@
     border-radius: 2px;
 }
 
-.five-star {
-    margin-right: 5px;
+radio {
+    padding-right: 3px;
+}
 
+.review-stars-post-review-modal{
+    display: flex;
+}
+
+.submit-review-buttom{
+    margin-top: 15px;
 }

@@ -28,7 +28,7 @@ export default function EditSpot() {
   const [previewImage, setPreviewImage] = useState('');
   const [errors, setErrors] = useState({});
 
-  console.log(spot)
+  useEffect(() => {}, [errors])
   const handleSubmit = async (e) => {
     e.preventDefault();
 
