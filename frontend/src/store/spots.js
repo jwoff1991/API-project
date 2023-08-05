@@ -85,7 +85,7 @@ export const writeSpot = (payload) => async (dispatch) => {
     description,
     price,
   };
-  const spotPreviewImage = {'url': previewImage, 'preview': true}
+
   const response = await csrfFetch("/api/spots", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -96,7 +96,7 @@ export const writeSpot = (payload) => async (dispatch) => {
     await csrfFetch(`/api/spots/${spot.id}/images`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(spotPreviewImage),
+      body: JSON.stringify(previewImage),
     })
   if (response.ok) {
     dispatch(addSpot(spot));
@@ -131,18 +131,21 @@ export const getUserSpots = () => async (dispatch) => {
 //edit spot thunk creator
 export const editSpot = (payload) => async (dispatch) => {
   const spotId = payload.id.spotId;
-  const newEditedSpot = payload.spot
+  const newEditedSpot = payload.spot;
+  const newPreviewImage = payload.previewImage;
 
   const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newEditedSpot),
   });
-  if (response.ok) {
-    const spot = await response.json();
+      if (response.ok) {
+      const spot = await response.json();
+    console.log(spot)
     dispatch(editUserSpot(spot));
     return spot;
   }
+// }
 };
 
 //delete spot thunk action creator

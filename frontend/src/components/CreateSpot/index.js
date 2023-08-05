@@ -21,40 +21,25 @@ export default function CreateSpot() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-
-
+  let isDisabled = true;
+  if (
+    (address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price,
+    previewImage)
+  ) {
+    isDisabled = false;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
-    
-    if (!address) {
-      errors.address = "Address is required";
-    }
-    if (!city) {
-      errors.city = "City is required";
-    }
-    if (!state) {
-      errors.state = "State is required";
-    }
-    if (!country) {
-      errors.country = "Country is required";
-    }
-    if (!lat) {
-      errors.lat = "Lat is required";
-    }
-    if (!lng) {
-      errors.lng = "Lng is required";
-    }
-    if (!name) {
-      errors.name = "Name is required";
-    }
-    if (!description) {
-      errors.description = "Description is required";
-    }
-    if (!price) {
-      errors.price = "Price is required";
-    }
 
     const newSpot = {
       address,
@@ -74,17 +59,20 @@ export default function CreateSpot() {
 
     let currentSpot;
 
-    currentSpot = await dispatch(writeSpot(newSpot)).catch(async (res) => {
-      const data = await res.json();
-      if (data && !data.errors) {
-        setErrors(data.errors);
-      }
-    });
-
-    if(currentSpot && currentSpot.id) {
-    history.push(`/spots/${currentSpot.id}`);
-    reset();
-    }
+    currentSpot = await dispatch(writeSpot(newSpot))
+      .then(async (res) => {
+        console.log(res)
+        if (res && res.id) {
+          history.push(`/spots/${res.id}`);
+          reset();
+        }
+      })
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && !data.errors) {
+          setErrors(data.errors);
+        }
+      });
   };
 
   const reset = () => {
@@ -233,7 +221,11 @@ export default function CreateSpot() {
           <input name="image4" placeholder="Image URL"></input>
         </div>
         <div className="button-div">
-          <button className="create-form-submit-button" type="submit">
+          <button
+            className="create-form-submit-button"
+            type="submit"
+            disabled={isDisabled}
+          >
             Create Spot
           </button>
         </div>

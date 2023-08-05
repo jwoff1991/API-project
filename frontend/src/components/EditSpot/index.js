@@ -31,46 +31,30 @@ export default function EditSpot() {
   const [previewImage, setPreviewImage] = useState("");
   const [errors, setErrors] = useState({});
 
+  let isDisabled = true;
+  if (
+    (address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price,
+    previewImage)
+  ) {
+    isDisabled = false;
+  }
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
 
-    if(address === '') {
-      errors.address = "Address is required"
-    }
-    if(city === '') {
-      errors.city = "City is required"
-    }
-    if(state === '') {
-      errors.state = "State is required"
-    }
-    if(country === '') {
-      errors.country = "Country is required"
-    }
-    if(lat === '') {
-      errors.lat = "Lat is required"
-    }
-    if(lng === '') {
-      errors.lng = "Lng is required"
-    }
-    if(name === '') {
-      errors.name = "Name is required"
-    }
-    if(description === '') {
-      errors.description = "Description is required"
-    }
-    if(price === '') {
-      errors.price = "Price is required"
-    }
-
-
-
-
     const newEditedSpot ={
       spot: {
-        address,
+      address,
       city,
       state,
       country,
@@ -78,15 +62,31 @@ export default function EditSpot() {
       lng,
       name,
       description,
-      price
+      price,
+      // previewImage: {
+      //   url: previewImage,
+      //   preview: true,
+      // },
     },
     id: {spotId}
   };
 
-  const editedSpot = await dispatch(editSpot(newEditedSpot));
+  let currentSpot;
 
-  reset();
-  history.push(`/spots/${editedSpot.id}`);
+  currentSpot = await dispatch(editSpot(newEditedSpot))
+    .then(async (res) => {
+      console.log(res)
+      if (res && res.id) {
+        history.push(`/spots/${res.id}`);
+        reset();
+      }
+    })
+    .catch(async (res) => {
+      const data = await res.json();
+      if (data && !data.errors) {
+        setErrors(data.errors);
+      }
+    });
 };
 
 const reset = () => {
@@ -220,15 +220,19 @@ return (
           ></input>
           <label className="create-form-errors">{errors.price}</label>
         </div>
-        <div className="update-form-spot-images">
+        {/* <div className="update-form-spot-images">
           <h2>Liven up your spot with photos</h2>
           <p>Submit a link to at least one photo to publish your spot.</p>
-
+          <input
+            name="previewImage"
+            placeholder="Preview Image URL"
+            onChange={(e) => setPreviewImage(e.target.value)}
+          ></input>
           <input name="image1" placeholder="Image URL"></input>
           <input name="image2" placeholder="Image URL"></input>
           <input name="image3" placeholder="Image URL"></input>
           <input name="image4" placeholder="Image URL"></input>
-        </div>
+        </div> */}
         <div className="button-div">
         <button className='update-form-submit-button' type="submit" >Create Spot</button>
 

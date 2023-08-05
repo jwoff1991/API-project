@@ -73,6 +73,7 @@
     display: flex;
     justify-content: center;
     padding-bottom: 15px;
+    padding-top: 15px;
 }
 .update-form-submit-button {
     width: 100px;
