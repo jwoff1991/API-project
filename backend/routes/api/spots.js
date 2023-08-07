@@ -577,7 +577,7 @@ router.post("/:spotId/images", validateSpotImage, async (req, res) => {
 
       return res.json(validSpotImage);
     } else {
-      res.status(404);
+      res.status(399);
       res.json({
         message: "You do not have permission to add an image to this spot",
       });
@@ -630,7 +630,7 @@ router.put("/:spotId", validateSpot, async (req, res) => {
 
       res.json(editedSpot);
     } else {
-      res.status(404);
+      res.status(399);
       res.json({ message: "You do not have permission to edit this spot" });
     }
   } else {

@@ -33,6 +33,18 @@ export default function SpotReviews() {
   });
   const isOwner = (ownerId === currentUserId);
 
+  let createdAtSplit;
+  let year;
+  let month;
+  if(Object.keys(reviewsList)){
+  let createdAtDate = reviewsList.map((review) => (
+    createdAtSplit = review.createdAt.split('-'),
+    year = createdAtSplit[0],
+    month = createdAtSplit[1],
+    review.createdAt = `${month} ${year}`
+    ))
+}
+
 
   if (!reviewsList.length) {
     return (

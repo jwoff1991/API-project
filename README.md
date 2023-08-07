@@ -4,6 +4,9 @@
 <!--!!ADD -->
 <!-- # `<name of application here>` -->
 <!--!!END_ADD -->
+Hello and welcome to my fullstack project! This project is a clone of AirBnB, with a twist. You can rent rooms in castles and expirence what life was like during that period.
+The technologies used on the project include: Javasript, react/redux, SQLite, sequelize, and postgreSQL.
+![Snanpshot of the homepage](image.png)
 
 ## Database Schema Design
 

@@ -19,7 +19,6 @@ export const addReview = (review) => {
 };
 
 export const getReviews = (spotId) => async (dispatch) => {
-  console.log(spotId)
   const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
     method: "GET",
   });
