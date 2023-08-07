@@ -44,7 +44,7 @@ module.exports = {
          lng: 65.2589,
          name: "Pena Palace",
          description:
-           "The Pena Palace (Portuguese: Palácio da Pena) is a Romanticist castle in São Pedro de Penaferrim, in the municipality of Sintra, on the Portuguese Riviera. The castle stands on the top of a hill in the Sintra Mountains above the town of Sintra, and on a clear day it can be easily seen from Lisbon and much of its metropolitan area. It is a national monument and constitutes one of the major expressions of 19th-century Romanticism in the world. The palace is a UNESCO World Heritage Site and one of the Seven Wonders of Portugal. It is also used for state occasions by the President of the Portuguese Republic and other government officials",
+           "The Pena Palace (Portuguese: Palácio da Pena) is a Romanticist castle in São Pedro de Penaferrim, in the municipality of Sintra, on the Portuguese Riviera. The castle stands on the top of a hill in the Sintra Mountains above the town of Sintra, and on a clear day it can be easily seen from Lisbon and much of its metropolitan area. It is a national monument and constitutes one of the major expressions of 19th-century Romanticism in the world.",
          price: 960,
        },
        {
@@ -57,7 +57,7 @@ module.exports = {
          lng: 2.7132,
          name: "Palace of Versailles",
          description:
-           "The Palace of Versailles, French: Château de Versailles, is a former royal residence built by King Louis XIV located in Versailles, about 19 kilometers (12 mi) west of Paris, France. The palace is owned by the French Republic and since 1995 has been managed, under the direction of the French Ministry of Culture, by the Public Establishment of the Palace, Museum and National Estate of Versailles.[ About 15,000,000 people visit the palace, park, or gardens of Versailles every year, making it one of the most popular tourist attractions in the world.",
+           "The Palace of Versailles, French: Château de Versailles, is a former royal residence built by King Louis XIV located in Versailles, about 19 kilometers (12 mi) west of Paris, France. The palace is owned by the French Republic and since 1995 has been managed, under the direction of the French Ministry of Culture, by the Public Establishment of the Palace, Museum and National Estate of Versailles.",
          price: 760,
        },
        {
