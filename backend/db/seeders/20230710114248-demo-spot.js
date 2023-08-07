@@ -31,7 +31,7 @@ module.exports = {
          lng: 8.5838,
          name: "Hohenzollern Castle",
          description:
-           "Hohenzollern Castle is the ancestral seat of the imperial House of Hohenzollern. The third of three hilltop castles built on the site, it is located atop Mount Hohenzollern, above and south of Hechingen, on the edge of the Swabian Jura of central Baden-Württemberg, Germany",
+           "Hohenzollern Castle is the ancestral seat of the imperial House of Hohenzollern. The third of three hilltop castles built on the site, it is located atop Mount Hohenzollern, above and south of Hechingen.",
          price: 400,
        },
        {
@@ -44,7 +44,7 @@ module.exports = {
          lng: 65.2589,
          name: "Pena Palace",
          description:
-           "The Pena Palace (Portuguese: Palácio da Pena) is a Romanticist castle in São Pedro de Penaferrim, in the municipality of Sintra, on the Portuguese Riviera. The castle stands on the top of a hill in the Sintra Mountains above the town of Sintra, and on a clear day it can be easily seen from Lisbon and much of its metropolitan area. It is a national monument and constitutes one of the major expressions of 19th-century Romanticism in the world.",
+           "The Pena Palace (Portuguese: Palácio da Pena) is a Romanticist castle in São Pedro de Penaferrim, in the municipality of Sintra, on the Portuguese Riviera. The castle stands on the top of a hill in the Sintra Mountains above the town of Sintra.",
          price: 960,
        },
        {
@@ -70,7 +70,7 @@ module.exports = {
          lng: 13.1116,
          name: "Hohenwerfen Castle",
          description:
-           'Hohenwerfen Castle is a medieval rock castle, situated on a 623-metre (2,044 ft) precipice overlooking the Austrian market town of Werfen in the Salzach valley, approximately 40 kilometres (25 mi) south of Salzburg. The fortress is surrounded by the Berchtesgaden Alps.',
+           'Hohenwerfen Castle is a medieval rock castle, situated on a 623-metre (2,044 ft) precipice overlooking the Austrian market town of Werfen in the Salzach valley, approximately 40 kilometres (25 mi) south of Salzburg.',
          price: 465,
        },
        {
@@ -83,7 +83,7 @@ module.exports = {
          lng: 4.0757,
          name: "Alcázar of Segovia",
          description:
-           "The Alcázar de Segovia was once a medieval fortress, but it was rebuilt in its current, castle-like style following a fire in 1862. Today, visitors can explore its museum, multiple halls and secret passageways, and towers overlooking Segovia’s town square. ",
+           "The Alcázar de Segovia was once a medieval fortress, but it was rebuilt in its current, castle-like style following a fire in 1862. Today, visitors can explore its museum, multiple halls and secret passageways.",
          price: 680,
        },
        {
@@ -96,7 +96,7 @@ module.exports = {
          lng: 73.5809,
          name: "Belvedere Castle",
          description:
-           "Sitting pretty in the middle of New York City's Central Park is one of the country's most famous castles. Completed in 1872, the park's co-designer, Calvert Vaux, wanted the Gothic structure to serve as a surprising landmark for visitors to discover on their walks.",
+           "Sitting pretty in the middle of New York City's Central Park is one of the country's most famous castles. Completed in 1872, Calvert Vaux, wanted the Gothic structure to serve as a surprising landmark.",
          price: 1540,
        },
        {
