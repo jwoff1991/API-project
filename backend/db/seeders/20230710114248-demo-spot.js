@@ -109,7 +109,7 @@ module.exports = {
         lng: 117.20294,
         name: "Scotty's Castle",
         description:
-          "Walter E. Scott was a con man and gold prospector who convinced a Chicago couple, Albert and Bessie Johnson, to build this 1922 Spanish-style castle in Death Valley National Park, California. Though Scott never owned or lived in it, he was the inspiration behind its name",
+          "Walter E. Scott was a con man and gold prospector who convinced a Chicago couple, Albert and Bessie Johnson, to build this 1922 Spanish-style castle in Death Valley National Park, California.",
         price: 2680,
       },
       {
