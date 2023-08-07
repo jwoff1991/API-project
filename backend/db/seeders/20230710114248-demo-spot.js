@@ -57,7 +57,7 @@ module.exports = {
          lng: 2.7132,
          name: "Palace of Versailles",
          description:
-           "The Palace of Versailles, French: Château de Versailles, is a former royal residence built by King Louis XIV located in Versailles, about 19 kilometers (12 mi) west of Paris, France. The palace is owned by the French Republic and since 1995 has been managed, under the direction of the French Ministry of Culture, by the Public Establishment of the Palace, Museum and National Estate of Versailles.",
+           "The Palace of Versailles, French: Château de Versailles, is a former royal residence built by King Louis XIV located in Versailles, about 19 kilometers (12 mi) west of Paris, France. The palace is owned by the French Republic.",
          price: 760,
        },
        {
@@ -70,7 +70,7 @@ module.exports = {
          lng: 13.1116,
          name: "Hohenwerfen Castle",
          description:
-           'Hohenwerfen Castle is a medieval rock castle, situated on a 623-metre (2,044 ft) precipice overlooking the Austrian market town of Werfen in the Salzach valley, approximately 40 kilometres (25 mi) south of Salzburg. The fortress is surrounded by the Berchtesgaden Alps and the adjacent Tennen Mountains. Hohenwerfen is a "sister" of Hohensalzburg Fortress, both built by the Archbishops of Salzburg in the 11th century. The castle became known internationally as the main location in the film Where Eagles Dare.',
+           'Hohenwerfen Castle is a medieval rock castle, situated on a 623-metre (2,044 ft) precipice overlooking the Austrian market town of Werfen in the Salzach valley, approximately 40 kilometres (25 mi) south of Salzburg. The fortress is surrounded by the Berchtesgaden Alps.',
          price: 465,
        },
        {
@@ -83,7 +83,7 @@ module.exports = {
          lng: 4.0757,
          name: "Alcázar of Segovia",
          description:
-           "The Alcázar de Segovia was once a medieval fortress, but it was rebuilt in its current, castle-like style following a fire in 1862. Today, visitors can explore its museum, multiple halls and secret passageways, and towers overlooking Segovia’s town square. Then, be prepared for some equally impressive interiors. Theyre marked by stained glass windows, polished suits of armor, lavish dining and dancing halls, and so many canopied beds",
+           "The Alcázar de Segovia was once a medieval fortress, but it was rebuilt in its current, castle-like style following a fire in 1862. Today, visitors can explore its museum, multiple halls and secret passageways, and towers overlooking Segovia’s town square. ",
          price: 680,
        },
        {
