@@ -21,12 +21,16 @@ export default function ManageSpots() {
   }, [dispatch]);
 
 
+  const createSpot = () => {
+    return history.push('/spots/new')
+
+  }
   if (!spotsList.length) {
     return (
       <div>
         <h1>Manage Spots</h1>
         <Link to={"/spots/new"}>
-          <button>Create a New Spot</button>
+        <button className="manage-spots-create-button" onClick={createSpot}>Create a new Spot</button>
         </Link>
       </div>
     );
@@ -39,17 +43,12 @@ export default function ManageSpots() {
     }
   });
 
-  const createSpot = () => {
-    return history.push('/spots/new')
-
-  }
 
   return (
     <div className="all-Spots">
       <div className="manage-spots-heading">
 
       <h1>Manage Spots</h1>
-      <button className="manage-spots-create-button" onClick={createSpot}>Create a new Spot</button>
       </div>
 
       <div className="all-spots-container">

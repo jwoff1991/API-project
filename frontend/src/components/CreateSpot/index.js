@@ -26,6 +26,7 @@ export default function CreateSpot() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({})
     let formErrors = {};
 
     if (!address) {
@@ -72,7 +73,6 @@ export default function CreateSpot() {
           "Preview Image is required and must an image file (.jpeg, jpg, .gif, .png)",
       };
     }
-    setErrors(formErrors);
 
     const newSpot = {
       address,
@@ -90,21 +90,27 @@ export default function CreateSpot() {
       },
     };
 
+    setErrors(formErrors);
+    console.log('pre error test')
+    console.log(errors)
     if (Object.keys(errors).length) {
+      console.log('passed error check')
       const response = await dispatch(writeSpot(newSpot))
         .then(async (res) => {
           if (res && res.id) {
+            console.log('passed backend')
             history.push(`/spots/${res.id}`);
             reset();
           }
         })
         .catch((errors) => {
+          console.log('errors passed from backend')
           if (errors) {
-            setErrors(errors);
+            // setErrors(errors);
           }
         });
-    }
-  };
+      }
+    };
 
   const reset = () => {
     setAddress("");
@@ -142,7 +148,7 @@ export default function CreateSpot() {
           ></input>
           <div className="create-form-errors">{errors.country}</div>
           <label></label>
-          <label ></label>
+          <label></label>
           <input
             type="text"
             onChange={(e) => setAddress(e.target.value)}
@@ -173,8 +179,8 @@ export default function CreateSpot() {
               className="create-form-cit-state-lat-lng"
             ></input>
           </div>
-                  <div className="create-form-errors">{errors.city}</div>
-        <div className="create-form-errors">{errors.state}</div>
+          <div className="create-form-errors">{errors.city}</div>
+          <div className="create-form-errors">{errors.state}</div>
           <div className="lat-long-create-form">
             <label></label>
             <label></label>
@@ -195,8 +201,8 @@ export default function CreateSpot() {
               className="create-form-cit-state-lat-lng"
             ></input>
           </div>
-                  <div className="create-form-errors">{errors.lat}</div>
-        <div className="create-form-errors">{errors.lng}</div>
+          <div className="create-form-errors">{errors.lat}</div>
+          <div className="create-form-errors">{errors.lng}</div>
         </div>
         <div className="create-form-description-textarea">
           <h2>Describe your place to guests</h2>
