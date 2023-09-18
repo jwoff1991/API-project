@@ -91,22 +91,18 @@ export default function CreateSpot() {
     };
 
     setErrors(formErrors);
-    console.log('pre error test')
-    console.log(errors)
+
     if (Object.keys(errors).length) {
       console.log('passed error check')
       const response = await dispatch(writeSpot(newSpot))
         .then(async (res) => {
           if (res && res.id) {
-            console.log('passed backend')
             history.push(`/spots/${res.id}`);
             reset();
           }
         })
         .catch((errors) => {
-          console.log('errors passed from backend')
           if (errors) {
-            // setErrors(errors);
           }
         });
       }
@@ -141,6 +137,7 @@ export default function CreateSpot() {
           <label></label>
           <input
             value={country}
+            max='50'
             onChange={(e) => setCountry(e.target.value)}
             name="country"
             placeholder="Country"
@@ -153,6 +150,7 @@ export default function CreateSpot() {
             type="text"
             onChange={(e) => setAddress(e.target.value)}
             value={address}
+            max='20'
             placeholder="Address"
             name="address"
             className="create-form-country-address"
@@ -165,14 +163,16 @@ export default function CreateSpot() {
               type="text"
               onChange={(e) => setCity(e.target.value)}
               value={city}
+              max='20'
               placeholder="City"
               name="city"
               className="create-form-cit-state-lat-lng"
             />
-            ,<label></label>
+            <label></label>
             <label></label>
             <input
               value={state}
+              max='20'
               onChange={(e) => setState(e.target.value)}
               name="state"
               placeholder="State"
@@ -186,17 +186,19 @@ export default function CreateSpot() {
             <label></label>
             <input
               value={lat}
+              max='20'
               onChange={(e) => setLat(e.target.value)}
               name="lat"
               placeholder="Latitude"
               className="create-form-cit-state-lat-lng"
             ></input>
-            ,<label></label>
+            <label></label>
             <label></label>
             <input
               value={lng}
               onChange={(e) => setLng(e.target.value)}
               name="lng"
+              max='20'
               placeholder="Longitude"
               className="create-form-cit-state-lat-lng"
             ></input>
@@ -212,6 +214,7 @@ export default function CreateSpot() {
           </p>
           <textarea
             value={description}
+            max='2000'
             onChange={(e) => setDescription(e.target.value)}
             name="description"
             placeholder="Please write at least 30 characters"
@@ -227,6 +230,7 @@ export default function CreateSpot() {
           <input
             className="create-spot-name-field"
             value={name}
+            max='40'
             onChange={(e) => setName(e.target.value)}
             name="name"
             placeholder="Name of your spot"
