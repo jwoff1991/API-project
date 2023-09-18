@@ -131,63 +131,63 @@ return (
         </p>
       </div>
       <div className="update-form-spot-address">
-        <label></label>
+
         <label className="create-form-errors"></label>
         <input
           value={country}
           onChange={(e) => setCountry(e.target.value)}
           name="country"
-          placeholder="Country"
+          placeholder={spot.country}
         ></input>
         <div className="create-form-errors">{errors.country}</div>
-        <label></label>
+
         <label className="create-form-errors"></label>
         <input
           type="text"
           onChange={(e) => setAddress(e.target.value)}
           value={address}
-          placeholder="Address"
+          placeholder={spot.address}
           name="address"
         />
         <div className="create-form-errors">{errors.address}</div>
         <div className="city-state-update-form">
-          <label></label>
+
           <label className="create-form-errors"></label>
           <input
             type="text"
             onChange={(e) => setCity(e.target.value)}
             value={city}
-            placeholder="City"
+            placeholder={spot.city}
             className="edit-form-cit-state-lat-lng"
             name="city"
           />
-          ,<label></label>
+
           <label className="create-form-errors"></label>
           <input
             value={state}
             onChange={(e) => setState(e.target.value)}
             name="state"
-            placeholder="State"
+            placeholder={spot.state}
             className="edit-form-cit-state-lat-lng"
           ></input>
         </div>
         <div className="create-form-errors">{errors.city}</div>
         <div className="create-form-errors">{errors.state}</div>
         <div className="lat-long-update-form">
-          <label></label>
+
           <input
             value={lat}
             onChange={(e) => setLat(e.target.value)}
             name="lat"
-            placeholder="lat"
+            placeholder={spot.lat}
             className="edit-form-cit-state-lat-lng"
           ></input>
-          ,<label></label>
+          
           <input
             value={lng}
             onChange={(e) => setLng(e.target.value)}
             name="lng"
-            placeholder="lng"
+            placeholder={spot.lng}
             className="edit-form-cit-state-lat-lng"
           ></input>
         </div>
@@ -204,7 +204,7 @@ return (
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           name="description"
-          placeholder="description"
+          placeholder={spot.description}
         ></textarea>
 
       <div className="create-form-errors">{errors.lng}</div>
@@ -220,7 +220,7 @@ return (
           value={name}
           onChange={(e) => setName(e.target.value)}
           name="name"
-          placeholder="name"
+          placeholder={spot.name}
         ></input>
         <label className="create-form-errors">{errors.name}</label>
       </div>
@@ -236,7 +236,7 @@ return (
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           name="price"
-          placeholder="price"
+          placeholder={spot.price}
         ></input>
         <label className="create-form-errors">{errors.price}</label>
       </div>

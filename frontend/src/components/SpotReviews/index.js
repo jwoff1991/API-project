@@ -33,16 +33,9 @@ export default function SpotReviews() {
   });
   const isOwner = (ownerId === currentUserId);
 
-  let createdAtSplit;
-  let year;
-  let month;
-  if(Object.keys(reviewsList)){
-  let createdAtDate = reviewsList.map((review) => (
-    createdAtSplit = review.createdAt.split('-'),
-    year = createdAtSplit[0],
-    month = createdAtSplit[1],
-    review.createdAt = `${month} ${year}`
-    ))
+const commentDateConverter =(date) => {
+  let createdAtSplit = date.split('').slice(5, 10).join('')
+  return createdAtSplit
 }
 
 
@@ -86,7 +79,7 @@ export default function SpotReviews() {
         {reviewsList.map(({ id, review, User, createdAt, spotId }) => (
           <div key={id} className="spot-single-review-div">
             <div className="spot-single-review-firstname">{User.firstName}</div>
-            <div className="spot-single-review-created-date">{createdAt}</div>
+            <div className="spot-single-review-created-date">{commentDateConverter(createdAt)}</div>
             <div className="spot-single-review">{review}</div>
             {User.id === currentUserId && (
               <>
