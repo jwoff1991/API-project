@@ -17,33 +17,55 @@ function SignupFormModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password === confirmPassword) {
-      setErrors({});
-      return dispatch(
-        sessionActions.signup({
-          email,
-          username,
-          firstName,
-          lastName,
-          password,
-        })
-      )
-        .then(closeModal)
-        .catch(async (res) => {
-          const data = await res.json();
-          if (data && data.errors) {
-            setErrors(data.errors);
-          }
-        });
+
+    const regex =
+      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+    if (regex.test(email) === false) {
+      setErrors({ email: "This is not a valid email" });
+    } else {
+      if (password === confirmPassword) {
+        setErrors({});
+        return dispatch(
+          sessionActions.signup({
+            email,
+            username,
+            firstName,
+            lastName,
+            password,
+          })
+        )
+          .then(closeModal)
+          .catch(async (res) => {
+            const data = await res.json();
+            if (data && data.errors) {
+              setErrors(data.errors);
+            }
+          });
+      }
+      return setErrors({
+        confirmPassword:
+          "Confirm Password field must be the same as the Password field",
+      });
     }
-    return setErrors({
-      confirmPassword: "Confirm Password field must be the same as the Password field"
-    });
   };
 
+  const emailErrorsClass = errors.email ? "email-login-errors" : "";
+  const firstNameErrorsClass = errors.firstname ? "email-login-errors" : "";
+  const lastNameErrorsClass = errors.lastname ? "email-login-errors" : "";
+  const userNameErrorsClass = errors.username ? "email-login-errors" : "";
+  const passwordErrorsClass = errors.password ? "email-login-errors" : "";
+
   let signUpButtonDisable = false
-  if(email.length === 0 ||  firstName.length === 0 || lastName.length === 0 || confirmPassword.length === 0 || username.length < 4 || password.length < 6) {
-    signUpButtonDisable = true
+  if (
+    email.length === 0 ||
+    firstName.length === 0 ||
+    lastName.length === 0 ||
+    confirmPassword.length === 0 ||
+    username.length < 4 ||
+    password.length < 8
+  ) {
+    signUpButtonDisable = true;
   }
 
   return (
@@ -53,16 +75,17 @@ function SignupFormModal() {
         <label>
           <input
             type="text"
+            className={emailErrorsClass}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="Email"
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
         <label>
           <input
             type="text"
+            className={userNameErrorsClass}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
@@ -73,6 +96,7 @@ function SignupFormModal() {
         <label>
           <input
             type="text"
+            className={firstNameErrorsClass}
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
@@ -83,6 +107,7 @@ function SignupFormModal() {
         <label>
           <input
             type="text"
+            className={lastNameErrorsClass}
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
@@ -94,6 +119,7 @@ function SignupFormModal() {
           <input
             type="password"
             value={password}
+            className={passwordErrorsClass}
             onChange={(e) => setPassword(e.target.value)}
             required
             placeholder="Password"
@@ -103,6 +129,7 @@ function SignupFormModal() {
         <label>
           <input
             type="password"
+            className={passwordErrorsClass}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required

@@ -42,12 +42,7 @@
     border-radius: 25px;
 }
 
-.profile-dropdown {
-    list-style-type: none;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
+
 
 .user-info-in-profile-button {
     border-bottom: black 1px solid;
@@ -85,11 +80,12 @@
 
 
 .profile-dropdown {
+    list-style-type: none;
     position: absolute;
     border: solid gray 3px;
     padding-top: 10px;
     padding-bottom: 10px;
-    padding-right: 20px;
+    padding-right: 10px;
     z-index: 100;
     right: 50px;
     background-color: rgb(241, 235, 226);
