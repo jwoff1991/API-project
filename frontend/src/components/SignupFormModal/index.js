@@ -54,15 +54,11 @@ function SignupFormModal() {
   const firstNameErrorsClass = errors.firstname ? "email-login-errors" : "";
   const lastNameErrorsClass = errors.lastname ? "email-login-errors" : "";
   const userNameErrorsClass = errors.username ? "email-login-errors" : "";
-  const passwordErrorsClass = errors.password ? "email-login-errors" : "";
+  const passwordErrorsClass = errors.password || errors.confirmPassword ? "email-login-errors" : "";
 
   let signUpButtonDisable = false
   if (
     email.length === 0 ||
-    firstName.length === 0 ||
-    lastName.length === 0 ||
-    confirmPassword.length === 0 ||
-    username.length < 4 ||
     password.length < 8
   ) {
     signUpButtonDisable = true;
@@ -136,9 +132,6 @@ function SignupFormModal() {
             placeholder="Confirm Password"
           />
         </label>
-        {errors.confirmPassword && (
-          <p>{errors.confirmPassword}</p>
-        )}
         <button className='submit-button' type="submit" disabled={signUpButtonDisable}>Sign Up</button>
       </form>
     </div>

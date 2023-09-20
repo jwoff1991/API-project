@@ -11,12 +11,12 @@
 
 .spot-images {
     display: grid;
-    grid-template-columns: 575px 175px 175px;
-    grid-template-rows: 175px 175px;
+    grid-template-columns: 60% 15% 15%;
+    grid-template-rows: 40% 40%;
     row-gap: 5px;
     column-gap: 5px;
-    margin: 40px;
-
+    /* margin: 40px; */
+    margin-left: 4%;
 }
 
 
@@ -28,6 +28,7 @@
     height: 100%;
     object-fit: cover;
     border-radius: 5px;
+
 }
 
 .spot-details-image-one {
@@ -66,18 +67,17 @@
 
 .hosted-by-description-reserve {
     display: grid;
-    column-gap: 20px;
-    grid-template-columns: 610px 10px 325px;
+    column-gap: 120px;
+    grid-template-columns: 610px 10px 400px;
     grid-template-rows: 100px 1fr;
-    margin-left: 35px;
+    margin-left: 50px;
 }
 
 .hosted-by {
     grid-column: 1;
     grid-row: 1;
-    margin-top: 20px;
-    padding: 20px;
-    font-size: 20px;
+    padding-left: 20px;
+    font-size: 40px;
     font-weight: bold;
 }
 
@@ -85,7 +85,9 @@
     grid-column: 1;
     grid-row: 2;
     height: 100%;
-    padding: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    font-size: 20px;
     margin-left: 10px
 }
 
@@ -94,15 +96,14 @@
     display: grid;
     grid-column: 3;
     grid-row: 1;
-
     border: solid black 3px;
-    margin-top: 30px;
     border-radius: 10px;
     padding: 20px;
-    height: 50px;
+    height: 70px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
+    font-size: 20px;
 }
 
 .reserve-button-div {
@@ -115,7 +116,7 @@
 .reserve-button {
     width: 90%;
     height: 30px;
-    margin-top: 10px;
+    margin: 20px;
     background-color: red;
     color: white;
 }
@@ -125,7 +126,7 @@
     border-top: solid black 2px;
     margin-top: 20px;
     padding-top: 20px;
-    padding-left: 30px
+    padding-left: 5%
 }
 
 .star-rating-num-reviews-over-reviews {

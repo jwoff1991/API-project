@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -33,11 +33,17 @@ export default function SpotReviews() {
   });
   const isOwner = (ownerId === currentUserId);
 
-const commentDateConverter =(date) => {
-  let createdAtSplit = date.split('').slice(5, 10).join('')
-  return createdAtSplit
-}
+  const commentDateConverter = (date) => {
+    const dateObject = new Date(date);
+    const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    const month = monthNames[dateObject.getMonth()];
+    const day = String(dateObject.getDate()).padStart(2, '0');
 
+    return `${month} ${day}`;
+}
 
   if (!reviewsList.length) {
     return (

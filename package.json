@@ -1,7 +1,10 @@
 {
   "dependencies": {
+    "date-fns": "^2.30.0",
     "express-validator": "^7.0.1",
-    "mathjs": "^11.9.1"
+    "mathjs": "^11.9.1",
+    "react": "^18.2.0",
+    "react-date-range": "^1.4.0"
   },
   "name": "authenticateme",
   "description": "## Database Schema Design",

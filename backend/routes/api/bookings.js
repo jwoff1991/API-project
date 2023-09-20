@@ -21,7 +21,7 @@ const validBooking = [
       .withMessage("Must include a end date"),
   ]
 
-//geta current users bookings
+//get a current users bookings
 router.get('/current', async (req, res) => {
     const userId = req.user.id;
     const userBookings = await Booking.findAll({

@@ -92,7 +92,6 @@ export const writeSpot = (payload) => async (dispatch) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(spot),
   });
-  console.log('were here', response)
   if (response.ok) {
     const spot = await response.json();
     console.log(spot)
@@ -107,6 +106,8 @@ export const writeSpot = (payload) => async (dispatch) => {
   }
   }
 };
+
+
 
 
 

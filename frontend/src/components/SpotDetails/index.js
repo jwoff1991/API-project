@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSpot } from "../../store/spots";
 import { useParams } from "react-router-dom";
 import SpotReviews from "../SpotReviews";
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import ReserveSpotModal from "../ReserveSpotModal";
 import "./SpotDetails.css";
 
 export default function SpotDetails() {
@@ -36,11 +38,6 @@ export default function SpotDetails() {
   } else {
     averageStartRating = singleSpot.avgStarRating.toFixed(2);
   }
-
-  const featureComingSoon = () => {
-    alert('Feature coming soon!')
-  }
-
 
   return (
     <div className="single-spot-container">
@@ -109,7 +106,13 @@ export default function SpotDetails() {
           )}
           </div>
           <div className="reserve-button-div">
-            <button className="reserve-button" onClick={featureComingSoon}>Reserve</button>
+            <button className="reserve-button" /* onClick={featureComingSoon} */>
+
+              <OpenModalMenuItem
+                itemText="Reserve"
+                modalComponent={<ReserveSpotModal props={spotId}/>}
+                />
+              </button>
           </div>
         </div>
       </div>

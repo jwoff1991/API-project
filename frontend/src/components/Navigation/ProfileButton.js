@@ -66,6 +66,11 @@ function ProfileButton({ user }) {
                   Manage Spots
                 </Link>
               </div>
+              <div className="user-bookings">
+                <Link to={"/bookings/current"} onClick={closeMenu}>
+                  Bookings
+                </Link>
+              </div>
             </div>
             <div className="logout-button">
               <div>
