@@ -18,6 +18,10 @@
     list-style-type: none;
 }
 
+.all-spots-title {
+    margin-left: 30px
+}
+
 .single-spot {
     border: darkgray solid 2px;
     width: 100%;

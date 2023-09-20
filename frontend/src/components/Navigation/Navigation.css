@@ -1,3 +1,38 @@
+.hidden {
+  display: none;
+}
+.home {
+    font-size: 30px;
+}
+
+.home a {
+    color: rgb(197, 86, 86);
+    font-weight: bold;
+}
+
+.logout-in-profile-button {
+    width: 75px;
+    height: 40px;
+    border-radius: 25px;
+    margin: 9px 0px;
+    font-size: 15px;
+    background-color: black;
+    color: white;
+}
+
+.logout-button {
+    margin-top: 10px;
+}
+
+.manage-spots-in-profile-button {
+    border-bottom: black 1px solid;
+    padding: 9px 0px;
+}
+
+.manage-spots-link a {
+    color: black;
+
+}
 
 .navbar {
     border-bottom: grey solid 2px;
@@ -14,18 +49,15 @@
     justify-content: space-between;
 }
 
-.home {
-    font-size: 30px;
-}
-
-.home a {
-    color: rgb(197, 86, 86);
-    font-weight: bold;
-}
-
-.right-container a {
-    color: darkblue;
-    font-size: 20px;
+.profile-dropdown {
+    list-style-type: none;
+    position: absolute;
+    text-align: left;
+    box-shadow: 0px 0px 5px lightgray;
+    padding: 10px 40px 10px 40px;
+    z-index: 100;
+    right: 50px;
+    background-color: rgb(255, 255, 255);
 }
 
 .profile {
@@ -34,13 +66,18 @@
     margin-left: 25px;
 }
 
-
 .profile-button {
     font-size: 20px;
     width: 75px;
     height: 40px;
     border-radius: 25px;
 }
+
+.right-container a {
+    font-size: 20px;
+    color: black;
+}
+
 
 
 
@@ -55,42 +92,9 @@
     padding-bottom: 9px;
 }
 
-.manage-spots-in-profile-button {
-    border-bottom: black 1px solid;
-    padding: 9px 0px;
-}
-.manage-spots-in-profile-button a {
-    color: black;
-}
-
-.logout-in-profile-button {
-    width: 75px;
-    height: 40px;
-    border-radius: 25px;
-    margin: 9px 0px;
-    font-size: 15px;
-    background-color: black;
-    color: white;
-}
 
 .right-container {
     display: flex;
     align-items: center;
+    padding-right: 40px;
 }
-
-
-.profile-dropdown {
-    list-style-type: none;
-    position: absolute;
-    border: solid gray 3px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-right: 10px;
-    z-index: 100;
-    right: 50px;
-    background-color: rgb(241, 235, 226);
-  }
-
-  .hidden {
-    display: none;
-  }

@@ -51,28 +51,28 @@ function ProfileButton({ user }) {
         <i className="fas fa-bars" />
         <i className="fas fa-user-circle" />
       </button>
-      <ul className={ulClassName} ref={ulRef}>
+      <div className={ulClassName} ref={ulRef}>
         {user ? (
           <>
             <div className="user-info-in-profile-button">
               <div className="username-in-profile-button">
-                <li>Hello, {user.username}</li>
+                <div>Hello, {user.username}</div>
               </div>
-              <li>{user.email}</li>
+              <div>{user.email}</div>
             </div>
             <div className="manage-spots-in-profile-button">
-              <li>
+              <div className="manage-spots-link">
                 <Link to={"/spots/current"} onClick={closeMenu}>
                   Manage Spots
                 </Link>
-              </li>
+              </div>
             </div>
             <div className="logout-button">
-              <li>
+              <div>
                 <button className="logout-in-profile-button" onClick={logout}>
                   Log Out
                 </button>
-              </li>
+              </div>
             </div>
           </>
         ) : (
@@ -95,7 +95,7 @@ function ProfileButton({ user }) {
             </button>
           </div>
         )}
-      </ul>
+      </div>
     </>
   );
 }

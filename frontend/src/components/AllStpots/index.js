@@ -57,7 +57,7 @@ export default function AllSpots() {
   if (!spots) return null;
   return (
     <div className="all-Spots">
-      <h1>All Spots</h1>
+      <h1 className="all-spots-title">All Spots</h1>
       <div className="all-spots-container">
         {allSpots}
       </div>
