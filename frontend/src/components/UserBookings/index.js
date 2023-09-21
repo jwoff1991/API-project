@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import DeleteBookingModal from "../UserBookingsDeleteModal";
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
 import "./userBookings.css";
+import EditReservationModal from "../EditReservationModal";
 
 function UserBookings() {
   const dispatch = useDispatch();
@@ -14,8 +15,8 @@ function UserBookings() {
   useEffect(() => {
     dispatch(getUserBookings());
   }, [dispatch]);
-
-  if (!bookingList.length) {
+  console.log(bookingList)
+  if (!bookingList[0]) {
     return (
       <div>
         <h1>You current do not have any bookings </h1>
@@ -55,7 +56,10 @@ function UserBookings() {
                   </div>
                 </div>
                 <div className="booking-update-delete-buttons">
-                  <button>Update</button>
+                  <button>                    <OpenModalMenuItem
+                      itemText="Update"
+                      modalComponent={<EditReservationModal props={id} />}
+                    /></button>
                   <button>
                     {" "}
                     <OpenModalMenuItem

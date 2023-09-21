@@ -117,6 +117,11 @@ export const getSpot = (payload) => async (dispatch) => {
     method: "GET",
   });
   const data = await response.json();
+  const res = await csrfFetch(`/api/spots/${payload}/bookings`, {
+    method: "GET"
+  })
+  const bookings = await res.json()
+  data.bookings = bookings
   dispatch(getSingleSpot(data));
   return response;
 };

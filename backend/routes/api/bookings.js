@@ -49,7 +49,7 @@ router.get('/current', async (req, res) => {
     })
 
     if(userBookings.length === 0) {
-        res.status(404)
+        res.status(200)
         res.json({"message": "Could not find any booking for this user"})
     } else {
         let userBookingsList = [];
@@ -103,32 +103,37 @@ router.get('/current', async (req, res) => {
 
 //edit a booking
 router.put('/:bookingId', validBooking, async (req, res) => {
-    const booking = await Booking.findByPk(req.params.bookingId);
+
+  const booking = await Booking.findByPk(req.params.bookingId);
 
 
     if(booking) {
         const userId = req.user.id;
         const bookingOwnerId = booking.userId;
         if (userId === bookingOwnerId) {
-            const { newStartDate, newEndDate } = req.body
+            const { startDate, endDate } = req.body
             const currentDate = new Date();
             const bookingEndDate = booking.endDate
+            console.log('NEW DATES', req.body)
             if(currentDate >= bookingEndDate) {
                 res.status(400)
                 return res.json({ message: "You cannot edit a past booking" })
             }
-            const editedBooking = {
-                id: booking.id,
-                spotId: booking.spotId,
-                userId: booking.userId,
-                ownerId: booking.ownerId,
-                startDate: newStartDate || booking.startDate,
-                endDate: newEndDate || bookingEndDate,
-                createdAt: booking.createdAt,
-                updatedAt: currentDate
+            const validBooking = {
+              id: booking.id,
+              spotId: booking.spotId,
+              userId: booking.userId,
+              startDate: startDate,
+              endDate: endDate,
+              createdAt: booking.createdAt,
+              updatedAt: currentDate
             }
 
-            return res.json(editedBooking)
+            booking.set(validBooking)
+            await booking.save()
+            // editedBooking = await booking.update(validBooking)
+            res.status(201)
+            return res.json(validBooking)
         } else {
             res.status(404);
             res.json({ message: "You do not have permission to edit this booking" });

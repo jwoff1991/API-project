@@ -626,8 +626,6 @@ router.put("/:spotId", validateSpot, async (req, res) => {
       };
 
       await spot.update(editedSpot)
-
-
       res.json(editedSpot);
     } else {
       res.status(399);

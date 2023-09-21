@@ -11,7 +11,7 @@ export default function SpotDetails() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
   const singleSpot = useSelector((state) => state.spots.singleSpot);
-
+  const bookings = singleSpot.bookings
   useEffect(() => {
     dispatch(getSpot(spotId));
   }, [dispatch, spotId]);
@@ -110,7 +110,7 @@ export default function SpotDetails() {
 
               <OpenModalMenuItem
                 itemText="Reserve"
-                modalComponent={<ReserveSpotModal props={spotId}/>}
+                modalComponent={<ReserveSpotModal props={[spotId, bookings]}/>}
                 />
               </button>
           </div>

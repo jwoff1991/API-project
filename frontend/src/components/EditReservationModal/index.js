@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { DateRange } from "react-date-range";
 import { addDays } from "date-fns";
+import { editBooking } from "../../store/bookings";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
-import "./reservespot.css";
-import { createReservation } from "../../store/bookings";
+import './editreservation.css'
 
-function ReserveSpotModal(props) {
-  const spotId = props.props[0];
-  const bookedDates = props.props[1].Bookings
+function EditReservationModal(props) {
+  const bookingId = props.props;
+
 
   const { closeModal } = useModal();
   const dispatch = useDispatch()
@@ -23,16 +23,6 @@ function ReserveSpotModal(props) {
   ]);
   const confirmedDates = dates["0"];
 
-  function convertToDisabledDates(inputArray) {
-    inputArray.map(item => {
-        item.startDate = new Date(item.startDate)
-        item.endDate = new Date(item.endDate)
-        item.key = item.spotId
-      });
-    return inputArray
-  }
-  convertToDisabledDates(bookedDates)
-  console.log(bookedDates)
 
   const convertDate = (inputDate) => {
     const dateObject = new Date(inputDate);
@@ -50,8 +40,8 @@ const startDate = convertDate(confirmedDates.startDate)
 const endDate = convertDate(confirmedDates.endDate)
 
   const handleSubmit = (e) => {
-    let bookingDates = { startDate, endDate, spotId}
-    dispatch(createReservation(bookingDates))
+    let bookingDates = { startDate, endDate, bookingId}
+    dispatch(editBooking(bookingDates))
     closeModal()
   };
 
@@ -59,7 +49,7 @@ const endDate = convertDate(confirmedDates.endDate)
     <>
       <div className="reserve-date-modal">
         <div className="reserve-dates-title">
-          Pick the dates for your royal vacation
+          Pick the new dates for your royal vacation
         </div>
         <DateRange
           editableDateInputs={true}
@@ -67,7 +57,7 @@ const endDate = convertDate(confirmedDates.endDate)
           minDate={addDays(new Date(), 0)}
           moveRangeOnFirstSelection={false}
           ranges={dates}
-          disabledDates={bookedDates}
+
         />
         <div className="confirm-cancel-buttons">
           <button
@@ -85,4 +75,4 @@ const endDate = convertDate(confirmedDates.endDate)
   );
 }
 
-export default ReserveSpotModal;
+export default EditReservationModal;

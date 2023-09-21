@@ -27,7 +27,6 @@ export const getUserBookings = () => async (dispatch) => {
 export const createReservation = (payload) => async (dispatch) => {
     let { startDate, endDate, spotId } = payload
     let dates = { startDate, endDate}
-    console.log(dates)
     const response = await csrfFetch(`/api/spots/${spotId}/bookings`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -35,6 +34,25 @@ export const createReservation = (payload) => async (dispatch) => {
     });
     if (response.ok) {
       const booking = await response.json()
+      return booking;
+    } else {
+      console.log(response.errors)
+    }
+  }
+
+  export const editBooking = (payload) => async (dispatch) => {
+    let { startDate, endDate, bookingId } = payload
+    let dates = { startDate, endDate}
+    console.log('thunkcreator', dates)
+    const response = await csrfFetch(`/api/bookings/${bookingId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(dates),
+    });
+    if (response.ok) {
+      const booking = await response.json()
+      console.log('response',booking)
+      dispatch(getUserBookings());
       return booking;
     } else {
       console.log(response.errors)
@@ -64,9 +82,10 @@ export const createReservation = (payload) => async (dispatch) => {
       case DISPLAY_USER_BOOKINGS:
         newState = Object.assign({}, state);
         let newObject = {}
+        action.bookings.Bookings ?
         action.bookings.Bookings.forEach(booking => {
           newObject[booking.id] = booking
-        })
+        }) : newState = initialState
         newState.userBookings = newObject;
         return newState;
       default:
