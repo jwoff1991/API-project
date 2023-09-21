@@ -43,7 +43,6 @@ export const createReservation = (payload) => async (dispatch) => {
   export const editBooking = (payload) => async (dispatch) => {
     let { startDate, endDate, bookingId } = payload
     let dates = { startDate, endDate}
-    console.log('thunkcreator', dates)
     const response = await csrfFetch(`/api/bookings/${bookingId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -51,7 +50,6 @@ export const createReservation = (payload) => async (dispatch) => {
     });
     if (response.ok) {
       const booking = await response.json()
-      console.log('response',booking)
       dispatch(getUserBookings());
       return booking;
     } else {

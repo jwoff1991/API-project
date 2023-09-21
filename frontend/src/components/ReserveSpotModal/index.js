@@ -32,7 +32,6 @@ function ReserveSpotModal(props) {
     return inputArray
   }
   convertToDisabledDates(bookedDates)
-  console.log(bookedDates)
 
   const convertDate = (inputDate) => {
     const dateObject = new Date(inputDate);

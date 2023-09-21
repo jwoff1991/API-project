@@ -94,7 +94,6 @@ export default function CreateSpot() {
     setErrors(formErrors);
 
     if (Object.keys(errors).length) {
-      console.log('passed error check')
       const response = await dispatch(writeSpot(newSpot))
         .then(async (res) => {
           if (res && res.id) {

@@ -15,7 +15,6 @@ function UserBookings() {
   useEffect(() => {
     dispatch(getUserBookings());
   }, [dispatch]);
-  console.log(bookingList)
   if (!bookingList[0]) {
     return (
       <div>

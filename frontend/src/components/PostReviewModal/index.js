@@ -51,7 +51,6 @@ function PostReviewModal(props) {
     setStars("");
   };
 
-  console.log(stars);
 
   return (
     <div className="review-form-modal">

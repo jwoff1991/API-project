@@ -70,7 +70,6 @@ const validBooking = [
 
 const getPagination = (queryParams) => {
   let { page, size } = queryParams
-  console.log(page, size)
   if (!size) size = 20
   if (!page) page = 1
 
@@ -270,7 +269,6 @@ router.post('/:spotId/bookings', validBooking, async (req, res) => {
 
 //gets all spots
 router.get("/", paginationMiddleware, async (req, res) => {
-  console.log(req.query)
   const spots = await Spot.findAll({
     include: [
       {
@@ -529,7 +527,6 @@ router.get("/:spotId", async (req, res) => {
         jsonSpot.avgStarRating = avgRating
         jsonSpot.numReviews = length
       }
-      console.log(jsonSpot)
 
       const formattedSpot = {
           id: jsonSpot.id,

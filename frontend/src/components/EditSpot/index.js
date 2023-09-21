@@ -82,12 +82,10 @@ export default function EditSpot() {
       id: { spotId },
     };
 
-    console.log(errors);
 
     if (!Object.keys(errors).length) {
       const response = await dispatch(editSpot(newEditedSpot))
         .then(async (res) => {
-          console.log(res);
           if (res && res.id) {
             history.push(`/spots/${res.id}`);
             reset();
@@ -182,7 +180,7 @@ return (
             placeholder={spot.lat}
             className="edit-form-cit-state-lat-lng"
           ></input>
-          
+
           <input
             value={lng}
             onChange={(e) => setLng(e.target.value)}

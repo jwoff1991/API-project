@@ -94,7 +94,6 @@ export const writeSpot = (payload) => async (dispatch) => {
   });
   if (response.ok) {
     const spot = await response.json();
-    console.log(spot)
     await csrfFetch(`/api/spots/${spot.id}/images`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -149,7 +148,6 @@ export const editSpot = (payload) => async (dispatch) => {
   });
       if (response.ok) {
       const spot = await response.json();
-    console.log(spot)
     dispatch(editUserSpot(spot));
     return spot;
   }

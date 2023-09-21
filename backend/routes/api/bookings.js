@@ -114,7 +114,6 @@ router.put('/:bookingId', validBooking, async (req, res) => {
             const { startDate, endDate } = req.body
             const currentDate = new Date();
             const bookingEndDate = booking.endDate
-            console.log('NEW DATES', req.body)
             if(currentDate >= bookingEndDate) {
                 res.status(400)
                 return res.json({ message: "You cannot edit a past booking" })
