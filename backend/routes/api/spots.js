@@ -448,51 +448,51 @@ router.get('/:spotId/reviews', async (req, res) => {
 })
 
 //returns all bookings for a spot based on spotId
-router.get("/:spotId/bookings", async (req, res) => {
-  try {
-    const spotId = req.params.spotId;
-    const spot = await Spot.findByPk(req.params.spotId);
-    if (!spot) {
-      res.status(404);
-      res.json({ message: "Spot could not be found" });
-    }
-    const ownerSpotBookings = await Booking.findAll({
-      where: {
-        spotId: spotId,
-      },
-      include: [
-        {
-          model: User,
-          attributes: ["id", "firstName", "lastName"],
-        },
-      ],
-    });
-
-    const userSpotBookings = await Booking.findAll({
-      where: {
-        spotId: spotId,
-      },
-      attributes: ["spotId", "startDate", "endDate"],
-    });
-
-    if (ownerSpotBookings) {
-      const ownerId = spot.ownerId;
-      const userId = req.user.id;
-      if (ownerId === userId) {
-        res.status(200);
-        return res.json({ Bookings: ownerSpotBookings });
-      } else if (ownerId !== userId) {
-        res.status(200);
-        return res.json({ Bookings: userSpotBookings });
-      }
-    } else {
-      res.status(404);
-      return res.json({ message: "This spot has no bookings" });
-    }
-  } catch (e) {
-    console.log(e);
+router.get('/:spotId/bookings', async (req, res) => {
+  const spotId = req.params.spotId
+  const spot = await Spot.findByPk(req.params.spotId)
+  if(!spot) {
+    res.status(404)
+    res.json( { "message": "Spot could not be found" })
   }
-});
+  const ownerSpotBookings = await Booking.findAll({
+    where: {
+      spotId: spotId
+    },
+    include: [
+      {
+        model: User,
+        attributes: ['id', 'firstName', 'lastName']
+      }
+
+    ]
+  })
+
+
+  const userSpotBookings = await Booking.findAll({
+    where: {
+      spotId: spotId
+    },
+    attributes: ['spotId', 'startDate', 'endDate']
+  })
+
+  if (ownerSpotBookings) {
+    const ownerId = spot.ownerId
+    const userId = req.user.id
+    if(ownerId === userId ) {
+        res.status(200)
+        return res.json({"Bookings": ownerSpotBookings});
+    } else if (ownerId !== userId) {
+      res.status(200)
+      return res.json({"Bookings": userSpotBookings});
+    }
+
+  } else {
+    res.status(404);
+    return res.json({ message: "This spot has no bookings" });
+
+  }
+})
 
 
 

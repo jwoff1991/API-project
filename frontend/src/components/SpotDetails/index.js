@@ -106,7 +106,7 @@ export default function SpotDetails() {
           )}
           </div>
           <div className="reserve-button-div">
-            <button className="reserve-button" >
+            <button className="reserve-button" /* onClick={featureComingSoon} */>
 
               <OpenModalMenuItem
                 itemText="Reserve"
