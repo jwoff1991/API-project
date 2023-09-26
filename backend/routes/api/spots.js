@@ -494,8 +494,6 @@ router.get("/:spotId/bookings", async (req, res) => {
   }
 });
 
-
-
 //return spot based on spot ID
 router.get("/:spotId", async (req, res) => {
   const spot = await Spot.findByPk(req.params.spotId, {
