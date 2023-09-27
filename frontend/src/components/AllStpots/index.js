@@ -53,6 +53,7 @@ export default function AllSpots() {
   useEffect(() => {
     dispatch(getSpots());
   }, [dispatch]);
+  
 
   if (!spots) return null;
   return (
