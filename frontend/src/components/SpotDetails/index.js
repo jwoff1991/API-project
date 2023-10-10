@@ -23,13 +23,13 @@ export default function SpotDetails() {
   singleSpot.SpotImages.forEach((image) => {
     spotImages.push(image);
   });
-
+  //if not enouygh spot images then renders a default image
   for (let i = 0; i <= 4; i++) {
     spotImages.push({
       url: "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
     });
   }
-
+  //sets star rating to 'New' if it is a string o undefined
   let averageStartRating;
   if (typeof singleSpot.avgStarRating === "undefined") {
     averageStartRating = null;

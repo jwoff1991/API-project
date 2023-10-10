@@ -10,6 +10,7 @@ function DeleteBookingModal(props) {
     const { closeModal } = useModal();
     const dispatch = useDispatch()
 
+    //handles delete of booking and closes modal
     const handleDelete = async (e) => {
         dispatch(deleteBooking(id));
         closeModal()

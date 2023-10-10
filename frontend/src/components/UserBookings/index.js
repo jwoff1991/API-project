@@ -15,6 +15,8 @@ function UserBookings() {
   useEffect(() => {
     dispatch(getUserBookings());
   }, [dispatch]);
+
+  //what will render if user has no bookings
   if (!bookingList[0]) {
     return (
       <div>
@@ -22,7 +24,7 @@ function UserBookings() {
       </div>
     );
   }
-
+  //converts date to a more readable format
   const convertDate = (inputDate) => {
     const dateObject = new Date(inputDate);
     const options = { year: "numeric", month: "long", day: "numeric" };

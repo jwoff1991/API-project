@@ -23,6 +23,7 @@ function ReserveSpotModal(props) {
   ]);
   const confirmedDates = dates["0"];
 
+  //converts dates to disabled dates
   function convertToDisabledDates(inputArray) {
     inputArray.map(item => {
         item.startDate = new Date(item.startDate)
@@ -32,7 +33,8 @@ function ReserveSpotModal(props) {
     return inputArray
   }
   convertToDisabledDates(bookedDates)
-
+  
+  //converts date to yyyy-mm-dd format
   const convertDate = (inputDate) => {
     const dateObject = new Date(inputDate);
     const year = dateObject.getFullYear();

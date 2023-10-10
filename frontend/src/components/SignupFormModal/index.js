@@ -18,9 +18,11 @@ function SignupFormModal() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    //validates the email
     const regex =
       /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
+    //tests if email is valid
     if (regex.test(email) === false) {
       setErrors({ email: "This is not a valid email" });
     } else {
@@ -49,13 +51,14 @@ function SignupFormModal() {
       });
     }
   };
-
+  //sets errror styling or keep it normal
   const emailErrorsClass = errors.email ? "email-login-errors" : "";
   const firstNameErrorsClass = errors.firstname ? "email-login-errors" : "";
   const lastNameErrorsClass = errors.lastname ? "email-login-errors" : "";
   const userNameErrorsClass = errors.username ? "email-login-errors" : "";
   const passwordErrorsClass = errors.password || errors.confirmPassword ? "email-login-errors" : "";
 
+  //disables the button if the username or password is too short
   let signUpButtonDisable = false
   if (
     email.length === 0 ||

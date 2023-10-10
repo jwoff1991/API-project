@@ -27,12 +27,14 @@ export default function SpotReviews() {
     dispatch(getReviews(spotId));
   }, [dispatch, spotId]);
 
+  //checks if the user has a review or is owner of a review
   const reviewsList = Object.values(reviews);
   const hasAReview = reviewsList.find((review) => {
     return review.userId === currentUserId;
   });
   const isOwner = (ownerId === currentUserId);
 
+  //converts date to a more readable format
   const commentDateConverter = (date) => {
     const dateObject = new Date(date);
     const monthNames = [

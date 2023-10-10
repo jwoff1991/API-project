@@ -21,11 +21,11 @@ function PostReviewModal(props) {
   if (review.length < 10 || stars === "") {
     isDisabled = true;
   }
-
+  //sets the stars for the review
   const reviewRating = (stars) => {
     setStars(parseInt(stars))
   }
-
+  //submits the review
   const submitReview = async (e) => {
     e.preventDefault();
 
@@ -45,7 +45,7 @@ function PostReviewModal(props) {
     reset();
     closeModal();
   };
-
+  //resets form
   const reset = () => {
     setReview("");
     setStars("");
