@@ -11,9 +11,8 @@ import './editreservation.css'
 function EditReservationModal(props) {
   const bookingId = props.props;
 
-
   const { closeModal } = useModal();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [dates, setDates] = useState([
     {
       startDate: new Date(),
@@ -23,7 +22,7 @@ function EditReservationModal(props) {
   ]);
   const confirmedDates = dates["0"];
 
-
+  //converts date to yyyy-mm-dd format
   const convertDate = (inputDate) => {
     const dateObject = new Date(inputDate);
     const year = dateObject.getFullYear();
@@ -34,15 +33,15 @@ function EditReservationModal(props) {
     const formattedDay = day < 10 ? `0${day}` : day;
 
     return `${year}-${formattedMonth}-${formattedDay}`;
-};
+  };
 
-const startDate = convertDate(confirmedDates.startDate)
-const endDate = convertDate(confirmedDates.endDate)
+  const startDate = convertDate(confirmedDates.startDate);
+  const endDate = convertDate(confirmedDates.endDate);
 
   const handleSubmit = (e) => {
-    let bookingDates = { startDate, endDate, bookingId}
-    dispatch(editBooking(bookingDates))
-    closeModal()
+    let bookingDates = { startDate, endDate, bookingId };
+    dispatch(editBooking(bookingDates));
+    closeModal();
   };
 
   return (
@@ -57,7 +56,6 @@ const endDate = convertDate(confirmedDates.endDate)
           minDate={addDays(new Date(), 0)}
           moveRangeOnFirstSelection={false}
           ranges={dates}
-
         />
         <div className="confirm-cancel-buttons">
           <button

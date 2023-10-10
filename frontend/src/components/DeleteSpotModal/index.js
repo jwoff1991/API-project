@@ -9,6 +9,7 @@ function DeleteSpotModal(props) {
     const { closeModal } = useModal();
     const dispatch = useDispatch()
 
+    //deleteSpot deletes the spot and closes the modal
     const handleDelete = async (e) => {
         dispatch(deleteSpot(id));
         closeModal()

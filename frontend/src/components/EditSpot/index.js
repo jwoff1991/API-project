@@ -30,6 +30,8 @@ export default function EditSpot() {
 
   useEffect(() => {}, [errors])
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
@@ -62,6 +64,7 @@ export default function EditSpot() {
     if(!price) {
       formErrors = {...formErrors, price: "Price is required"}
     }
+    //sets errors if there are any form errors
     setErrors(formErrors)
     const newEditedSpot = {
       spot: {
@@ -82,7 +85,7 @@ export default function EditSpot() {
       id: { spotId },
     };
 
-
+    //if no errors we submit to backend
     if (!Object.keys(errors).length) {
       const response = await dispatch(editSpot(newEditedSpot))
         .then(async (res) => {
@@ -101,7 +104,7 @@ export default function EditSpot() {
       return errors
     }
   }
-
+//resets the form
 const reset = () => {
   setAddress('')
   setCity('')
@@ -114,6 +117,7 @@ const reset = () => {
   setPrice('')
 }
 
+//if no spot we return null
 if(!spot.id) return null
 
 

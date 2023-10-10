@@ -13,6 +13,7 @@ export default function ManageSpots() {
   const spots = useSelector((state) => state.spots.allSpots);
   const history = useHistory()
 
+  //gets all the spots
   let spotsList = Object.values(spots)
 
 
@@ -20,11 +21,12 @@ export default function ManageSpots() {
     dispatch(getUserSpots());
   }, [dispatch]);
 
-
+  //brings user to newly created spot page
   const createSpot = () => {
     return history.push('/spots/new')
 
   }
+  //render a create a new spoot button if use has no spots
   if (!spotsList.length) {
     return (
       <div>
@@ -35,7 +37,7 @@ export default function ManageSpots() {
       </div>
     );
   }
-
+  //changes the avgRating to 'New' if it is a string
   spotsList.map((spot) => {
     if (typeof spot.avgRating === "string") {
       spot.avgRating = "New";

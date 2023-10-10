@@ -8,7 +8,8 @@ function DeleteReviewModal(props) {
     const { id, spotId } = props.props
     const { closeModal } = useModal();
     const dispatch = useDispatch()
-
+    
+    //handleDelete deletes the review and closes the modal
     const handleDelete = async (e) => {
         dispatch(deleteReview(id, spotId));
         closeModal()

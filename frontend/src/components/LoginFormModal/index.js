@@ -26,14 +26,14 @@ function LoginFormModal() {
         }
       });
   };
-
+  //logs in the demo user
   const loginDemo = (e) => {
     e.preventDefault();
     dispatch(sessionActions.login({ credential: 'Demo', password: 'Demo1234' }))
     .then(closeModal)
     history.push('/')
   }
-
+  //disables the button if the username or password is too short
   let buttonDisable = false;
   if(credential.length < 4 || password.length < 6) {
     buttonDisable = true

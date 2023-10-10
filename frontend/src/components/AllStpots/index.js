@@ -12,13 +12,19 @@ export default function AllSpots() {
 
   const spotsList = Object.values(spots);
 
+  //changes the avgRating to 'New' if it is a string
   spotsList.map(spot => {
     if(typeof spot.avgRating === 'string') {
       spot.avgRating = 'New'
       return (spot.avgRating = "New");
     }
   })
+  //loads all the spots
+  useEffect(() => {
+    dispatch(getSpots());
+  }, [dispatch]);
 
+  // returns the spots in a list
   const allSpots = spotsList.map(
     ({ id, previewImage, city, state, price, avgRating, name }) => (
       <div key={id}>
@@ -50,11 +56,8 @@ export default function AllSpots() {
   );
 
 
-  useEffect(() => {
-    dispatch(getSpots());
-  }, [dispatch]);
-  
 
+  // returns null if there are no spots
   if (!spots) return null;
   return (
     <div className="all-Spots">

@@ -57,7 +57,7 @@ export default function CreateSpot() {
       formErrors = { ...formErrors, price: "Price is required" };
     }
 
-
+    //checks if the previewImage is an image
     const isImage = (previewImage) => {
       return (
         previewImage &&
@@ -67,6 +67,7 @@ export default function CreateSpot() {
           previewImage.endsWith(".png"))
       );
     };
+    //if preview image is not an image set errors
     if (!previewImage || !isImage(previewImage)) {
       formErrors = {
         ...formErrors,
@@ -74,7 +75,7 @@ export default function CreateSpot() {
           "Preview Image is required and must an image file (.jpeg, jpg, .gif, .png)",
       };
     }
-
+    //new spot creator
     const newSpot = {
       address,
       city,
@@ -107,7 +108,7 @@ export default function CreateSpot() {
         });
       }
     };
-
+  //resets form
   const reset = () => {
     setAddress("");
     setCity("");
@@ -120,7 +121,7 @@ export default function CreateSpot() {
     setPrice("");
     setPreviewImage("");
   };
-
+  //sets errors styling or keeps default stryling if no errors
   const countryErrorsClass = errors.country
     ? "form-errors create-form-country-address"
     : "create-form-country-address";
