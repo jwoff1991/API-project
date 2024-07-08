@@ -10,36 +10,21 @@ export default function AllSpots() {
   const dispatch = useDispatch();
   const spots = useSelector((state) => state.spots.allSpots);
 
-  const spotsList = Object.values(spots);
-
-  //changes the avgRating to 'New' if it is a string
-  spotsList.map(spot => {
-    if(typeof spot.avgRating === 'string') {
-      spot.avgRating = 'New'
-      return (spot.avgRating = "New");
-    }
-  })
-  //loads all the spots
   useEffect(() => {
     dispatch(getSpots());
   }, [dispatch]);
 
-  // returns the spots in a list
-  const allSpots = spotsList.map(
-    ({ id, previewImage, city, state, price, avgRating, name }) => (
-      <div key={id}>
-        <div className="single-spot">
-          <Link to={`/spots/${id}`}>
-            <div className="single-spot-image-div">
-              <img
-                src={
-                  previewImage ||
-                  "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
-                }
-                alt="house you may want to rent"
-                title={name}
-              />
-            </div>
+  const spotsList = useMemo(() => Object.values(spots).map(spot => ({
+    ...spot,
+    avgRating: typeof spot.avgRating === 'string' ? 'New' : spot.avgRating
+  })), [spots]);
+
+  const allSpots = spotsList.map(({ id, previewImage, city, state, price, avgRating, name }) => (
+    <div key={id} className="single-spot">
+      <Link to={`/spots/${id}`}>
+        <div className="single-spot-image-div">
+          <img src={previewImage} alt={`Preview of ${name}`} />
+        </div>
             <div className="single-spot-city-state-price">
               <div className="single-spot-city-state">
                 {city}, {state}
@@ -49,22 +34,14 @@ export default function AllSpots() {
                 <i className="fas fa-star" /> {typeof avgRating === 'number' && avgRating.toFixed(2)}{typeof avgRating === 'string' && avgRating}
               </div>
             </div>
-          </Link>
-        </div>
-      </div>
-    )
-  );
-
-
-
-  // returns null if there are no spots
-  if (!spots) return null;
-  return (
-    <div className="all-Spots">
-      <h1 className="all-spots-title">All Spots</h1>
-      <div className="all-spots-container">
-        {allSpots}
-      </div>
+      </Link>
     </div>
+  ));
+
+  return (
+    <div>{allSpots}</div>
   );
 }
+
+
+
