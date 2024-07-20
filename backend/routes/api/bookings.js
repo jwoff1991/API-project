@@ -1,26 +1,15 @@
 const express = require("express");
-
 const { setTokenCookie, requireAuth } = require("../../utils/auth");
-
-const { User } = require("../../db/models");
-const { Spot } = require("../../db/models");
-const { Booking } = require("../../db/models");
-const { SpotImage } = require("../../db/models")
-
+const { User, Spot, Booking, SpotImage } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 
 const router = express.Router();
 
 const validBooking = [
-    check("startDate")
-      .exists({ checkFalsy: true })
-      .withMessage("Must include a start date"),
-    check("endDate")
-      .exists({ checkFalsy: true })
-      .withMessage("Must include a end date"),
-  ]
-
+    check("startDate").exists({ checkFalsy: true }).withMessage("Must include a start date"),
+    check("endDate").exists({ checkFalsy: true }).withMessage("Must include an end date"),
+];
 //get a current users bookings
 router.get('/current', async (req, res) => {
     const userId = req.user.id;
