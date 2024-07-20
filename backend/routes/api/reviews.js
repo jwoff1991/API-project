@@ -5,7 +5,6 @@ const { Spot } = require("../../db/models");
 const { ReviewImage } = require("../../db/models");
 const { SpotImage } = require("../../db/models")
 
-const { setTokenCookie, requireAuth } = require("../../utils/auth");
 
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");

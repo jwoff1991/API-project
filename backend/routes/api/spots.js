@@ -1,8 +1,6 @@
 const express = require("express");
 
-
-const { setTokenCookie, requireAuth } = require("../../utils/auth");
-const { User, sequelize } = require("../../db/models");
+const { User } = require("../../db/models");
 const { Spot } = require("../../db/models");
 const { SpotImage } = require("../../db/models");
 const { Review } = require("../../db/models");
