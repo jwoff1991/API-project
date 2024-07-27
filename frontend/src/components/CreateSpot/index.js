@@ -18,17 +18,10 @@ export default function CreateSpot() {
     previewImage: ""
   });
   const [errors, setErrors] = useState({});
-
   const dispatch = useDispatch();
   const history = useHistory();
 
-
   useEffect(() => {}, [errors]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,31 +29,28 @@ export default function CreateSpot() {
     let formErrors = {};
 
     if (!formData.address) {
-      formErrors.address = { ...formErrors, address: "Streed address is required" };
+      formErrors.address = "Street address is required";
     }
     if (!formData.country) {
-      formErrors.country = { ...formErrors, country: "Country is required" };
+      formErrors.country = "Country is required";
     }
     if (!formData.city) {
-      formErrors.city = { ...formErrors, city: "City is required" };
+      formErrors.city = "City is required";
     }
     if (!formData.state) {
-      formErrors.state = { ...formErrors, state: "State is required" };
+      formErrors.state = "State is required";
     }
     if (!formData.lat) {
-      formErrors.lat = { ...formErrors, lat: "Latitude is required" };
+      formErrors.lat = "Latitude is required";
     }
     if (!formData.lng) {
-      formErrors.lng = { ...formErrors, lng: "Longitude is required" };
+      formErrors.lng = "Longitude is required";
     }
     if (!formData.description) {
-      formErrors.description = { ...formErrors, description: "Description is required" };
+      formErrors.description = "Description is required";
     }
     if (!formData.name) {
-      formErrors.name = { ...formErrors, name: "Name is required" };
-    }
-    if (!formData.price) {
-      formErrors.price = { ...formErrors, price: "Price is required" };
+      formErrors.name = "Name is required";
     }
 
     //checks if the previewImage is an image
@@ -75,11 +65,7 @@ export default function CreateSpot() {
     };
     //if preview image is not an image set errors
     if (!previewImage || !isImage(previewImage)) {
-      formErrors = {
-        ...formErrors,
-        previewImage:
-          "Preview Image is required and must an image file (.jpeg, jpg, .gif, .png)",
-      };
+      formErrors.previewImage = "Preview image must be a valid image file (jpeg, jpg, gif, png)";
     }
     //new spot creator
     const newSpot = {
@@ -153,7 +139,13 @@ export default function CreateSpot() {
     ? "form-errors"
     : "";
 
-
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    };
 
 
   return (
@@ -173,7 +165,7 @@ export default function CreateSpot() {
           <input
             value={formData.country}
             max="50"
-            onChange={(e) => setCountry(e.target.value)}
+            onChange={handleInputChange}
             name="country"
             placeholder="Country"
             className={countryErrorsClass}
@@ -182,7 +174,7 @@ export default function CreateSpot() {
           <label></label>
           <input
             type="text"
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={handleInputChange}
             value={formData.address}
             max="20"
             placeholder="Address"
@@ -194,7 +186,7 @@ export default function CreateSpot() {
             <label></label>
             <input
               type="text"
-              onChange={(e) => setCity(e.target.value)}
+              onChange={handleInputChange}
               value={formData.city}
               max="20"
               placeholder="City"
@@ -206,7 +198,7 @@ export default function CreateSpot() {
             <input
               value={formData.state}
               max="20"
-              onChange={(e) => setState(e.target.value)}
+              onChange={handleInputChange}
               name="state"
               placeholder="State"
               className={stateErrorsClass}
@@ -218,7 +210,7 @@ export default function CreateSpot() {
             <input
               value={formData.lat}
               max="20"
-              onChange={(e) => setLat(e.target.value)}
+              onChange={handleInputChange}
               name="lat"
               placeholder="Latitude"
               className={latErrorsClass}
@@ -227,7 +219,7 @@ export default function CreateSpot() {
             <label></label>
             <input
               value={formData.lng}
-              onChange={(e) => setLng(e.target.value)}
+              onChange={handleInputChange}
               name="lng"
               max="20"
               placeholder="Longitude"
