@@ -54,9 +54,7 @@ export const getSpots = () => async (dispatch) => {
     method: "GET",
   });
   const data = await response.json();
-
   dispatch(getAllSpots(data));
-
   return response;
 };
 

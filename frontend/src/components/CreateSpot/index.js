@@ -3,19 +3,20 @@ import { useDispatch } from "react-redux";
 import { writeSpot } from "../../store/spots";
 import "./createSpot.css";
 import { useHistory } from "react-router-dom";
-import { add } from "mathjs";
 
 export default function CreateSpot() {
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [country, setCountry] = useState("");
-  const [lat, setLat] = useState("");
-  const [lng, setLng] = useState("");
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [previewImage, setPreviewImage] = useState("");
+  const [formData, setFormData] = useState({
+    address: "",
+    city: "",
+    state: "",
+    country: "",
+    lat: "",
+    lng: "",
+    name: "",
+    description: "",
+    price: "",
+    previewImage: ""
+  });
   const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
@@ -24,37 +25,42 @@ export default function CreateSpot() {
 
   useEffect(() => {}, [errors]);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({})
     let formErrors = {};
 
-    if (!address) {
-      formErrors = { ...formErrors, address: "Streed address is required" };
+    if (!formData.address) {
+      formErrors.address = { ...formErrors, address: "Streed address is required" };
     }
-    if (!country) {
-      formErrors = { ...formErrors, country: "Country is required" };
+    if (!formData.country) {
+      formErrors.country = { ...formErrors, country: "Country is required" };
     }
-    if (!city) {
-      formErrors = { ...formErrors, city: "City is required" };
+    if (!formData.city) {
+      formErrors.city = { ...formErrors, city: "City is required" };
     }
-    if (!state) {
-      formErrors = { ...formErrors, state: "State is required" };
+    if (!formData.state) {
+      formErrors.state = { ...formErrors, state: "State is required" };
     }
-    if (!lat) {
-      formErrors = { ...formErrors, lat: "Latitude is required" };
+    if (!formData.lat) {
+      formErrors.lat = { ...formErrors, lat: "Latitude is required" };
     }
-    if (!lng) {
-      formErrors = { ...formErrors, lng: "Longitude is required" };
+    if (!formData.lng) {
+      formErrors.lng = { ...formErrors, lng: "Longitude is required" };
     }
-    if (!description) {
-      formErrors = { ...formErrors, description: "Description is required" };
+    if (!formData.description) {
+      formErrors.description = { ...formErrors, description: "Description is required" };
     }
-    if (!name) {
-      formErrors = { ...formErrors, name: "Name is required" };
+    if (!formData.name) {
+      formErrors.name = { ...formErrors, name: "Name is required" };
     }
-    if (!price) {
-      formErrors = { ...formErrors, price: "Price is required" };
+    if (!formData.price) {
+      formErrors.price = { ...formErrors, price: "Price is required" };
     }
 
     //checks if the previewImage is an image
@@ -92,21 +98,15 @@ export default function CreateSpot() {
       },
     };
 
-    setErrors(formErrors);
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    }
 
-    if (Object.keys(errors).length) {
-      const response = await dispatch(writeSpot(newSpot))
-        .then(async (res) => {
-          if (res && res.id) {
-            history.push(`/spots/${res.id}`);
-            reset();
-          }
-        })
-        .catch((errors) => {
-          if (errors) {
-          }
-        });
-      }
+    const response = await dispatch(writeSpot(formData));
+    if (response.ok) {
+      history.push("/spots");
+    }
     };
   //resets form
   const reset = () => {
@@ -171,7 +171,7 @@ export default function CreateSpot() {
           <label></label>
           <label></label>
           <input
-            value={country}
+            value={formData.country}
             max="50"
             onChange={(e) => setCountry(e.target.value)}
             name="country"
@@ -183,7 +183,7 @@ export default function CreateSpot() {
           <input
             type="text"
             onChange={(e) => setAddress(e.target.value)}
-            value={address}
+            value={formData.address}
             max="20"
             placeholder="Address"
             name="address"
@@ -195,7 +195,7 @@ export default function CreateSpot() {
             <input
               type="text"
               onChange={(e) => setCity(e.target.value)}
-              value={city}
+              value={formData.city}
               max="20"
               placeholder="City"
               name="city"
@@ -204,7 +204,7 @@ export default function CreateSpot() {
             <label></label>
             <label></label>
             <input
-              value={state}
+              value={formData.state}
               max="20"
               onChange={(e) => setState(e.target.value)}
               name="state"
@@ -216,7 +216,7 @@ export default function CreateSpot() {
             <label></label>
             <label></label>
             <input
-              value={lat}
+              value={formData.lat}
               max="20"
               onChange={(e) => setLat(e.target.value)}
               name="lat"
@@ -226,7 +226,7 @@ export default function CreateSpot() {
             <label></label>
             <label></label>
             <input
-              value={lng}
+              value={formData.lng}
               onChange={(e) => setLng(e.target.value)}
               name="lng"
               max="20"
