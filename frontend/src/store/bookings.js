@@ -10,9 +10,6 @@ export const getAllUserBookings = (bookings) => {
     };
   };
 
-
-
-
 export const getUserBookings = () => async (dispatch) => {
     const response = await csrfFetch(`/api/bookings/current`, {
         method: "GET",
@@ -22,10 +19,8 @@ export const getUserBookings = () => async (dispatch) => {
     return response;
 }
 
-
 //creates a new booking based on spot id
-export const createReservation = (payload) => async (dispatch) => {
-    let { startDate, endDate, spotId } = payload
+export const createReservation = ({ startDate, endDate, spotId }) => async (dispatch) => {
     let dates = { startDate, endDate}
     const response = await csrfFetch(`/api/spots/${spotId}/bookings`, {
       method: "POST",
@@ -40,8 +35,7 @@ export const createReservation = (payload) => async (dispatch) => {
     }
   }
 
-  export const editBooking = (payload) => async (dispatch) => {
-    let { startDate, endDate, bookingId } = payload
+  export const editBooking = ({ startDate, endDate, bookingId }) => async (dispatch) => {
     let dates = { startDate, endDate}
     const response = await csrfFetch(`/api/bookings/${bookingId}`, {
       method: "PUT",
