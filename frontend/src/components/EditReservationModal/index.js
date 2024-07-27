@@ -8,8 +8,7 @@ import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import './editreservation.css'
 
-function EditReservationModal(props) {
-  const bookingId = props.props;
+function EditReservationModal({ props: bookingId }) {
 
   const { closeModal } = useModal();
   const dispatch = useDispatch();
@@ -24,15 +23,7 @@ function EditReservationModal(props) {
 
   //converts date to yyyy-mm-dd format
   const convertDate = (inputDate) => {
-    const dateObject = new Date(inputDate);
-    const year = dateObject.getFullYear();
-    const month = dateObject.getMonth() + 1; // Month is 0-based, so we add 1
-    const day = dateObject.getDate();
-
-    const formattedMonth = month < 10 ? `0${month}` : month;
-    const formattedDay = day < 10 ? `0${day}` : day;
-
-    return `${year}-${formattedMonth}-${formattedDay}`;
+    return new Date(inputDate).toISOString().split('T')[0];
   };
 
   const startDate = convertDate(confirmedDates.startDate);
